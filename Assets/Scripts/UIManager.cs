@@ -35,8 +35,9 @@ namespace JingHangZhuJi
 
         [Header("工具栏UI")]
         [SerializeField] private GameObject toolbarPanel;
-        [SerializeField] private Button drainButton; // 排水按钮
         [SerializeField] private Button rulerButton; // 鲁班尺按钮
+        [SerializeField] private Button craftsmanEyeButton; // 匠人之眼按钮
+        [SerializeField] private Button jackButton; // 千斤顶按钮
         [SerializeField] private GameObject supportControlPanel; // 支撑控制面板
 
         [Header("支撑控制UI")]
@@ -65,6 +66,7 @@ namespace JingHangZhuJi
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(gameObject); // 设置为全局单例，切换场景时不销毁
             }
             else
             {
@@ -317,6 +319,77 @@ namespace JingHangZhuJi
                 onClick?.Invoke();
                 Destroy(buttonObj);
             });
+        }
+
+        /// <summary>
+        /// 设置工具按钮状态（解锁/锁定）
+        /// </summary>
+        public void SetToolUnlocked(string toolName, bool unlocked)
+        {
+            Button targetButton = null;
+
+            switch (toolName.ToLower())
+            {
+                case "craftsmaneye":
+                case "匠人之眼":
+                    targetButton = craftsmanEyeButton;
+                    break;
+                case "ruler":
+                case "鲁班尺":
+                    targetButton = rulerButton;
+                    break;
+                case "jack":
+                case "千斤顶":
+                    targetButton = jackButton;
+                    break;
+            }
+
+            if (targetButton != null)
+            {
+                targetButton.interactable = unlocked;
+                // 可以添加视觉效果，比如灰度化
+                var image = targetButton.GetComponent<Image>();
+                if (image != null)
+                {
+                    image.color = unlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 绑定匠人之眼按钮
+        /// </summary>
+        public void SetupCraftsmanEyeButton(System.Action onClicked)
+        {
+            if (craftsmanEyeButton != null)
+            {
+                craftsmanEyeButton.onClick.RemoveAllListeners();
+                craftsmanEyeButton.onClick.AddListener(() => onClicked?.Invoke());
+            }
+        }
+
+        /// <summary>
+        /// 绑定鲁班尺按钮
+        /// </summary>
+        public void SetupRulerButton(System.Action onClicked)
+        {
+            if (rulerButton != null)
+            {
+                rulerButton.onClick.RemoveAllListeners();
+                rulerButton.onClick.AddListener(() => onClicked?.Invoke());
+            }
+        }
+
+        /// <summary>
+        /// 绑定千斤顶按钮
+        /// </summary>
+        public void SetupJackButton(System.Action onClicked)
+        {
+            if (jackButton != null)
+            {
+                jackButton.onClick.RemoveAllListeners();
+                jackButton.onClick.AddListener(() => onClicked?.Invoke());
+            }
         }
 
         /// <summary>
