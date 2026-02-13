@@ -8,4 +8,34 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/00_Cover.unity
+    guid: 0664c790d7c027243b4d760a320a74e9
+  - enabled: 1
+    path: Assets/LoginScene.unity
+    guid: 0f890fb3db63b854aaab4e3fb6507443
+  - enabled: 1
+    path: Assets/Login.unity
+    guid: 95072ced7c5551f41af95c0285001c9f
+  - enabled: 1
+    path: Assets/Register.unity
+    guid: 0747e3cdec8202d44a26e84430cbb773
+  - enabled: 1
+    path: Assets/LSuccess.unity
+    guid: e984b1deeeab2be44a37df9d1a92711f
+  - enabled: 1
+    path: Assets/RSuccess.unity
+    guid: 79016145ac96d4c429768699745b983c
+  - enabled: 1
+    path: Assets/Wrong.unity
+    guid: a8bda84e6d79eb742b21daf970ccfc06
+  - enabled: 1
+    path: Assets/None.unity
+    guid: b7b966b7792cafd4e9087897e9a4d9eb
+  - enabled: 1
+    path: Assets/Move.unity
+    guid: b36d348c17a88374e990b2feb24fb8f7
+  - enabled: 1
+    path: Assets/Map.unity
+    guid: 758cff283409cd44abd09a5997c2247c
   m_configObjects: {}
