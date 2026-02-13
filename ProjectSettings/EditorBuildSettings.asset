@@ -38,4 +38,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Map.unity
     guid: 758cff283409cd44abd09a5997c2247c
+  - enabled: 1
+    path: Assets/NPC1.unity
+    guid: 00014f19fb397d14e8547ec574d98af9
+  - enabled: 1
+    path: Assets/NPC2.unity
+    guid: d76a043384354314f9d6e71946dfcd26
+  - enabled: 1
+    path: Assets/NPC3.unity
+    guid: 21ec016c9f214be4eae92c8700973442
+  - enabled: 1
+    path: Assets/Letter.unity
+    guid: a62ac51d3458e1948afbc4f54469851d
+  - enabled: 1
+    path: Assets/Bag.unity
+    guid: c5536420f6f885c4a813c72e4fee55f1
+  - enabled: 1
+    path: Assets/OpenBag.unity
+    guid: 217101c2b605c314289fbb99b52f3754
   m_configObjects: {}
