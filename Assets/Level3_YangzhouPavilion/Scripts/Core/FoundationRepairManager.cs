@@ -17,15 +17,15 @@ namespace JingHangZhuJi.Level3
         [SerializeField] private float stabilityScore = 0f; // 稳定性评分（0-100）
         
         // 常量
-        private const float TARGET_TILT_ANGLE = 0.3f; // 目标倾斜角度
+        private const float TARGET_TILT_ANGLE = 0f; // 目标倾斜角度（修复后应该完全不倾斜）
 
         [Header("状态标记")]
         private bool isRepairComplete = false;
 
         [Header("评级阈值")]
-        private const float S_GRADE_TILT = 0.3f;
-        private const float A_GRADE_TILT = 0.5f;
-        private const float B_GRADE_TILT = 1.0f;
+        private const float S_GRADE_TILT = 0.5f;  // S级：倾斜度 ≤ 0.5°（包括完全不倾斜）
+        private const float A_GRADE_TILT = 1.0f;  // A级：倾斜度 ≤ 1.0°
+        private const float B_GRADE_TILT = 2.0f;  // B级：倾斜度 ≤ 2.0°
 
         // 事件
         public System.Action<float> OnStabilityChanged;
@@ -62,14 +62,14 @@ namespace JingHangZhuJi.Level3
                 woodPilesManager.SetQualified();
             }
 
-            // 调整倾斜度到合格范围
-            currentTiltAngle = 0.2f;
+            // 修复完成后，台基应该完全不倾斜
+            currentTiltAngle = 0f;
             ApplyTilt(currentTiltAngle);
             
             UpdateStability();
             CheckRepairComplete();
             
-            Debug.Log("[FoundationRepairManager] 木桩修复完成");
+            Debug.Log("[FoundationRepairManager] 木桩修复完成，台基倾斜度已恢复为 0°");
         }
 
         #endregion
@@ -115,7 +115,16 @@ namespace JingHangZhuJi.Level3
 
             // 评级判定
             string grade = GetGrade();
-            Debug.Log($"[FoundationRepairManager] 当前稳定性: {stabilityScore:F1}分 | 倾斜度: {currentTiltAngle:F2}° | 评级: {grade}");
+            
+            // 特别标注修复后的完美状态
+            if (currentTiltAngle == 0f)
+            {
+                Debug.Log($"[FoundationRepairManager] 🎉 台基修复完成！当前稳定性: {stabilityScore:F1}分 | 倾斜度: {currentTiltAngle:F2}° (完全水平) | 评级: {grade}");
+            }
+            else
+            {
+                Debug.Log($"[FoundationRepairManager] 当前稳定性: {stabilityScore:F1}分 | 倾斜度: {currentTiltAngle:F2}° | 评级: {grade}");
+            }
         }
 
         /// <summary>

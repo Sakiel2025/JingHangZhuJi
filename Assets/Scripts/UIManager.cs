@@ -79,6 +79,15 @@ namespace JingHangZhuJi
             InitializeUI();
         }
 
+        private void Update()
+        {
+            // 监听回车键提交答案
+            if (answerInputField != null && answerInputField.isFocused && Input.GetKeyDown(KeyCode.Return))
+            {
+                OnSubmitAnswer();
+            }
+        }
+
         /// <summary>
         /// 初始化UI
         /// </summary>
@@ -134,21 +143,83 @@ namespace JingHangZhuJi
         /// </summary>
         public void ShowDialogue(string speakerName, string dialogue, bool needInput)
         {
-            if (dialoguePanel == null) return;
+            Debug.Log($"=== UIManager.ShowDialogue 被调用 ===");
+            Debug.Log($"speakerName: {speakerName}");
+            Debug.Log($"dialogue: {dialogue}");
+            Debug.Log($"needInput: {needInput}");
+            Debug.Log($"dialoguePanel 是否为空: {dialoguePanel == null}");
+            
+            if (dialoguePanel == null)
+            {
+                Debug.LogError("❌ dialoguePanel 为空！请在 UIManager 中配置 Dialogue Panel！");
+                return;
+            }
 
             dialoguePanel.SetActive(true);
+            Debug.Log($"dialoguePanel 已激活");
+            
+            // 临时调试：打印 DialogueBox 的信息
+            RectTransform rect = dialoguePanel.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                Debug.Log($"DialogueBox 位置: {rect.anchoredPosition}, 大小: {rect.sizeDelta}");
+                Debug.Log($"DialogueBox 缩放: {rect.localScale}, 父对象: {dialoguePanel.transform.parent.name}");
+            }
+            
+            // 检查 CanvasGroup（可能导致透明）
+            CanvasGroup cg = dialoguePanel.GetComponent<CanvasGroup>();
+            if (cg != null)
+            {
+                Debug.Log($"CanvasGroup alpha: {cg.alpha}, interactable: {cg.interactable}");
+                cg.alpha = 1f; // 强制不透明
+            }
 
             if (speakerNameText != null)
                 speakerNameText.text = speakerName;
+            else
+                Debug.LogWarning("⚠️ speakerNameText 为空");
 
             if (dialogueText != null)
                 dialogueText.text = dialogue;
+            else
+                Debug.LogWarning("⚠️ dialogueText 为空");
 
             // 根据是否需要输入显示不同的UI
-            if (inputPanel != null)
+            if (inputPanel != null && inputPanel != dialoguePanel)
+            {
+                // 如果 inputPanel 是独立的对象，才控制它的显示
                 inputPanel.SetActive(needInput);
+            }
+            else if (answerInputField != null)
+            {
+                // 如果 inputPanel 就是 dialoguePanel 或为空，直接控制输入框
+                answerInputField.gameObject.SetActive(needInput);
+                Debug.Log($"直接控制 answerInputField: {needInput}");
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ inputPanel 和 answerInputField 都无法使用");
+            }
+            
+            // 控制按钮显示：
+            // - needInput = true (需要输入)：隐藏所有按钮，玩家按回车提交
+            // - needInput = false (显示反馈)：显示继续按钮
+            if (submitButton != null)
+            {
+                submitButton.gameObject.SetActive(false); // 始终隐藏提交按钮
+            }
+                
             if (continueButton != null)
-                continueButton.gameObject.SetActive(!needInput);
+            {
+                continueButton.gameObject.SetActive(!needInput); // 只在反馈时显示继续按钮
+                Debug.Log($"continueButton 显示状态: {!needInput}");
+            }
+            else
+            {
+                Debug.LogError("❌ continueButton 为空！请在 UIManager 中配置 Continue Button！");
+            }
+                
+            Debug.Log("=== ShowDialogue 完成 ===");
         }
 
         /// <summary>
@@ -156,18 +227,29 @@ namespace JingHangZhuJi
         /// </summary>
         public void HideDialogue()
         {
+            Debug.Log("=== HideDialogue 被调用 ===");
+            Debug.LogWarning($"调用堆栈: {System.Environment.StackTrace}");
+            
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(false);
         }
 
         /// <summary>
-        /// 提交答案
+        /// 提交答案（按回车键触发）
         /// </summary>
         private void OnSubmitAnswer()
         {
             if (answerInputField == null) return;
-
+            
             string answer = answerInputField.text;
+            
+            if (string.IsNullOrEmpty(answer))
+            {
+                ShowMessage("请输入你的想法");
+                return;
+            }
+            
+            Debug.Log($"=== OnSubmitAnswer 被调用，answer: {answer} ===");
             
             // 通知对话管理器
             Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
@@ -178,7 +260,6 @@ namespace JingHangZhuJi
 
             // 清空输入
             answerInputField.text = "";
-            inputPanel.SetActive(false);
         }
 
         /// <summary>
@@ -186,8 +267,20 @@ namespace JingHangZhuJi
         /// </summary>
         private void OnContinueDialogue()
         {
-            HideDialogue();
-            currentDialogueCallback?.Invoke();
+            Debug.Log("=== OnContinueDialogue 被调用 ===");
+            
+            // 查找 AIDialogueManager 并继续下一个问题
+            Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
+            if (dialogueManager != null)
+            {
+                dialogueManager.AskNextQuestion();
+            }
+            else
+            {
+                // 如果没有 AIDialogueManager，执行默认的关闭逻辑
+                HideDialogue();
+                currentDialogueCallback?.Invoke();
+            }
         }
 
         #endregion

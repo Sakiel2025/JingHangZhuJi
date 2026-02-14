@@ -61,47 +61,26 @@ namespace JingHangZhuJi.Level3
         }
 
         /// <summary>
-        /// 初始化问题库
+        /// 初始化问题库 - 使用 Inspector 中配置的问题
         /// </summary>
         private void InitializeQuestions()
         {
-            // 第一个问题：何为"好"
-            questions.Add(new Question
-            {
-                questionText = "匠人，你觉得什么样的建筑，才算是'好'的建筑？",
-                keywords = new string[] { "人", "百姓", "生活", "实用", "文化", "传承", "精神", "意义" },
-                minWords = 20,
-                shallowResponse = "黄老爷微微摇头，继续品茶。",
-                mediumResponse = "黄老爷点点头：'这样的理解，倒也不差。'",
-                deepResponse = "黄老爷眼中露出赞许：'有见地。建筑确实应当服务于人。'",
-                profoundResponse = "黄老爷起身拱手：'匠人能有此见识，实属难得！你不仅懂建筑，更懂百姓之心。'"
-            });
-
-            // 第二个问题：盐商之殇
-            questions.Add(new Question
-            {
-                questionText = "这园子，我花了十年光景建造。如今却要倾塌...你说，这究竟是天意，还是人祸？",
-                keywords = new string[] { "自然", "规律", "基础", "地基", "维护", "预防", "技术", "科学" },
-                minWords = 25,
-                shallowResponse = "黄老爷苦笑：'年轻人，话不能这么简单。'",
-                mediumResponse = "黄老爷叹气：'技术固然重要，可又岂是全部？'",
-                deepResponse = "黄老爷若有所思：'你说得对，许多灾祸本可避免。'",
-                profoundResponse = "黄老爷眼眶湿润：'先生一语点醒梦中人！我这些年，只顾追求奢华，却忘了敬畏自然...'"
-            });
-
-            // 第三个问题：工匠与士人
-            questions.Add(new Question
-            {
-                questionText = "你觉得，我们盐商与你们工匠，是否也如这亭子与地基，缺一不可？",
-                keywords = new string[] { "相互", "依存", "尊重", "合作", "社会", "分工", "平等", "价值" },
-                minWords = 30,
-                shallowResponse = "黄老爷皱眉不语。",
-                mediumResponse = "黄老爷点头：'确实如此。'",
-                deepResponse = "黄老爷动容：'你这番话，让我重新思考士农工商的关系。'",
-                profoundResponse = "黄老爷起身深鞠一躬：'今日一席话，胜读十年书！我辈商人虽有财，却缺了你这份见识。从今往后，我当更敬重匠人！'"
-            });
-
+            // 直接使用 Inspector 中配置的问题列表
             totalQuestions = questions.Count;
+            
+            Debug.Log($"[AIDialogueManager] 问题库初始化完成，共 {totalQuestions} 个问题");
+            
+            // 输出所有问题用于调试
+            for (int i = 0; i < questions.Count; i++)
+            {
+                Debug.Log($"  问题 {i + 1}: {questions[i].questionText}");
+            }
+            
+            // 检查是否有配置问题
+            if (totalQuestions == 0)
+            {
+                Debug.LogError("[AIDialogueManager] ⚠️ 警告：没有配置任何问题！请在 Inspector 中的 Questions 列表添加问题。");
+            }
         }
 
         /// <summary>
@@ -120,6 +99,9 @@ namespace JingHangZhuJi.Level3
         /// </summary>
         public void StartDialogue()
         {
+            Debug.Log("=== AIDialogueManager.StartDialogue 被调用 ===");
+            Debug.Log($"questions.Count = {questions.Count}");
+            
             currentQuestionIndex = 0;
             AskNextQuestion();
         }
@@ -129,20 +111,27 @@ namespace JingHangZhuJi.Level3
         /// </summary>
         public void AskNextQuestion()
         {
+            Debug.Log($"=== AskNextQuestion 被调用，currentQuestionIndex = {currentQuestionIndex} ===");
+            
             if (currentQuestionIndex >= questions.Count)
             {
+                Debug.Log("所有问题已完成，调用 CompleteDialogue");
                 CompleteDialogue();
                 return;
             }
 
             Question currentQuestion = questions[currentQuestionIndex];
+            Debug.Log($"当前问题: {currentQuestion.questionText}");
+            
             OnQuestionAsked?.Invoke(currentQuestion);
             
+            Debug.Log($"准备调用 UIManager.ShowDialogue");
             UIManager.Instance?.ShowDialogue(
                 "黄老爷", 
                 currentQuestion.questionText, 
                 true // 需要玩家输入
             );
+            Debug.Log("UIManager.ShowDialogue 调用完成");
         }
 
         /// <summary>
@@ -168,14 +157,15 @@ namespace JingHangZhuJi.Level3
             // 触发事件
             OnResponseEvaluated?.Invoke(level, feedback);
 
-            // 显示反馈
+            // 显示反馈（不需要输入，显示继续按钮）
             UIManager.Instance?.ShowDialogue("黄老爷", feedback, false);
 
             // 给予奖励
             GiveReward(level);
 
-            // 等待玩家点击后继续
-            StartCoroutine(WaitAndNextQuestion());
+            // ⚠️ 修改：不自动等待，而是让玩家点击"继续"按钮来触发下一个问题
+            // 需要在 UIManager 的 OnContinueDialogue 中调用 AskNextQuestion
+            currentQuestionIndex++;
         }
 
         /// <summary>

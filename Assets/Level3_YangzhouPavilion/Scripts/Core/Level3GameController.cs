@@ -42,10 +42,6 @@ namespace JingHangZhuJi.Level3
 
         [Header("NPC")]
         [SerializeField] private GameObject huangLaoye; // 黄老爷
-
-        [Header("时间控制")]
-        [SerializeField] private Light mainLight; // 主光源（2D使用Directional Light 2D或全局照明）
-        [SerializeField] private float nightLightIntensity = 0.3f;
         
         // 常量
         private const float DAY_LIGHT_INTENSITY = 1f;
@@ -371,6 +367,18 @@ namespace JingHangZhuJi.Level3
                 woodPilesManager.SetState(WoodPilesState.Qualified);
             }
 
+            // ⭐ 重要：完成木桩修复，自动恢复台基倾斜度为 0°
+            FoundationRepairManager repairManager = FindObjectOfType<FoundationRepairManager>();
+            if (repairManager != null)
+            {
+                repairManager.CompletePileRepair();
+                Debug.Log("[Level3] 调用 CompletePileRepair()，台基倾斜度将恢复为 0°");
+            }
+            else
+            {
+                Debug.LogWarning("[Level3] 未找到 FoundationRepairManager！台基倾斜度不会自动恢复");
+            }
+
             // 完成任务3：更换木桩并测量垂直度
             global::Level3.UI.TaskListUI taskList = FindObjectOfType<global::Level3.UI.TaskListUI>();
             if (taskList != null)
@@ -381,7 +389,9 @@ namespace JingHangZhuJi.Level3
             phaseCompleted[4] = true;
             
             yield return new WaitForSeconds(2f);
-            TransitionToPhase(GamePhase.Completion); // 简化版直接完成，跳过深夜长谈
+            
+            // 进入深夜长谈阶段
+            TransitionToPhase(GamePhase.NightTalk);
         }
 
         /// <summary>
@@ -389,38 +399,24 @@ namespace JingHangZhuJi.Level3
         /// </summary>
         private void StartNightTalk()
         {
-            // 切换到夜晚
-            StartCoroutine(TransitionToNight());
-        }
-
-        private IEnumerator TransitionToNight()
-        {
-            UIManager.Instance?.ShowMessage("夜幕降临...");
+            Debug.Log("=== StartNightTalk 被调用 ===");
+            Debug.Log($"dialogueManager 是否为空: {dialogueManager == null}");
             
-            // 渐变光照
-            float duration = 3f;
-            float elapsed = 0f;
-            float startIntensity = mainLight.intensity;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                mainLight.intensity = Mathf.Lerp(startIntensity, nightLightIntensity, elapsed / duration);
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(1f);
-
-            // 开始对话
+            UIManager.Instance?.ShowMessage("夜幕降临，黄老爷邀请你深夜长谈...");
+            
+            // 直接开始对话
             UIManager.Instance?.ShowDialogue("黄老爷", 
                 "匠人技艺了得！不如今晚在园中畅谈，老夫有些心事想与你探讨。", 
                 false);
-            
-            yield return new WaitForSeconds(3f);
 
             if (dialogueManager != null)
             {
+                Debug.Log("开始调用 dialogueManager.StartDialogue()");
                 dialogueManager.StartDialogue();
+            }
+            else
+            {
+                Debug.LogError("❌ dialogueManager 为空！请在 Inspector 中配置 Dialogue Manager 字段！");
             }
         }
 
