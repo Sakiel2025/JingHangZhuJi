@@ -57,6 +57,6 @@ EditorBuildSettings:
     path: Assets/OpenBag.unity
     guid: 217101c2b605c314289fbb99b52f3754
   - enabled: 1
-    path: Assets/Prologue/Scenes/3_Beijing.unity
+    path: Assets/Level1/Scenes/3_Beijing.unity
     guid: cf8a52d83c029dc4a9c2dd890c3ec498
   m_configObjects: {}
