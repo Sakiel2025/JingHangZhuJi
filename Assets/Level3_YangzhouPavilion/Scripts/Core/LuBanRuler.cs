@@ -219,13 +219,14 @@ namespace JingHangZhuJi.Level3
                 Destroy(effect, 2f);
             }
 
-            // 通知地基修复管理器
+            // 通知地基修复管理器（简化版：一体化木桩，测量合格即完成修复）
             if (isQualified)
             {
                 FoundationRepairManager repairManager = FindObjectOfType<FoundationRepairManager>();
                 if (repairManager != null)
                 {
-                    repairManager.MarkPileMeasured(currentPileIndex);
+                    // 直接完成木桩修复（一体化设计）
+                    repairManager.CompletePileRepair();
                 }
             }
 

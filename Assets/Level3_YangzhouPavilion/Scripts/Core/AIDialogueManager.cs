@@ -68,7 +68,7 @@ namespace JingHangZhuJi.Level3
             // 第一个问题：何为"好"
             questions.Add(new Question
             {
-                questionText = "小墨匠人，你觉得什么样的建筑，才算是'好'的建筑？",
+                questionText = "匠人，你觉得什么样的建筑，才算是'好'的建筑？",
                 keywords = new string[] { "人", "百姓", "生活", "实用", "文化", "传承", "精神", "意义" },
                 minWords = 20,
                 shallowResponse = "黄老爷微微摇头，继续品茶。",
@@ -336,7 +336,7 @@ namespace JingHangZhuJi.Level3
             }
             else if (profoundCount + deepCount >= 2)
             {
-                finalFeedback = "与小墨匠人一席话，让老夫对匠人之道有了新的认识。";
+                finalFeedback = "与匠人一席话，让老夫对匠人之道有了新的认识。";
                 GameManager.Instance?.AddSilver(200);
             }
             else

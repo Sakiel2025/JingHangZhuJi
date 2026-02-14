@@ -23,6 +23,11 @@ namespace JingHangZhuJi.Level3
         [SerializeField] private Color unlockedColor = Color.white;
         [SerializeField] private Color lockedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
+        [Header("关联的工具对象(可选)")]
+        [SerializeField] private GameObject rulerToolObject; // 鲁班尺工具模型
+        [SerializeField] private GameObject craftsmanEyeEffect; // 匠人之眼特效
+        [SerializeField] private GameObject jackToolObjects; // 千斤顶模型组
+
         private Action onCraftsmanEyeClicked;
         private Action onRulerClicked;
         private Action onJackClicked;
@@ -111,6 +116,10 @@ namespace JingHangZhuJi.Level3
         {
             if (craftsmanEyeButton.interactable)
             {
+                // 显示匠人之眼特效
+                if (craftsmanEyeEffect != null)
+                    craftsmanEyeEffect.SetActive(true);
+                
                 onCraftsmanEyeClicked?.Invoke();
                 Debug.Log("匠人之眼按钮被点击");
             }
@@ -120,6 +129,13 @@ namespace JingHangZhuJi.Level3
         {
             if (rulerButton.interactable)
             {
+                // 显示鲁班尺工具模型
+                if (rulerToolObject != null)
+                {
+                    rulerToolObject.SetActive(true);
+                    Debug.Log("鲁班尺工具已显示");
+                }
+                
                 onRulerClicked?.Invoke();
                 Debug.Log("鲁班尺按钮被点击");
             }
@@ -129,9 +145,29 @@ namespace JingHangZhuJi.Level3
         {
             if (jackButton.interactable)
             {
+                // 显示千斤顶工具
+                if (jackToolObjects != null)
+                {
+                    jackToolObjects.SetActive(true);
+                    Debug.Log("千斤顶工具已显示");
+                }
+                
                 onJackClicked?.Invoke();
                 Debug.Log("千斤顶按钮被点击");
             }
+        }
+        
+        /// <summary>
+        /// 隐藏所有工具
+        /// </summary>
+        public void HideAllTools()
+        {
+            if (rulerToolObject != null)
+                rulerToolObject.SetActive(false);
+            if (craftsmanEyeEffect != null)
+                craftsmanEyeEffect.SetActive(false);
+            if (jackToolObjects != null)
+                jackToolObjects.SetActive(false);
         }
 
         private void OnDestroy()

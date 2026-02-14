@@ -425,8 +425,9 @@ namespace Level3.UI
             if (taskIndex >= 0 && taskIndex < tasks.Count)
             {
                 tasks[taskIndex].isCompleted = true;
+                // 使用删除线和灰色表示完成
                 tasks[taskIndex].textComponent.text = 
-                    $"<color=#4CAF50>[√] {tasks[taskIndex].taskName}</color>";  // 用 [√] 替代 ☑
+                    $"<color=#888888><s>{tasks[taskIndex].taskName}</s></color>";
                 
                 Debug.Log($"任务完成: {tasks[taskIndex].taskName}");
             }
