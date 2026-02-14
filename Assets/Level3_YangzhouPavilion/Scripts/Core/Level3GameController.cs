@@ -210,7 +210,7 @@ namespace JingHangZhuJi.Level3
         /// </summary>
         private void StartAdjustSupport()
         {
-            UIManager.Instance?.ShowMessage("使用千斤顶掀开台基");
+            UIManager.Instance?.ShowMessage("拖动千斤顶到台基下方");
             
             // 解锁千斤顶工具
             UnlockTool("jack");
@@ -219,17 +219,53 @@ namespace JingHangZhuJi.Level3
             if (jackTool != null)
             {
                 jackTool.SetActive(true);
+                
+                // 尝试获取新版拖动组件
+                SimpleDraggableTool simpleDraggable = jackTool.GetComponent<SimpleDraggableTool>();
+                if (simpleDraggable != null)
+                {
+                    // 设置完成回调
+                    simpleDraggable.OnToolPlaced = () => {
+                        OnJackPlaced();
+                    };
+                    Debug.Log("[Level3] 千斤顶使用 SimpleDraggableTool，回调已设置");
+                }
+                else
+                {
+                    // 兼容旧版拖动组件
+                    DraggableTool draggable = jackTool.GetComponent<DraggableTool>();
+                    if (draggable != null)
+                    {
+                        // 设置完成回调
+                        draggable.OnToolPlaced = () => {
+                            OnJackPlaced();
+                        };
+                        Debug.Log("[Level3] 千斤顶使用 DraggableTool，回调已设置");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[Level3] 千斤顶缺少拖动组件,添加自动完成逻辑");
+                        // 如果没有拖动组件,3秒后自动完成
+                        StartCoroutine(AutoCompleteJack());
+                    }
+                }
             }
+        }
 
-            // 完成任务2：安装千斤顶并掀开台基
+        /// <summary>
+        /// 千斤顶放置完成
+        /// </summary>
+        private void OnJackPlaced()
+        {
+            UIManager.Instance?.ShowMessage("千斤顶已就位！正在掀开台基...");
+            
+            // 完成任务1：安装千斤顶并掀开台基
             global::Level3.UI.TaskListUI taskList = FindObjectOfType<global::Level3.UI.TaskListUI>();
             if (taskList != null)
             {
                 taskList.CompleteTask(1);
             }
-
-            // 简化流程：千斤顶自动使用（跳过按钮点击）
-            UIManager.Instance?.ShowMessage("正在使用千斤顶...");
+            
             phaseCompleted[3] = true;
             
             // 切换地基状态
@@ -238,8 +274,17 @@ namespace JingHangZhuJi.Level3
                 foundationStateManager.SetState(FoundationState.Opened);
             }
             
-            // 2秒后自动进入下一阶段
+            // 2秒后进入下一阶段
             StartCoroutine(TransitionAfterDelay(GamePhase.ReplacePiles, 2f));
+        }
+
+        /// <summary>
+        /// 千斤顶自动完成(没有拖动组件时的备用方案)
+        /// </summary>
+        private System.Collections.IEnumerator AutoCompleteJack()
+        {
+            yield return new WaitForSeconds(3f);
+            OnJackPlaced();
         }
 
         /// <summary>
@@ -247,7 +292,7 @@ namespace JingHangZhuJi.Level3
         /// </summary>
         private void StartReplacePiles()
         {
-            UIManager.Instance?.ShowMessage("使用鲁班尺测量并更换木桩");
+            UIManager.Instance?.ShowMessage("拖动鲁班尺到木桩位置进行测量");
             
             // 解锁鲁班尺工具
             UnlockTool("ruler");
@@ -256,6 +301,36 @@ namespace JingHangZhuJi.Level3
             if (rulerTool != null)
             {
                 rulerTool.SetActive(true);
+                
+                // 尝试获取新版拖动组件
+                SimpleDraggableTool simpleDraggable = rulerTool.GetComponent<SimpleDraggableTool>();
+                if (simpleDraggable != null)
+                {
+                    // 设置完成回调
+                    simpleDraggable.OnToolPlaced = () => {
+                        OnRulerPlaced();
+                    };
+                    Debug.Log("[Level3] 鲁班尺使用 SimpleDraggableTool，回调已设置");
+                }
+                else
+                {
+                    // 兼容旧版拖动组件
+                    DraggableTool draggable = rulerTool.GetComponent<DraggableTool>();
+                    if (draggable != null)
+                    {
+                        // 设置完成回调
+                    draggable.OnToolPlaced = () => {
+                        OnRulerPlaced();
+                    };
+                    Debug.Log("[Level3] 鲁班尺使用 DraggableTool，回调已设置");
+                }
+                else
+                {
+                    Debug.LogWarning("[Level3] 鲁班尺缺少拖动组件,添加自动完成逻辑");
+                    // 如果没有拖动组件,3秒后自动完成
+                    StartCoroutine(AutoStartMeasurement());
+                }
+                }
             }
 
             // 切换木桩状态为测量中
@@ -263,9 +338,15 @@ namespace JingHangZhuJi.Level3
             {
                 woodPilesManager.SetState(WoodPilesState.Measuring);
             }
+        }
 
-            // 简化流程：自动开始测量（2秒后）
-            StartCoroutine(AutoStartMeasurement());
+        /// <summary>
+        /// 鲁班尺放置完成,开始测量
+        /// </summary>
+        private void OnRulerPlaced()
+        {
+            UIManager.Instance?.ShowMessage("鲁班尺已就位！开始测量...");
+            StartCoroutine(MeasurementSequence());
         }
 
         /// <summary>
