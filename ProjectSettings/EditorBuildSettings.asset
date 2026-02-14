@@ -54,9 +54,30 @@ EditorBuildSettings:
     path: Assets/Bag.unity
     guid: c5536420f6f885c4a813c72e4fee55f1
   - enabled: 1
-    path: Assets/OpenBag.unity
-    guid: 217101c2b605c314289fbb99b52f3754
+    path: Assets/OpenBag0.unity
+    guid: 5e701ad22012b574d877106826460afd
+  - enabled: 1
+    path: Assets/NPC4.unity
+    guid: cfc8afe4bb0aeaf4bbefa24ec39cdcdc
+  - enabled: 1
+    path: Assets/NewOrOld.unity
+    guid: c1afb794172efbd49b7bd1d7faa588ac
+  - enabled: 1
+    path: Assets/NPC.unity
+    guid: d9b7ba60a0009294cbe1dd3b6812534d
+  - enabled: 1
+    path: Assets/MainMap.unity
+    guid: f279638afbabfc54fa7b0968d113513e
   - enabled: 1
     path: Assets/Level1/Scenes/3_Beijing.unity
     guid: cf8a52d83c029dc4a9c2dd890c3ec498
+  - enabled: 1
+    path: Assets/NPC5.unity
+    guid: cca68eac6e0686c498fa92bacc09c43f
+  - enabled: 1
+    path: Assets/NPC6.unity
+    guid: a8277f6ae27bdab45b27c467ab838073
+  - enabled: 1
+    path: Assets/OpenBag.unity
+    guid: 217101c2b605c314289fbb99b52f3754
   m_configObjects: {}

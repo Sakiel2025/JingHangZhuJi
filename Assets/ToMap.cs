@@ -11,6 +11,6 @@ public class ToMap : MonoBehaviour
 
     void GoToMap()
     {
-        SceneManager.LoadScene("Map");  // 你的主场景名
+        SceneManager.LoadScene("NewOrOld");  // 你的主场景名
     }
 }
