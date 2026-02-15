@@ -423,7 +423,22 @@ namespace JingHangZhuJi.Level3
         public void OnDialoguePhaseComplete()
         {
             phaseCompleted[5] = true;
-            TransitionToPhase(GamePhase.Completion);
+            
+            // 深夜长谈完成后，切换到师父第三封信场景
+            Debug.Log("深夜长谈完成，准备切换到 Level3_Letter 场景");
+            StartCoroutine(LoadLetterScene());
+        }
+        
+        /// <summary>
+        /// 加载师父第三封信场景
+        /// </summary>
+        private IEnumerator LoadLetterScene()
+        {
+            UIManager.Instance?.ShowMessage("黄老爷有话要说...");
+            yield return new WaitForSeconds(2f);
+            
+            // 切换场景
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Level3_Letter");
         }
 
         /// <summary>
