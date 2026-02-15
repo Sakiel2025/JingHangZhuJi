@@ -82,9 +82,23 @@ namespace JingHangZhuJi
         private void Update()
         {
             // 监听回车键提交答案
-            if (answerInputField != null && answerInputField.isFocused && Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                OnSubmitAnswer();
+                Debug.Log("=== 检测到 Enter 键按下 ===");
+                Debug.Log($"answerInputField 是否为空: {answerInputField == null}");
+                if (answerInputField != null)
+                {
+                    Debug.Log($"输入框是否激活: {answerInputField.gameObject.activeInHierarchy}");
+                    Debug.Log($"输入框是否有焦点: {answerInputField.isFocused}");
+                    Debug.Log($"输入框内容: '{answerInputField.text}'");
+                    
+                    // 只要输入框激活且有内容，就允许提交（不检查焦点）
+                    if (answerInputField.gameObject.activeInHierarchy && !string.IsNullOrEmpty(answerInputField.text.Trim()))
+                    {
+                        Debug.Log("✅ 满足提交条件，调用 OnSubmitAnswer");
+                        OnSubmitAnswer();
+                    }
+                }
             }
         }
 
@@ -189,6 +203,7 @@ namespace JingHangZhuJi
             {
                 // 如果 inputPanel 是独立的对象，才控制它的显示
                 inputPanel.SetActive(needInput);
+                Debug.Log($"inputPanel 设置为: {needInput}");
             }
             else if (answerInputField != null)
             {
@@ -201,18 +216,33 @@ namespace JingHangZhuJi
                 Debug.LogWarning("⚠️ inputPanel 和 answerInputField 都无法使用");
             }
             
+            // 如果需要输入，自动聚焦到输入框并清空内容
+            if (needInput && answerInputField != null)
+            {
+                answerInputField.text = ""; // 清空之前的内容
+                answerInputField.ActivateInputField(); // 激活并聚焦
+                Debug.Log("✅ 输入框已激活并聚焦");
+            }
+            
             // 控制按钮显示：
-            // - needInput = true (需要输入)：隐藏所有按钮，玩家按回车提交
-            // - needInput = false (显示反馈)：显示继续按钮
+            // - needInput = true (需要输入)：隐藏所有按钮，玩家按 Enter 键提交
+            // - needInput = false (显示反馈)：显示"点击此处继续"按钮
             if (submitButton != null)
             {
-                submitButton.gameObject.SetActive(false); // 始终隐藏提交按钮
+                submitButton.gameObject.SetActive(false); // 不使用提交按钮，按回车提交
             }
                 
             if (continueButton != null)
             {
                 continueButton.gameObject.SetActive(!needInput); // 只在反馈时显示继续按钮
                 Debug.Log($"continueButton 显示状态: {!needInput}");
+                
+                // 修改继续按钮的文本为"点击此处继续"
+                TextMeshProUGUI buttonText = continueButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null)
+                {
+                    buttonText.text = "点击此处继续 ▼";
+                }
             }
             else
             {
@@ -239,23 +269,36 @@ namespace JingHangZhuJi
         /// </summary>
         private void OnSubmitAnswer()
         {
-            if (answerInputField == null) return;
+            Debug.Log("=== OnSubmitAnswer 被调用 ===");
             
-            string answer = answerInputField.text;
+            if (answerInputField == null)
+            {
+                Debug.LogError("❌ answerInputField 为空！");
+                return;
+            }
+            
+            string answer = answerInputField.text.Trim();
+            Debug.Log($"输入的答案: '{answer}' (长度: {answer.Length})");
             
             if (string.IsNullOrEmpty(answer))
             {
+                Debug.LogWarning("⚠️ 答案为空，显示提示");
                 ShowMessage("请输入你的想法");
                 return;
             }
             
-            Debug.Log($"=== OnSubmitAnswer 被调用，answer: {answer} ===");
+            Debug.Log($"✅ 答案有效，准备提交给 AIDialogueManager");
             
             // 通知对话管理器
             Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
             if (dialogueManager != null)
             {
+                Debug.Log("找到 AIDialogueManager，调用 SubmitAnswer");
                 dialogueManager.SubmitAnswer(answer);
+            }
+            else
+            {
+                Debug.LogError("❌ 找不到 AIDialogueManager！");
             }
 
             // 清空输入

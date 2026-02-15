@@ -83,4 +83,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Intro.unity
     guid: a65c93113b6768c47865a1223ffd54d8
+  - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Main.unity
+    guid: b064bd32bf49f3446a1433edb520b5d8
   m_configObjects: {}
