@@ -24,120 +24,132 @@
 //         canClimb = true;
 //     }
 // }
-
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// 极简版攀爬+剧情脚本，所有逻辑拆分清晰
+// 仅适配2D UI Image小人，所有逻辑针对UI优化
 public class ClimbControl : MonoBehaviour
 {
-    [Header("攀爬基础设置")]
-    public float climbSpeed = 5f; // 攀爬速度（调大一点，手感更好）
-    public bool canClimb = true;  // 是否允许攀爬（初始勾选）
+    [Header("【攀爬速度】（UI专用，建议100）")]
+    public float climbSpeed = 100f; 
+    [Header("【是否允许攀爬】（初始勾选）")]
+    public bool canClimb = true;  
 
-    [Header("剧情触发坐标（必须根据你的场景调整！）")]
-    public float middleY = 0f;    // 屏幕一半的Y坐标（比如小人初始Y=-4，顶部Y=4，填0）
-    public float topY = 4f;       // 顶部Y坐标（爬到这里切场景）
-    public float bottomY = -4f;   // 底部Y坐标（撒谎后掉回这里）
+    [Header("【UI坐标设置】（直接填下面的值）")]
+    public float middleY = 0f;    // UI垂直中点（固定0）
+    public float topY = 450f;     // UI顶部（固定450）
+    public float bottomY = -450f; // UI底部（固定-450）
 
-    [Header("UI引用（拖拽赋值）")]
-    public GameObject dialogWindow; // 对话+选择框的总面板（初始隐藏）
-    public TextMeshProUGUI tipText; // 提示文本（初始隐藏）
+    [Header("【拖拽赋值区】（必拖！）")]
+    public RectTransform playerUI; // 小人的RectTransform（拖小人自身）
+    public GameObject dialogPanel; // 对话+选择框总面板
+    public TextMeshProUGUI tipText; // 提示文本
 
-    private bool hasTriggeredDialog = false; // 剧情是否已触发（避免重复弹出）
-    private Vector3 playerStartPos;          // 小人初始位置
+    private bool isDialogShowed = false; // 剧情是否触发（避免重复）
 
     void Start()
     {
-        // 初始化：隐藏UI、记录小人初始位置
-        if (dialogWindow != null) dialogWindow.SetActive(false);
+        // 自动补全小人的RectTransform（防止漏拖）
+        if (playerUI == null)
+        {
+            playerUI = GetComponent<RectTransform>();
+        }
+
+        // 初始隐藏UI
+        if (dialogPanel != null) dialogPanel.SetActive(false);
         if (tipText != null) tipText.gameObject.SetActive(false);
-        playerStartPos = transform.position;
     }
 
     void Update()
     {
-        // 核心攀爬逻辑：只响应上箭头，且允许攀爬时才移动
+        // 2D UI攀爬核心逻辑：只响应上箭头，用anchoredPosition移动
         if (canClimb && Input.GetKey(KeyCode.UpArrow))
         {
-            transform.Translate(0, climbSpeed * Time.deltaTime, 0);
+            playerUI.anchoredPosition += new Vector2(0, climbSpeed * Time.deltaTime);
         }
 
-        // 触发剧情：爬到中间Y坐标，且剧情未触发
-        if (transform.position.y >= middleY && !hasTriggeredDialog)
+        // 爬到中点触发剧情（只触发一次）
+        if (playerUI.anchoredPosition.y >= middleY && !isDialogShowed)
         {
             ShowDialog();
         }
 
-        // 爬到顶部：打印日志（先不切场景，避免报错）
-        if (transform.position.y >= topY)
+        // 爬到顶部提示（后续可加场景切换）
+        if (playerUI.anchoredPosition.y >= topY)
         {
-            Debug.Log("小人爬到顶部！可手动切场景");
-            // 场景切换代码（后续解锁）：
-            // UnityEngine.SceneManagement.SceneManager.LoadScene("下一场景名称");
+            Debug.Log("✅ 小人爬到顶部，可切场景！");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("1_2_Arch"); 
         }
     }
 
-    // ========== 以下是按钮要绑定的方法（核心！） ==========
-    // 方法1：显示对话面板（自动触发，无需绑定）
-    void ShowDialog()
-    {
-        hasTriggeredDialog = true;
-        canClimb = false; // 暂停攀爬
-        if (dialogWindow != null) dialogWindow.SetActive(true);
-    }
-
-    // 方法2：按钮绑定 → 说明来意
-    public void OnExplainButtonClick()
+    // ========== 以下3个方法是按钮要绑定的核心！ ==========
+    #region 按钮绑定方法（公开、无参，下拉框必显示）
+    /// <summary>
+    /// 说明来意按钮绑定这个方法
+    /// </summary>
+    public void Btn_Explain()
     {
         // 显示好感提示
         if (tipText != null)
         {
             tipText.text = "工匠好感+10";
-            tipText.color = Color.green;
+            tipText.color = new Color(0, 1, 0); // 绿色
             tipText.gameObject.SetActive(true);
         }
-        // 隐藏对话框，恢复攀爬
+        // 关闭对话框，恢复攀爬
         CloseDialog();
         // 2秒后隐藏提示
-        Invoke("HideTipText", 2f);
+        Invoke("HideTip", 2f);
     }
 
-    // 方法3：按钮绑定 → 沉默攀爬
-    public void OnSilentButtonClick()
+    /// <summary>
+    /// 沉默攀爬按钮绑定这个方法
+    /// </summary>
+    public void Btn_Silent()
     {
-        // 直接隐藏对话框，恢复攀爬
+        // 直接关闭对话框，恢复攀爬
         CloseDialog();
     }
 
-    // 方法4：按钮绑定 → 撒谎
-    public void OnLieButtonClick()
+    /// <summary>
+    /// 撒谎按钮绑定这个方法
+    /// </summary>
+    public void Btn_Lie()
     {
         // 显示难度提示
         if (tipText != null)
         {
             tipText.text = "工匠警觉，增加难度";
-            tipText.color = Color.red;
+            tipText.color = new Color(1, 0, 0); // 红色
             tipText.gameObject.SetActive(true);
         }
-        // 小人掉回底部
-        transform.position = new Vector3(transform.position.x, bottomY, transform.position.z);
-        // 隐藏对话框，恢复攀爬
+        // 小人掉回UI底部
+        playerUI.anchoredPosition = new Vector2(playerUI.anchoredPosition.x, bottomY);
+        // 关闭对话框，恢复攀爬
         CloseDialog();
         // 2秒后隐藏提示
-        Invoke("HideTipText", 2f);
+        Invoke("HideTip", 2f);
+    }
+    #endregion
+
+    // 显示对话框：暂停攀爬
+    void ShowDialog()
+    {
+        isDialogShowed = true;
+        canClimb = false;
+        if (dialogPanel != null) dialogPanel.SetActive(true);
     }
 
-    // 通用方法：隐藏对话框+恢复攀爬
+    // 关闭对话框：恢复攀爬
     void CloseDialog()
     {
-        if (dialogWindow != null) dialogWindow.SetActive(false);
+        if (dialogPanel != null) dialogPanel.SetActive(false);
         canClimb = true;
     }
 
     // 隐藏提示文本
-    void HideTipText()
+    void HideTip()
     {
         if (tipText != null) tipText.gameObject.SetActive(false);
     }

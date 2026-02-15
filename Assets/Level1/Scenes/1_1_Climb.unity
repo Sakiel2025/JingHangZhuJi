@@ -205,9 +205,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1465778417}
-        m_TargetAssemblyTypeName: DialogUI, Assembly-CSharp
-        m_MethodName: CloseDialog
+      - m_Target: {fileID: 595917752}
+        m_TargetAssemblyTypeName: ClimbControl, Assembly-CSharp
+        m_MethodName: Btn_Lie
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -419,7 +419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cddaaa8aa3de25045ba6e253cb06ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogPanel: {fileID: 1465778415}
 --- !u!61 &427842164
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -490,9 +489,9 @@ GameObject:
   m_Component:
   - component: {fileID: 595917751}
   - component: {fileID: 595917750}
-  - component: {fileID: 595917747}
   - component: {fileID: 595917749}
   - component: {fileID: 595917748}
+  - component: {fileID: 595917752}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -500,29 +499,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &595917747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595917746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73edd8e16c4a7e049b2167bdb8fc6d6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  canClimb: 1
-  halfScreenY: -137
-  topScreenY: -124.5
-  bottomScreenY: -150
-  dialogPanel: {fileID: 1465778415}
-  tipText: {fileID: 1384656074}
-  btnExplain: {fileID: 1652210949}
-  btnSilent: {fileID: 1200758910}
-  btnLie: {fileID: 229217303}
-  nextSceneName: 1_2_Arch
 --- !u!50 &595917748
 Rigidbody2D:
   serializedVersion: 4
@@ -647,21 +623,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &595917751
-Transform:
+--- !u!224 &595917751
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595917746}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -234.4, y: -150.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8448905, y: 0.7463406, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2057160868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -232.7, y: -150}
+  m_SizeDelta: {x: 12.79, y: 19.98}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &595917752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595917746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73edd8e16c4a7e049b2167bdb8fc6d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 10
+  canClimb: 1
+  middleY: -137
+  topY: -125
+  bottomY: -150
+  playerUI: {fileID: 595917751}
+  dialogPanel: {fileID: 1465778415}
+  tipText: {fileID: 1384656074}
 --- !u!1 &666086580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,9 +1333,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1465778417}
-        m_TargetAssemblyTypeName: DialogUI, Assembly-CSharp
-        m_MethodName: CloseDialog
+      - m_Target: {fileID: 595917752}
+        m_TargetAssemblyTypeName: ClimbControl, Assembly-CSharp
+        m_MethodName: Btn_Silent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1572,7 +1572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7296432a87481784c97c44fcbc1ed73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 595917747}
+  player: {fileID: 0}
 --- !u!114 &1465778418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,9 +1828,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 595917746}
-        m_TargetAssemblyTypeName: DialogUI, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 595917752}
+        m_TargetAssemblyTypeName: ClimbControl, Assembly-CSharp
+        m_MethodName: Btn_Explain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
