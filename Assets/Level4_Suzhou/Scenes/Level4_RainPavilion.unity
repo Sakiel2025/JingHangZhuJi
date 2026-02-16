@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueName: "\u610F"
   clueDescription: "\u501F\u81EA\u7136\u4E4B\u610F\u5883"
-  nextSceneName: Level4_CentralPavilion
+  nextSceneName: Level4_Puzzle
   hintText: {fileID: 0}
   foundText: {fileID: 0}
   hintTextTMP: {fileID: 153707473}
