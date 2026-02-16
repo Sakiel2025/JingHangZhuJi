@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;  // 支持TextMeshPro
 
 /// <summary>
 /// 通用线索物品脚本（场景2-5共用）
 /// 功能：点击收集线索，显示提示，切换到下一场景
+/// 支持Unity UI Text 和 TextMeshPro两种文本组件
+/// 新增：支持初始隐藏，点击后显现
 /// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -21,15 +24,30 @@ public class ClueItem : MonoBehaviour
     [Tooltip("下一个场景名称")]
     public string nextSceneName = "Level4_MountainTower";
     
-    [Header("UI引用")]
-    [Tooltip("顶部提示文字")]
+    [Header("UI引用 - Unity UI Text")]
+    [Tooltip("顶部提示文字（Unity UI Text）")]
     public Text hintText;
     
-    [Tooltip("发现线索时的文字")]
+    [Tooltip("发现线索时的文字（Unity UI Text）")]
     public Text foundText;
     
+    [Header("UI引用 - TextMeshPro（二选一）")]
+    [Tooltip("顶部提示文字（TextMeshPro）")]
+    public TMP_Text hintTextTMP;
+    
+    [Tooltip("发现线索时的文字（TextMeshPro）")]
+    public TMP_Text foundTextTMP;
+    
+    [Header("按钮引用")]
     [Tooltip("继续按钮")]
     public Button nextButton;
+    
+    [Header("显示设置")]
+    [Tooltip("初始状态是否隐藏？勾选则开始时不可见，点击后显现")]
+    public bool startHidden = false;
+    
+    [Tooltip("显现动画时长（秒）")]
+    public float appearDuration = 0.3f;
     
     [Header("动画设置")]
     [Tooltip("放大倍数")]
@@ -44,16 +62,35 @@ public class ClueItem : MonoBehaviour
     private SpriteRenderer sr;
     private Color originalColor;
     private bool collected = false;
+    private bool isVisible = true;  // 是否已显现
     
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
         
-        // 初始化UI状态
+        // 如果设置为初始隐藏，则设置透明度为0
+        if (startHidden)
+        {
+            isVisible = false;
+            Color hiddenColor = originalColor;
+            hiddenColor.a = 0f;  // 完全透明
+            sr.color = hiddenColor;
+            Debug.Log($"线索物品初始化（隐藏状态）：{clueName}");
+        }
+        else
+        {
+            Debug.Log($"线索物品初始化（可见状态）：{clueName}");
+        }
+        
+        // 初始化UI状态（支持两种文本类型）
         if (foundText != null)
         {
             foundText.gameObject.SetActive(false);
+        }
+        if (foundTextTMP != null)
+        {
+            foundTextTMP.gameObject.SetActive(false);
         }
         
         if (nextButton != null)
@@ -61,16 +98,14 @@ public class ClueItem : MonoBehaviour
             nextButton.gameObject.SetActive(false);
             nextButton.onClick.AddListener(OnNextButtonClicked);
         }
-        
-        Debug.Log($"线索物品初始化：{clueName}");
     }
     
     /// <summary>
-    /// 鼠标悬停时高亮
+    /// 鼠标悬停时高亮（仅在可见状态有效）
     /// </summary>
     void OnMouseEnter()
     {
-        if (collected) return;
+        if (collected || !isVisible) return;
         
         sr.color = Color.yellow;
         
@@ -83,7 +118,7 @@ public class ClueItem : MonoBehaviour
     /// </summary>
     void OnMouseExit()
     {
-        if (collected) return;
+        if (collected || !isVisible) return;
         
         sr.color = originalColor;
         
@@ -92,11 +127,51 @@ public class ClueItem : MonoBehaviour
     }
     
     /// <summary>
-    /// 鼠标点击时收集线索
+    /// 鼠标点击时：如果隐藏则显现，如果可见则收集
     /// </summary>
     void OnMouseDown()
     {
         if (collected) return;
+        
+        // 如果当前是隐藏状态，先显现
+        if (!isVisible)
+        {
+            StartCoroutine(AppearThenCollect());
+        }
+        // 如果已经可见，直接收集
+        else
+        {
+            collected = true;
+            StartCoroutine(CollectClue());
+        }
+    }
+    
+    /// <summary>
+    /// 显现协程：淡入 + 收集
+    /// </summary>
+    IEnumerator AppearThenCollect()
+    {
+        Debug.Log($"线索显现：{clueName}");
+        isVisible = true;
+        
+        // 淡入动画
+        float elapsed = 0f;
+        Color startColor = sr.color;  // alpha = 0
+        Color targetColor = originalColor;  // alpha = 1
+        
+        while (elapsed < appearDuration)
+        {
+            float t = elapsed / appearDuration;
+            sr.color = Color.Lerp(startColor, targetColor, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        
+        // 确保完全显示
+        sr.color = originalColor;
+        
+        // 短暂延迟后自动收集
+        yield return new WaitForSeconds(0.2f);
         
         collected = true;
         StartCoroutine(CollectClue());
@@ -115,34 +190,61 @@ public class ClueItem : MonoBehaviour
             AudioSource.PlayClipAtPoint(collectSound, transform.position);
         }
         
-        // 放大动画
+        // 隐藏提示文字（支持两种文本类型）
+        if (hintText != null)
+        {
+            hintText.gameObject.SetActive(false);
+        }
+        if (hintTextTMP != null)
+        {
+            hintTextTMP.gameObject.SetActive(false);
+        }
+        
+        // 移动并放大到屏幕中央
         float elapsed = 0f;
+        Vector3 originalPosition = transform.position;
         Vector3 originalScale = transform.localScale;
+        
+        // 目标位置：摄像机中心（世界坐标）
+        Vector3 targetPosition = Camera.main.transform.position;
+        targetPosition.z = originalPosition.z;  // 保持Z坐标不变
+        
+        // 目标缩放：放大
         Vector3 targetScale = originalScale * scaleMultiplier;
         
+        // 移动+放大动画
         while (elapsed < animationDuration)
         {
-            transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / animationDuration);
+            float t = elapsed / animationDuration;
+            
+            // 平滑移动到中央
+            transform.position = Vector3.Lerp(originalPosition, targetPosition, t);
+            
+            // 平滑放大
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            
             elapsed += Time.deltaTime;
             yield return null;
         }
         
+        // 确保到达目标位置和缩放
+        transform.position = targetPosition;
         transform.localScale = targetScale;
         
         // 保存线索数据
         SaveClueData();
         
-        // 隐藏提示文字
-        if (hintText != null)
-        {
-            hintText.gameObject.SetActive(false);
-        }
-        
-        // 显示发现文字
+        // 显示发现文字（支持两种文本类型）
+        string displayText = $"获得'{clueName}'字！\n{clueDescription}";
         if (foundText != null)
         {
-            foundText.text = $"获得'{clueName}'字！\n{clueDescription}";
+            foundText.text = displayText;
             foundText.gameObject.SetActive(true);
+        }
+        if (foundTextTMP != null)
+        {
+            foundTextTMP.text = displayText;
+            foundTextTMP.gameObject.SetActive(true);
         }
         
         // 延迟1秒后显示继续按钮
