@@ -172,7 +172,7 @@ namespace Level4.Suzhou
         /// </summary>
         void OnContinueClicked()
         {
-            Debug.Log("信件阅读完成，切换到问答场景");
+            Debug.Log("信件阅读完成，切换到建造场景");
             
             // 如果还在播放动画，先跳过
             if (isTyping)
@@ -193,8 +193,8 @@ namespace Level4.Suzhou
                 StartCoroutine(FadeOutMusic(0.5f));
             }
             
-            // 切换到场景8（问答场景）
-            SceneManager.LoadScene("Level4_Question");
+            // 直接切换到场景8（建造场景）
+            SceneManager.LoadScene("Level4_Building");
         }
         
         /// <summary>
