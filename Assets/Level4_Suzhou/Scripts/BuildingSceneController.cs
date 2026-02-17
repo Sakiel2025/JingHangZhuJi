@@ -18,15 +18,14 @@ namespace Level4.Suzhou
         [SerializeField] private TextMeshProUGUI guideText;           // 引导文本
         [SerializeField] private Button confirmButton;                // 确认按钮
         [SerializeField] private GameObject resultPanel;              // 结果面板
-        [SerializeField] private TextMeshProUGUI resultText;          // 结果文本
-        [SerializeField] private TextMeshProUGUI scoreText;           // 分数文本
-        [SerializeField] private Button nextLevelButton;              // 下一关按钮
+        [SerializeField] private Image completedBuildingImage;        // 完成后的整体建筑图
+        [SerializeField] private Button continueButton;               // 继续按钮
 
         [Header("=== 建造区域 ===")]
         [SerializeField] private PlacementZone baseZone;              // 基座区域
         [SerializeField] private PlacementZone pillarZone;            // 柱子区域
         [SerializeField] private PlacementZone roofZone;              // 屋顶区域
-        [SerializeField] private PlacementZone decorationZone;        // 装饰区域
+        [SerializeField] private DecorationZone decorationZone;       // 装饰区域（支持多位置）
 
         [Header("=== 部件容器 ===")]
         [SerializeField] private GameObject basePartsContainer;       // 基座选项容器
@@ -59,7 +58,7 @@ namespace Level4.Suzhou
             { "Base_Stone", 25 },      // 石质基座
             { "Pillar_Wood", 25 },     // 木质圆柱
             { "Roof_Flying", 30 },     // 飞檐屋顶
-            { "Deco_Lantern", 20 }     // 宫灯装饰
+            { "Style_Palace", 20 }     // 宫廷风装饰套装
         };
 
         private void Start()
@@ -100,15 +99,15 @@ namespace Level4.Suzhou
             if (confirmButton != null)
                 confirmButton.onClick.AddListener(OnConfirmButtonClicked);
 
-            // 下一关按钮事件
-            if (nextLevelButton != null)
-                nextLevelButton.onClick.AddListener(OnNextLevelButtonClicked);
+            // 继续按钮事件
+            if (continueButton != null)
+                continueButton.onClick.AddListener(OnContinueButtonClicked);
 
             // 为所有放置区域添加事件监听
             if (baseZone != null) baseZone.OnPartPlaced += OnPartPlaced;
             if (pillarZone != null) pillarZone.OnPartPlaced += OnPartPlaced;
             if (roofZone != null) roofZone.OnPartPlaced += OnPartPlaced;
-            if (decorationZone != null) decorationZone.OnPartPlaced += OnPartPlaced;
+            if (decorationZone != null) decorationZone.OnStylePlaced += OnPartPlaced;
         }
 
         private void StartStage(BuildingStage stage)
@@ -255,12 +254,12 @@ namespace Level4.Suzhou
                 Debug.Log($"[Score] 屋顶: {roofID} (+{(bestCombination.ContainsKey(roofID) ? bestCombination[roofID] : 0)}分)");
             }
 
-            if (decorationZone != null && decorationZone.GetCurrentPartID() != null)
+            if (decorationZone != null && decorationZone.GetCurrentStyleID() != null)
             {
-                string decoID = decorationZone.GetCurrentPartID();
-                if (bestCombination.ContainsKey(decoID))
-                    totalScore += bestCombination[decoID];
-                Debug.Log($"[Score] 装饰: {decoID} (+{(bestCombination.ContainsKey(decoID) ? bestCombination[decoID] : 0)}分)");
+                string styleID = decorationZone.GetCurrentStyleID();
+                if (bestCombination.ContainsKey(styleID))
+                    totalScore += bestCombination[styleID];
+                Debug.Log($"[Score] 装饰风格: {styleID} (+{(bestCombination.ContainsKey(styleID) ? bestCombination[styleID] : 0)}分)");
             }
 
             Debug.Log($"[Score] 总分: {totalScore}/100");
@@ -274,34 +273,27 @@ namespace Level4.Suzhou
             {
                 resultPanel.SetActive(true);
 
-                // 显示分数
-                if (scoreText != null)
-                    scoreText.text = $"得分：{totalScore}/100";
-
-                // 根据分数显示评价
-                if (resultText != null)
+                // 显示完成后的建筑图（这里需要根据选择的部件组合生成完整图）
+                // TODO: 实现建筑图的组合逻辑
+                if (completedBuildingImage != null)
                 {
-                    if (totalScore >= 90)
-                        resultText.text = "完美！这正是师父心中的理想亭子！\n江南园林的精髓在于借景与意境的融合。";
-                    else if (totalScore >= 70)
-                        resultText.text = "很好！亭子很有韵味！\n你已经掌握了园林建筑的基本要素。";
-                    else if (totalScore >= 50)
-                        resultText.text = "不错的尝试！\n园林建筑讲究和谐统一，继续努力！";
-                    else
-                        resultText.text = "这个搭配有些奇特呢~\n不过创意也是园林设计的一部分！";
+                    // 暂时可以设置一个预设的完成图片
+                    // completedBuildingImage.sprite = loadCompletedBuildingSprite();
+                    Debug.Log("[BuildingScene] 显示完成的建筑图");
                 }
 
                 // 保存完成状态
                 PlayerPrefs.SetInt("Level4_Completed", 1);
+                PlayerPrefs.SetInt("Level4_Score", totalScore);
                 PlayerPrefs.Save();
-                Debug.Log("[BuildingScene] 第四关完成状态已保存");
+                Debug.Log($"[BuildingScene] 第四关完成，得分：{totalScore}/100");
             }
         }
 
         /// <summary>
-        /// 下一关按钮点击事件
+        /// 继续按钮点击事件
         /// </summary>
-        private void OnNextLevelButtonClicked()
+        private void OnContinueButtonClicked()
         {
             Debug.Log("[BuildingScene] 进入第五关（杭州）");
             
@@ -336,13 +328,13 @@ namespace Level4.Suzhou
             // 清理事件监听
             if (confirmButton != null)
                 confirmButton.onClick.RemoveAllListeners();
-            if (nextLevelButton != null)
-                nextLevelButton.onClick.RemoveAllListeners();
+            if (continueButton != null)
+                continueButton.onClick.RemoveAllListeners();
 
             if (baseZone != null) baseZone.OnPartPlaced -= OnPartPlaced;
             if (pillarZone != null) pillarZone.OnPartPlaced -= OnPartPlaced;
             if (roofZone != null) roofZone.OnPartPlaced -= OnPartPlaced;
-            if (decorationZone != null) decorationZone.OnPartPlaced -= OnPartPlaced;
+            if (decorationZone != null) decorationZone.OnStylePlaced -= OnPartPlaced;
         }
     }
 }
