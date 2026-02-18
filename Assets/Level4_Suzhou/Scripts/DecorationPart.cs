@@ -7,37 +7,26 @@ namespace Level4.Suzhou
     /// <summary>
     /// 装饰风格选项：可点击选择的装饰套装
     /// </summary>
-    public class DecorationPart : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+    public class DecorationPart : MonoBehaviour, IPointerClickHandler
     {
         [Header("=== 装饰风格套装 ===")]
         [SerializeField] private DecorationSet decorationSet;  // 装饰套装配置
         
-        [Header("=== 预览图 ===")]
-        [SerializeField] private Sprite previewSprite;         // 风格预览图（显示在选项上）
+        [Header("=== 视觉反馈（可选）===")]
+        [SerializeField] private Color selectedColor = new Color(0.5f, 1f, 0.5f, 1f);  // 选中时的颜色
         
-        [Header("=== 视觉反馈 ===")]
-        [SerializeField] private Image borderImage;            // 边框图片
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color hoverColor = new Color(1f, 1f, 0.5f, 1f);
-        [SerializeField] private Color selectedColor = new Color(0.3f, 1f, 0.3f, 1f);
-        
-        private Image previewImage;
         private bool isSelected = false;
         private DecorationZone targetZone = null;
+        private Button buttonComponent;
+        private ColorBlock originalColors;
         
         private void Awake()
         {
-            previewImage = GetComponent<Image>();
-            
-            if (previewImage == null)
+            // 获取Button组件（如果有）
+            buttonComponent = GetComponent<Button>();
+            if (buttonComponent != null)
             {
-                Debug.LogError($"[DecorationPart] {gameObject.name} 缺少Image组件");
-            }
-            
-            // 设置预览图
-            if (previewImage != null && previewSprite != null)
-            {
-                previewImage.sprite = previewSprite;
+                originalColors = buttonComponent.colors;
             }
         }
         
@@ -50,14 +39,21 @@ namespace Level4.Suzhou
             {
                 Debug.LogError("[DecorationPart] 未找到DecorationZone");
             }
-            
-            // 初始化边框颜色
-            UpdateBorderColor(normalColor);
+            else
+            {
+                Debug.Log($"[DecorationPart] 找到DecorationZone: {targetZone.name}");
+            }
             
             if (decorationSet != null)
             {
-                Debug.Log($"[DecorationPart] 装饰风格初始化: {decorationSet.styleName}");
+                Debug.Log($"[DecorationPart] 装饰风格初始化: {decorationSet.styleName} (ID: {decorationSet.styleID})");
             }
+            else
+            {
+                Debug.LogError($"[DecorationPart] {gameObject.name} 的 decorationSet 未配置！");
+            }
+            
+            Debug.Log($"[DecorationPart] {gameObject.name} 已启动，父对象: {transform.parent?.name}");
         }
         
         /// <summary>
@@ -66,28 +62,6 @@ namespace Level4.Suzhou
         public void OnPointerClick(PointerEventData eventData)
         {
             SelectStyle();
-        }
-        
-        /// <summary>
-        /// 鼠标悬停事件
-        /// </summary>
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (!isSelected)
-            {
-                UpdateBorderColor(hoverColor);
-            }
-        }
-        
-        /// <summary>
-        /// 鼠标离开事件
-        /// </summary>
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (!isSelected)
-            {
-                UpdateBorderColor(normalColor);
-            }
         }
         
         /// <summary>
@@ -108,7 +82,7 @@ namespace Level4.Suzhou
             
             // 标记为选中
             isSelected = true;
-            UpdateBorderColor(selectedColor);
+            UpdateVisualFeedback();
             
             // 放置装饰套装到区域
             if (targetZone != null)
@@ -143,17 +117,28 @@ namespace Level4.Suzhou
         public void Deselect()
         {
             isSelected = false;
-            UpdateBorderColor(normalColor);
+            UpdateVisualFeedback();
         }
         
         /// <summary>
-        /// 更新边框颜色
+        /// 更新视觉反馈
         /// </summary>
-        private void UpdateBorderColor(Color color)
+        private void UpdateVisualFeedback()
         {
-            if (borderImage != null)
+            if (buttonComponent != null)
             {
-                borderImage.color = color;
+                ColorBlock colors = buttonComponent.colors;
+                if (isSelected)
+                {
+                    // 选中时使用自定义颜色
+                    colors.normalColor = selectedColor;
+                }
+                else
+                {
+                    // 未选中时恢复原始颜色
+                    colors.normalColor = originalColors.normalColor;
+                }
+                buttonComponent.colors = colors;
             }
         }
         

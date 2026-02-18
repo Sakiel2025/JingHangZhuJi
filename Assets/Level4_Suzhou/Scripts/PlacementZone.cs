@@ -23,15 +23,37 @@ namespace Level4.Suzhou
 
         private string currentPartID = null;
 
+        private void Awake()
+        {
+            Debug.Log($"[PlacementZone] {zoneType} Awake() - InstanceID:{gameObject.GetInstanceID()}");
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log($"[PlacementZone] {zoneType} OnEnable() - InstanceID:{gameObject.GetInstanceID()}, CurrentPartID:{currentPartID}");
+        }
+
         private void Start()
         {
-            // 初始化显示
-            if (displayImage != null)
+            // 调试：记录对象信息
+            bool hasSprite = displayImage != null && displayImage.sprite != null;
+            Debug.Log($"[PlacementZone] {zoneType} Start() - InstanceID:{gameObject.GetInstanceID()}, CurrentPartID:{currentPartID}, HasSprite:{hasSprite}");
+
+            // 初始化显示 - 只在没有放置部件时才隐藏
+            // 检查 displayImage 是否已有 sprite（防止在重新激活时误判）
+            if (displayImage != null && currentPartID == null && displayImage.sprite == null)
             {
                 displayImage.gameObject.SetActive(false);
+                Debug.Log($"[PlacementZone] {zoneType} 隐藏 displayImage（因为没有部件）");
+            }
+            else if (displayImage != null && displayImage.sprite != null)
+            {
+                // 如果已有 sprite，保持显示状态，并恢复 currentPartID
+                displayImage.gameObject.SetActive(true);
+                Debug.Log($"[PlacementZone] {zoneType} 保持 displayImage 显示（已有 sprite: {displayImage.sprite.name}）");
             }
 
-            if (placeholderObject != null)
+            if (placeholderObject != null && currentPartID == null && !hasSprite)
             {
                 placeholderObject.SetActive(true);
             }
@@ -51,12 +73,14 @@ namespace Level4.Suzhou
             }
 
             currentPartID = partID;
+            Debug.Log($"[PlacementZone] {zoneType} 设置 currentPartID = {partID}");
 
             // 显示部件图片
             if (displayImage != null)
             {
                 displayImage.sprite = partSprite;
                 displayImage.gameObject.SetActive(true);
+                Debug.Log($"[PlacementZone] {zoneType} 激活 displayImage，Sprite={partSprite.name}");
             }
 
             // 隐藏占位符

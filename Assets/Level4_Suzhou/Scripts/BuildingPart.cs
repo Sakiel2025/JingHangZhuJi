@@ -7,7 +7,7 @@ namespace Level4.Suzhou
     /// <summary>
     /// 建筑部件：可点击选择的构件
     /// </summary>
-    public class BuildingPart : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+    public class BuildingPart : MonoBehaviour, IPointerClickHandler
     {
         [Header("=== 部件信息 ===")]
         [SerializeField] private string partID;        // 部件唯一ID（如 "Base_Stone"）
@@ -16,22 +16,32 @@ namespace Level4.Suzhou
         [SerializeField] private string partName;      // 部件名称（如 "石质基座"）
         
         [Header("=== 视觉反馈 ===")]
-        [SerializeField] private Image borderImage;    // 边框图片
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color hoverColor = new Color(1f, 1f, 0.5f, 1f);
-        [SerializeField] private Color selectedColor = new Color(0.3f, 1f, 0.3f, 1f);
+        [SerializeField] private Color selectedColor = new Color(0.5f, 1f, 0.5f, 1f);  // 选中时的颜色
 
         private Image partImage;
+        private Button buttonComponent;
+        private ColorBlock originalColors;
         private bool isSelected = false;
         private PlacementZone targetZone = null;
 
         private void Awake()
         {
             partImage = GetComponent<Image>();
+            buttonComponent = GetComponent<Button>();
             
             if (partImage == null)
             {
                 Debug.LogError($"[BuildingPart] {gameObject.name} 缺少Image组件");
+            }
+
+            if (buttonComponent == null)
+            {
+                Debug.LogError($"[BuildingPart] {gameObject.name} 缺少Button组件");
+            }
+            else
+            {
+                // 保存原始颜色
+                originalColors = buttonComponent.colors;
             }
 
             // 自动设置部件图片
@@ -45,9 +55,6 @@ namespace Level4.Suzhou
         {
             // 查找对应的放置区域
             FindTargetZone();
-
-            // 初始化边框颜色
-            UpdateBorderColor(normalColor);
 
             Debug.Log($"[BuildingPart] 部件初始化: ID={partID}, Type={partType}, Name={partName}");
         }
@@ -81,28 +88,6 @@ namespace Level4.Suzhou
         }
 
         /// <summary>
-        /// 鼠标悬停事件
-        /// </summary>
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (!isSelected)
-            {
-                UpdateBorderColor(hoverColor);
-            }
-        }
-
-        /// <summary>
-        /// 鼠标离开事件
-        /// </summary>
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (!isSelected)
-            {
-                UpdateBorderColor(normalColor);
-            }
-        }
-
-        /// <summary>
         /// 选择此部件
         /// </summary>
         private void SelectPart()
@@ -114,7 +99,7 @@ namespace Level4.Suzhou
 
             // 标记为选中
             isSelected = true;
-            UpdateBorderColor(selectedColor);
+            UpdateVisualFeedback();
 
             // 放置到目标区域
             if (targetZone != null && partSprite != null)
@@ -149,17 +134,19 @@ namespace Level4.Suzhou
         public void Deselect()
         {
             isSelected = false;
-            UpdateBorderColor(normalColor);
+            UpdateVisualFeedback();
         }
 
         /// <summary>
-        /// 更新边框颜色
+        /// 更新视觉反馈（通过Button颜色变化）
         /// </summary>
-        private void UpdateBorderColor(Color color)
+        private void UpdateVisualFeedback()
         {
-            if (borderImage != null)
+            if (buttonComponent != null)
             {
-                borderImage.color = color;
+                ColorBlock colors = buttonComponent.colors;
+                colors.normalColor = isSelected ? selectedColor : originalColors.normalColor;
+                buttonComponent.colors = colors;
             }
         }
 

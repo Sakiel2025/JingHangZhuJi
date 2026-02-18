@@ -18,10 +18,10 @@ namespace Level4.Suzhou
         [SerializeField] private TextMeshProUGUI guideText;           // 引导文本
         [SerializeField] private Button confirmButton;                // 确认按钮
         [SerializeField] private GameObject resultPanel;              // 结果面板
-        [SerializeField] private Image completedBuildingImage;        // 完成后的整体建筑图
         [SerializeField] private Button continueButton;               // 继续按钮
 
         [Header("=== 建造区域 ===")]
+        [SerializeField] private RectTransform buildingArea;          // 建造区域（用于动态展示）
         [SerializeField] private PlacementZone baseZone;              // 基座区域
         [SerializeField] private PlacementZone pillarZone;            // 柱子区域
         [SerializeField] private PlacementZone roofZone;              // 屋顶区域
@@ -97,7 +97,14 @@ namespace Level4.Suzhou
         {
             // 确认按钮事件
             if (confirmButton != null)
+            {
                 confirmButton.onClick.AddListener(OnConfirmButtonClicked);
+                Debug.Log("[BuildingScene] 确认按钮事件已绑定");
+            }
+            else
+            {
+                Debug.LogError("[BuildingScene] 确认按钮为空，无法绑定事件！");
+            }
 
             // 继续按钮事件
             if (continueButton != null)
@@ -115,6 +122,8 @@ namespace Level4.Suzhou
             currentStage = stage;
             HideAllContainers();
 
+            Debug.Log($"[BuildingScene] ===== 进入新阶段: {stage} =====");
+
             switch (stage)
             {
                 case BuildingStage.Base:
@@ -127,6 +136,15 @@ namespace Level4.Suzhou
                     ShowStage("第三步：选择屋顶", roofPartsContainer);
                     break;
                 case BuildingStage.Decoration:
+                    Debug.Log("[BuildingScene] 准备显示装饰阶段...");
+                    if (decorationPartsContainer != null)
+                    {
+                        Debug.Log($"[BuildingScene] decorationPartsContainer 存在: {decorationPartsContainer.name}");
+                    }
+                    else
+                    {
+                        Debug.LogError("[BuildingScene] decorationPartsContainer 为 NULL！请在Inspector中配置！");
+                    }
                     ShowStage("第四步：添加装饰", decorationPartsContainer);
                     break;
                 case BuildingStage.Complete:
@@ -144,6 +162,19 @@ namespace Level4.Suzhou
             {
                 container.SetActive(true);
                 Debug.Log($"[BuildingScene] 显示容器: {container.name}");
+                
+                // 调试：检查容器内的子对象
+                int childCount = container.transform.childCount;
+                Debug.Log($"[BuildingScene] 容器 {container.name} 有 {childCount} 个子对象");
+                for (int i = 0; i < childCount; i++)
+                {
+                    Transform child = container.transform.GetChild(i);
+                    Debug.Log($"[BuildingScene]   子对象 {i}: {child.name}, Active={child.gameObject.activeSelf}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"[BuildingScene] 容器为空！无法显示：{guideMsg}");
             }
 
             if (confirmButton != null)
@@ -171,7 +202,27 @@ namespace Level4.Suzhou
 
             // 启用确认按钮
             if (confirmButton != null)
+            {
                 confirmButton.interactable = true;
+                Debug.Log("[BuildingScene] 确认按钮已启用");
+            }
+            else
+            {
+                Debug.LogError("[BuildingScene] 确认按钮为空！");
+            }
+
+            // 临时方案：自动进入下一阶段（延迟1秒）
+            StartCoroutine(AutoConfirmAfterDelay(1.0f));
+        }
+
+        /// <summary>
+        /// 自动确认（临时方案）
+        /// </summary>
+        private IEnumerator AutoConfirmAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Debug.Log("[BuildingScene] 自动进入下一阶段");
+            OnConfirmButtonClicked();
         }
 
         /// <summary>
@@ -179,7 +230,7 @@ namespace Level4.Suzhou
         /// </summary>
         private void OnConfirmButtonClicked()
         {
-            Debug.Log($"[BuildingScene] 确认当前阶段: {currentStage}");
+            Debug.Log($"[BuildingScene] ===== 确认按钮被点击 ===== 当前阶段: {currentStage}");
 
             // 禁用确认按钮
             if (confirmButton != null)
@@ -189,15 +240,19 @@ namespace Level4.Suzhou
             switch (currentStage)
             {
                 case BuildingStage.Base:
+                    Debug.Log("[BuildingScene] 从基座阶段进入柱子阶段");
                     StartStage(BuildingStage.Pillar);
                     break;
                 case BuildingStage.Pillar:
+                    Debug.Log("[BuildingScene] 从柱子阶段进入屋顶阶段");
                     StartStage(BuildingStage.Roof);
                     break;
                 case BuildingStage.Roof:
+                    Debug.Log("[BuildingScene] 从屋顶阶段进入装饰阶段");
                     StartStage(BuildingStage.Decoration);
                     break;
                 case BuildingStage.Decoration:
+                    Debug.Log("[BuildingScene] 从装饰阶段进入完成阶段");
                     StartStage(BuildingStage.Complete);
                     break;
             }
@@ -213,6 +268,9 @@ namespace Level4.Suzhou
             // 隐藏引导文本
             if (guideText != null)
                 guideText.gameObject.SetActive(false);
+            
+            // 隐藏所有部件容器
+            HideAllContainers();
 
             // 计算分数
             CalculateScore();
@@ -269,18 +327,28 @@ namespace Level4.Suzhou
         {
             yield return new WaitForSeconds(1.0f);
 
+            Debug.Log("[BuildingScene] 开始展示成果");
+
+            // 隐藏确认按钮
+            if (confirmButton != null)
+                confirmButton.gameObject.SetActive(false);
+
+            // 放大并居中显示建造区域
+            if (buildingArea != null)
+            {
+                yield return StartCoroutine(ZoomInBuildingArea());
+            }
+            else
+            {
+                Debug.LogError("[BuildingScene] ✗ buildingArea 未配置！请在 Inspector 中设置！");
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            // 显示结果面板
             if (resultPanel != null)
             {
                 resultPanel.SetActive(true);
-
-                // 显示完成后的建筑图（这里需要根据选择的部件组合生成完整图）
-                // TODO: 实现建筑图的组合逻辑
-                if (completedBuildingImage != null)
-                {
-                    // 暂时可以设置一个预设的完成图片
-                    // completedBuildingImage.sprite = loadCompletedBuildingSprite();
-                    Debug.Log("[BuildingScene] 显示完成的建筑图");
-                }
 
                 // 保存完成状态
                 PlayerPrefs.SetInt("Level4_Completed", 1);
@@ -288,6 +356,46 @@ namespace Level4.Suzhou
                 PlayerPrefs.Save();
                 Debug.Log($"[BuildingScene] 第四关完成，得分：{totalScore}/100");
             }
+        }
+
+        /// <summary>
+        /// 放大建造区域以展示成果
+        /// </summary>
+        private IEnumerator ZoomInBuildingArea()
+        {
+            if (buildingArea == null)
+            {
+                Debug.LogError("[BuildingScene] buildingArea 为空！");
+                yield break;
+            }
+
+            Vector3 originalScale = buildingArea.localScale;
+            Vector2 originalPos = buildingArea.anchoredPosition;
+
+            Vector3 targetScale = originalScale * 0.5f; // 缩小到一半
+            Vector2 targetPos = Vector2.zero; // 移动到屏幕中央
+
+            float duration = 0.8f;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                // 使用缓动函数
+                float easeT = Mathf.SmoothStep(0f, 1f, t);
+
+                buildingArea.localScale = Vector3.Lerp(originalScale, targetScale, easeT);
+                buildingArea.anchoredPosition = Vector2.Lerp(originalPos, targetPos, easeT);
+
+                yield return null;
+            }
+
+            buildingArea.localScale = targetScale;
+            buildingArea.anchoredPosition = targetPos;
+
+            Debug.Log("[BuildingScene] ✓ 建造区域已放大展示");
         }
 
         /// <summary>
@@ -304,6 +412,8 @@ namespace Level4.Suzhou
             // 加载下一关（根据实际情况修改场景名）
             SceneManager.LoadScene("Level5_Intro"); // 或者 "MainMap" 返回地图
         }
+        
+
 
         private IEnumerator FadeOutMusic()
         {
