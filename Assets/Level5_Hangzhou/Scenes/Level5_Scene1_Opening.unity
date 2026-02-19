@@ -1830,7 +1830,7 @@ MonoBehaviour:
   bgmClip: {fileID: 0}
   paperSoundClip: {fileID: 0}
   buttonClickClip: {fileID: 0}
-  nextSceneName: Level5_Scene2_Training
+  nextSceneName: Level5_Scene2A_ThroughMortise
   sceneTransitionDelay: 1.5
 --- !u!4 &2023495683
 Transform:
