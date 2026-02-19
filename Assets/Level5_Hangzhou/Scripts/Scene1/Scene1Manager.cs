@@ -39,7 +39,7 @@ public class Scene1Manager : MonoBehaviour
     public AudioClip buttonClickClip;       // 按钮点击音效
 
     [Header("场景切换")]
-    public string nextSceneName = "Level5_Scene2_Training"; // 下一个场景名称
+    public string nextSceneName = "Level5_Scene2A_ThroughMortise"; // 下一个场景名称
     public float sceneTransitionDelay = 1.5f; // 场景切换延迟
 
     // 对话数据
