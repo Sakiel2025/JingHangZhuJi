@@ -170,4 +170,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2C_DovetailJoint.unity
     guid: 705102b9964fcb64db47026b4f6e7fb5
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2D_RoundTenon.unity
+    guid: af51a1ec1b1cf984fbf2649b87e409ec
   m_configObjects: {}
