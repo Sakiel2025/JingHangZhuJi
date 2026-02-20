@@ -74,13 +74,13 @@ public class OptionSystem : MonoBehaviour
         sonText.text = "先生，求您收我为徒！";
         sonImage.gameObject.SetActive(true);
         momImage.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         // 寡妇台词
         momText.text = "大柱，别胡闹！";
         sonImage.gameObject.SetActive(true);
         momImage.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         // 显示选项面板
         sonText.gameObject.SetActive(true);
@@ -106,12 +106,12 @@ public class OptionSystem : MonoBehaviour
 
         // 显示第一句感谢台词（直接显示场景中预设的文本）
         momThanksText1.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1f);
 
         // 隐藏第一句，显示第二句感谢台词
         momThanksText1.gameObject.SetActive(false);
         momThanksText2.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         // 隐藏第二句感谢台词，弹出奖励提示
         momThanksText2.gameObject.SetActive(false);

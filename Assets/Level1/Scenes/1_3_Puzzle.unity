@@ -341,7 +341,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1540451105}
         m_TargetAssemblyTypeName: EndEvent, Assembly-CSharp
-        m_MethodName: EndGame
+        m_MethodName: LoadNextScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4550,7 +4550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a8edc7f4c4e874795a708b9500e6be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: 1_4_Leteer
+  nextSceneName: 1_4_Letter
 --- !u!4 &1540451106
 Transform:
   m_ObjectHideFlags: 0
