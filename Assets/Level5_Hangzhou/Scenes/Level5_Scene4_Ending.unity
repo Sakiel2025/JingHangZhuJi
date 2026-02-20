@@ -396,7 +396,7 @@ MonoBehaviour:
     fadeDuration: 0
   bgmSource: {fileID: 0}
   bgmClip: {fileID: 0}
-  nextSceneName: MainMenu
+  nextSceneName: Success
 --- !u!4 &441373784
 Transform:
   m_ObjectHideFlags: 0

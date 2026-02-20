@@ -30,7 +30,7 @@ public class Level3_LetterManager : MonoBehaviour
     public string letterContent;          // 师父信件完整内容
     
     [Header("场景切换")]
-    public string nextSceneName = "Level4_Intro"; // 下一个场景名称
+    public string nextSceneName = "MainMap3"; // 下一个场景名称（成功后进入MainMap3）
     
     private int currentDialogueIndex = 0;
     

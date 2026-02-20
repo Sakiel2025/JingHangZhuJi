@@ -403,14 +403,14 @@ namespace Level4.Suzhou
         /// </summary>
         private void OnContinueButtonClicked()
         {
-            Debug.Log("[BuildingScene] 进入第五关（杭州）");
+            Debug.Log("[BuildingScene] 第四关完成，进入MainMap4");
             
             // 淡出背景音乐
             if (bgmSource != null)
                 StartCoroutine(FadeOutMusic());
             
-            // 加载下一关（根据实际情况修改场景名）
-            SceneManager.LoadScene("Level5_Intro"); // 或者 "MainMap" 返回地图
+            // 加载MainMap4（解锁第5关）
+            SceneManager.LoadScene("MainMap4");
         }
         
 

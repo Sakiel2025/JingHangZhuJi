@@ -65,7 +65,7 @@ public class Scene4_EndingManager : MonoBehaviour
 
     [Header("场景切换")]
     [Tooltip("下一场景名称")]
-    public string nextSceneName = "MainMenu";
+    public string nextSceneName = "Success";
 
     // 对话数据
     private string[] dialogues;
