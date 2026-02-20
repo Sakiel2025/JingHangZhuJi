@@ -3,12 +3,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement; 
 
 public class OptionSystem : MonoBehaviour
 {
     [Header("绑定现有对话文本（拖拽赋值！）")]
     public TextMeshProUGUI sonText; // Dialog→Son→text（大儿子台词）
     public TextMeshProUGUI momText; // Dialog→Mom→text（寡妇台词）
+
+    [Header("绑定寡妇感谢台词文本【新增！】")]
+    public TextMeshProUGUI momThanksText1; // Dialog→MomThanksText1（第一句感谢）
+    public TextMeshProUGUI momThanksText2; // Dialog→MomThanksText2（第二句感谢）
 
     [Header("绑定选项按钮（拖拽赋值！）")]
     public Button optionABtn; // OptionPanel→OptionABtn
@@ -24,11 +29,18 @@ public class OptionSystem : MonoBehaviour
     public GameObject rewardPanel; // Canvas→RewardPanel
     public Button closeRewardBtn; // RewardPanel→CloseRewardBtn
 
+    [Header("场景配置【新增！】")]
+    public string nextSceneName = "RepairHouseScene"; // 下一个场景名称（直接在Inspector改）
+
     void Start()
     {
-        // 初始状态：隐藏选项面板、奖励弹窗
+        // ========== 新增：空值检查（新手保护） ==========
+        CheckReferences();
+
+        // 初始状态：隐藏选项面板、奖励弹窗、寡妇感谢台词
         optionPanel.SetActive(false);
         rewardPanel.SetActive(false);
+        HideMomThanksTexts(); // 隐藏感谢台词
 
         // 绑定按钮事件
         optionABtn.onClick.AddListener(OnOptionAClick);
@@ -38,6 +50,21 @@ public class OptionSystem : MonoBehaviour
 
         // 启动前置剧情
         StartCoroutine(ShowStoryBeforeOption());
+    }
+
+    // ========== 新增：空值检查（避免新手赋值遗漏报错） ==========
+    private void CheckReferences()
+    {
+        if (sonText == null) Debug.LogError("sonText 未赋值！");
+        if (momText == null) Debug.LogError("momText 未赋值！");
+        if (momThanksText1 == null) Debug.LogError("momThanksText1 未赋值！");
+        if (momThanksText2 == null) Debug.LogError("momThanksText2 未赋值！");
+        if (optionABtn == null) Debug.LogError("optionABtn 未赋值！");
+        if (optionBBtn == null) Debug.LogError("optionBBtn 未赋值！");
+        if (optionCBtn == null) Debug.LogError("optionCBtn 未赋值！");
+        if (optionPanel == null) Debug.LogError("optionPanel 未赋值！");
+        if (rewardPanel == null) Debug.LogError("rewardPanel 未赋值！");
+        if (closeRewardBtn == null) Debug.LogError("closeRewardBtn 未赋值！");
     }
 
     // 第一步：显示大儿子→寡妇的前置台词
@@ -66,26 +93,36 @@ public class OptionSystem : MonoBehaviour
     private void OnOptionBClick() => StartCoroutine(ShowMomThanksStory());
     private void OnOptionCClick() => StartCoroutine(ShowMomThanksStory());
 
-    // 第二步：显示赵家寡妇感谢的剧情
+    // ========== 核心修改：显示寡妇感谢剧情（不再硬编码台词） ==========
     private IEnumerator ShowMomThanksStory()
     {
         // 隐藏选项面板
         HideOptionPanel();
         yield return new WaitForSeconds(0.5f);
 
-        // 显示寡妇立绘+第一句台词（拿出布包）
+        // 隐藏原有寡妇台词，显示立绘
+        momText.gameObject.SetActive(false);
         momImage.gameObject.SetActive(true);
-        momText.gameObject.SetActive(true);
-        momText.text = "先生，我从屋里拿个东西给您。";
+
+        // 显示第一句感谢台词（直接显示场景中预设的文本）
+        momThanksText1.gameObject.SetActive(true);
         yield return new WaitForSeconds(2.5f);
 
-        // 显示第二句台词（交布包）
-        momText.text = "这是您师父当年留下的。他说，如果有人来修房子，就交给他";
+        // 隐藏第一句，显示第二句感谢台词
+        momThanksText1.gameObject.SetActive(false);
+        momThanksText2.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
 
-        // 隐藏寡妇台词，弹出奖励提示
-        momText.gameObject.SetActive(false);
+        // 隐藏第二句感谢台词，弹出奖励提示
+        momThanksText2.gameObject.SetActive(false);
         ShowRewardPanel();
+    }
+
+    // ========== 新增：隐藏寡妇感谢台词（通用方法） ==========
+    private void HideMomThanksTexts()
+    {
+        if (momThanksText1 != null) momThanksText1.gameObject.SetActive(false);
+        if (momThanksText2 != null) momThanksText2.gameObject.SetActive(false);
     }
 
     // 显示奖励弹窗
@@ -115,10 +152,25 @@ public class OptionSystem : MonoBehaviour
     }
 
     // 最终剧情步骤（可自定义）
-    private void FinalStoryStep()
+     private void FinalStoryStep()
     {
-        Debug.Log("奖励获取完成，进入修复房子的主线剧情！");
-        // 这里加你后续的逻辑：比如启动修复系统
-        // FindObjectOfType<RepairSystem>().StartRepairProcess();
+        Debug.Log("奖励获取完成，准备跳转到：" + nextSceneName);
+        
+        // 新手保护：先检查场景名是否为空
+        if (string.IsNullOrEmpty(nextSceneName))
+        {
+            Debug.LogError("场景跳转失败！原因：nextSceneName未填写（请在Inspector面板设置）");
+            return;
+        }
+
+        try
+        {
+            // 核心：加载指定场景
+            SceneManager.LoadScene(nextSceneName);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"场景跳转失败！\n错误信息：{e.Message}\n排查步骤：\n1. 检查nextSceneName是否和Build Settings中的场景名一致（大小写敏感）\n2. 检查场景是否添加到Build Settings");
+        }
     }
 }

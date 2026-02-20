@@ -5,43 +5,44 @@ using UnityEngine.UI;
 
 public class RainEventSystem : MonoBehaviour
 {
-    [Header("TMP组件引用")]
-    public TextMeshProUGUI countdownTMP;
-    public TextMeshProUGUI rainTipTMP;
-    public Button optionABtn;
-    public Button optionBBtn;
-    public Button optionCBtn;
-    public TextMeshProUGUI optionATMP;
-    public TextMeshProUGUI optionBTMP;
-    public TextMeshProUGUI optionCTMP;
+    [Header("选择题核心组件")]
+    public TextMeshProUGUI countdownTMP;    // 倒计时文本
+    public TextMeshProUGUI rainTipTMP;      // 提示/结果文本
+    public Button optionABtn;               // 选项A按钮
+    public Button optionBBtn;               // 选项B按钮
+    public Button optionCBtn;               // 选项C按钮
+    public TextMeshProUGUI optionATMP;      // 选项A文本
+    public TextMeshProUGUI optionBTMP;      // 选项B文本
+    public TextMeshProUGUI optionCTMP;      // 选项C文本
 
-    [Header("修复系统引用")]
-    public RepairSystem repairSystem;
-
-    private float remainingTime = 30f;
-    private bool isDecisionMade = false;
+    // 核心变量（仅保留选择题相关）
+    private float remainingTime = 30f;      // 倒计时时长
+    private bool isDecisionMade = false;    // 是否已选择选项
 
     void Start()
     {
-        // 新增：空值检查
+        // 空值检查（仅检查选择题核心组件）
         if (!CheckReferences())
         {
-            Debug.LogError("[暴雨系统] 关键组件未赋值！");
+            Debug.LogError("[暴雨选择题系统] 关键组件未赋值！");
             return;
         }
 
+        // 初始隐藏面板（可选，根据你的需求调整）
         gameObject.SetActive(false);
 
+        // 绑定选项点击事件
         optionABtn.onClick.AddListener(OnOptionAClick);
         optionBBtn.onClick.AddListener(OnOptionBClick);
         optionCBtn.onClick.AddListener(OnOptionCClick);
 
+        // 初始化选项文本
         optionATMP.text = "方案A：油布遮挡工地";
         optionBTMP.text = "方案B：加速完成安装";
         optionCTMP.text = "方案C：先转移粮食";
     }
 
-    // 新增：检查引用
+    // 简化版：仅检查选择题核心组件
     private bool CheckReferences()
     {
         bool isAllValid = true;
@@ -53,10 +54,10 @@ public class RainEventSystem : MonoBehaviour
         if (optionATMP == null) { Debug.LogError("optionATMP 未赋值！"); isAllValid = false; }
         if (optionBTMP == null) { Debug.LogError("optionBTMP 未赋值！"); isAllValid = false; }
         if (optionCTMP == null) { Debug.LogError("optionCTMP 未赋值！"); isAllValid = false; }
-        if (repairSystem == null) { Debug.LogError("repairSystem 未赋值！"); isAllValid = false; }
         return isAllValid;
     }
 
+    // 倒计时更新（仅保留核心逻辑）
     void Update()
     {
         if (!isDecisionMade && remainingTime > 0)
@@ -65,6 +66,7 @@ public class RainEventSystem : MonoBehaviour
             int roundedTime = Mathf.RoundToInt(remainingTime);
             countdownTMP.text = $"倒计时：{roundedTime}秒";
 
+            // 倒计时结束默认选A
             if (roundedTime <= 0)
             {
                 OnOptionAClick();
@@ -72,61 +74,72 @@ public class RainEventSystem : MonoBehaviour
         }
     }
 
-    public void StartRainCountdown()
+    // 外部调用：启动暴雨选择题（替代原有StartRainCountdown）
+    public void StartRainChoice()
     {
+        // 重置状态
         remainingTime = 30f;
         isDecisionMade = false;
+        
+        // 初始化文本
         countdownTMP.text = "倒计时：30秒";
         rainTipTMP.text = "暴雨将至！修到一半的房子该怎么办？";
         
+        // 启用所有选项按钮
         optionABtn.interactable = true;
         optionBBtn.interactable = true;
         optionCBtn.interactable = true;
+        
+        // 激活面板（如果初始是隐藏的）
+        gameObject.SetActive(true);
     }
 
+    // 在RainEventSystem.cs中添加（放在StartRainChoice()方法下方）
+    public void StartRainCountdown()
+    {
+        // 兼容旧调用，内部执行新方法
+        StartRainChoice();
+    }
+
+    // 选项A点击逻辑（仅保留结果提示）
     private void OnOptionAClick()
     {
         isDecisionMade = true;
-        rainTipTMP.text = "方案A：油布遮挡工地，木料/半成品未受损！工期延长，匠心值+10";
-        GameManager.Instance?.ChangeValue("craft", 10); // 空值保护
-        EndRainEvent();
+        rainTipTMP.text = "方案A：油布遮挡工地，木料/半成品未受损！工期延长";
+        EndRainChoice(); // 结束选择题
     }
 
+    // 选项B点击逻辑（仅保留结果提示）
     private void OnOptionBClick()
     {
         isDecisionMade = true;
-        rainTipTMP.text = "方案B：冒雨加速安装，赶在大雨前完成！解锁成就“疾风快手”，匠心值+20";
-        GameManager.Instance?.ChangeValue("craft", 20); // 空值保护
-        GameManager.Instance?.UnlockAchievement("疾风快手"); // 空值保护
-        
-        if (repairSystem != null) // 空值保护
-        {
-            repairSystem.step3Btn.interactable = false;
-            repairSystem.step4Btn.interactable = true;
-        }
-        EndRainEvent();
+        rainTipTMP.text = "方案B：冒雨加速安装，赶在大雨前完成！解锁成就“疾风快手”";
+        EndRainChoice(); // 结束选择题
     }
 
+    // 选项C点击逻辑（仅保留结果提示）
     private void OnOptionCClick()
     {
         isDecisionMade = true;
-        rainTipTMP.text = "方案C：优先转移赵家粮食，民心大涨！民心值+30，匠心值+5";
-        GameManager.Instance?.ChangeValue("heart", 30); // 空值保护
-        GameManager.Instance?.ChangeValue("craft", 5); // 空值保护
-        EndRainEvent();
+        rainTipTMP.text = "方案C：优先转移赵家粮食，民心大涨！";
+        EndRainChoice(); // 结束选择题
     }
 
-    private void EndRainEvent()
+    // 结束选择题（仅禁用按钮，无外部衔接）
+    private void EndRainChoice()
     {
+        // 禁用所有选项按钮
         optionABtn.interactable = false;
         optionBBtn.interactable = false;
         optionCBtn.interactable = false;
-        Invoke("BackToRepair", 2f);
+        
+        // 可选：2秒后隐藏面板（根据你的需求调整，不想隐藏可删除这行）
+        Invoke("HideChoicePanel", 2f);
     }
 
-    private void BackToRepair()
+    // 隐藏选择题面板（可选）
+    private void HideChoicePanel()
     {
         gameObject.SetActive(false);
-        if (repairSystem != null) repairSystem.ResumeRepairProcess(); // 空值保护
     }
 }

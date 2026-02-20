@@ -126,6 +126,15 @@ EditorBuildSettings:
     path: Assets/Level1/Scenes/1_6_DougongAssembly.unity
     guid: 61db41c95783ec24cb5920e3e7188861
   - enabled: 1
+    path: Assets/Level2/Scenes/2_2_Repair.unity
+    guid: f2508a0f0d8e80247b8a44f87d3af918
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_3_Emotion.unity
+    guid: f2658fa3e634a924c9dc5ad3a651c228
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_4_Letter.unity
+    guid: 94a437b2d35f16a4fa2efcd878671be9
+  - enabled: 1
     path: Assets/End.unity
     guid: 117d236dcdf261a478c14d436ccccf2a
   - enabled: 1
