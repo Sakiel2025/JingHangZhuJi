@@ -60,7 +60,7 @@ namespace Level4.Suzhou
         }
 
         /// <summary>
-        /// 查找对应类型的放置区域
+        /// 查找对应类型的放置区域（排除DisplayImage中的区域）
         /// </summary>
         private void FindTargetZone()
         {
@@ -68,6 +68,12 @@ namespace Level4.Suzhou
             
             foreach (var zone in allZones)
             {
+                // 跳过DisplayImage中的PlacementZone（它只用于显示，不用于交互）
+                if (zone.name.Contains("DisplayImage") || zone.transform.parent.name.Contains("DisplayImage"))
+                {
+                    continue;
+                }
+
                 if (zone.GetZoneType() == partType)
                 {
                     targetZone = zone;
