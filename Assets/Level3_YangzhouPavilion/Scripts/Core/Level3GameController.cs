@@ -138,15 +138,9 @@ namespace JingHangZhuJi.Level3
         private IEnumerator IntroSequence()
         {
             UIManager.Instance?.ShowMessage("扬州·盐商园中六角亭");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
 
-            // 显示对话
-            UIManager.Instance?.ShowDialogue("黄老爷", 
-                "这座六角亭是我耗费十年心血建造的...如今地基下沉，已经倾斜严重。还望匠人施以援手！", 
-                false);
-            yield return new WaitForSeconds(4f);
-
-            // 进入调查阶段
+            // 直接进入调查阶段，不显示对话框
             phaseCompleted[0] = true;
             TransitionToPhase(GamePhase.Investigation);
         }
@@ -188,7 +182,8 @@ namespace JingHangZhuJi.Level3
                 woodPilesManager.SetState(WoodPilesState.Rotten);
             }
             
-            StartCoroutine(TransitionAfterDelay(GamePhase.AdjustSupport, 3f)); // 跳过排水阶段
+            // 延长等待时间，让玩家看清楚倾斜的台基和腐朽的木桩
+            StartCoroutine(TransitionAfterDelay(GamePhase.AdjustSupport, 5f)); // 从3秒改为5秒
         }
 
         /// <summary>
@@ -404,20 +399,22 @@ namespace JingHangZhuJi.Level3
             
             UIManager.Instance?.ShowMessage("夜幕降临，黄老爷邀请你深夜长谈...");
             
-            // 直接开始对话
+            // 先显示开场对话，等待玩家点击"继续"后再启动AI对话系统
             UIManager.Instance?.ShowDialogue("黄老爷", 
                 "匠人技艺了得！不如今晚在园中畅谈，老夫有些心事想与你探讨。", 
-                false);
-
-            if (dialogueManager != null)
-            {
-                Debug.Log("开始调用 dialogueManager.StartDialogue()");
-                dialogueManager.StartDialogue();
-            }
-            else
-            {
-                Debug.LogError("❌ dialogueManager 为空！请在 Inspector 中配置 Dialogue Manager 字段！");
-            }
+                false,
+                () => {
+                    // 玩家点击"继续"后，启动AI对话系统
+                    if (dialogueManager != null)
+                    {
+                        Debug.Log("开始调用 dialogueManager.StartDialogue()");
+                        dialogueManager.StartDialogue();
+                    }
+                    else
+                    {
+                        Debug.LogError("❌ dialogueManager 为空！请在 Inspector 中配置 Dialogue Manager 字段！");
+                    }
+                });
         }
 
         public void OnDialoguePhaseComplete()

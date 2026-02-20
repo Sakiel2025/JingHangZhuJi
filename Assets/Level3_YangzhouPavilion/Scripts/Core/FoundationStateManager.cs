@@ -91,6 +91,14 @@ namespace JingHangZhuJi.Level3
         void Update()
         {
             #if UNITY_EDITOR
+            // ⚠️ 重要：只在没有输入框聚焦时才响应快捷键（避免与玩家输入冲突）
+            if (UnityEngine.EventSystems.EventSystem.current != null && 
+                UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject != null)
+            {
+                // 如果有UI对象被选中（例如输入框），不响应快捷键
+                return;
+            }
+            
             if (Input.GetKeyDown(KeyCode.Alpha1)) SetState(FoundationState.Normal);
             if (Input.GetKeyDown(KeyCode.Alpha2)) SetState(FoundationState.Tilted);
             if (Input.GetKeyDown(KeyCode.Alpha3)) SetState(FoundationState.Opened);

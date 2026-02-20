@@ -155,13 +155,22 @@ namespace JingHangZhuJi
         /// <summary>
         /// 显示对话
         /// </summary>
-        public void ShowDialogue(string speakerName, string dialogue, bool needInput)
+        public void ShowDialogue(string speakerName, string dialogue, bool needInput, System.Action onContinue = null)
         {
             Debug.Log($"=== UIManager.ShowDialogue 被调用 ===");
             Debug.Log($"speakerName: {speakerName}");
             Debug.Log($"dialogue: {dialogue}");
             Debug.Log($"needInput: {needInput}");
             Debug.Log($"dialoguePanel 是否为空: {dialoguePanel == null}");
+            Debug.Log($"inputPanel 是否为空: {inputPanel == null}");
+            Debug.Log($"inputPanel 和 dialoguePanel 是否同一对象: {inputPanel == dialoguePanel}");
+            if (inputPanel != null && dialoguePanel != null)
+            {
+                Debug.Log($"inputPanel 是否为 dialoguePanel 的子对象: {inputPanel.transform.IsChildOf(dialoguePanel.transform)}");
+            }
+            
+            // 设置回调
+            currentDialogueCallback = onContinue;
             
             if (dialoguePanel == null)
             {
@@ -171,6 +180,8 @@ namespace JingHangZhuJi
 
             dialoguePanel.SetActive(true);
             Debug.Log($"dialoguePanel 已激活");
+            Debug.Log($"dialoguePanel 当前激活状态: {dialoguePanel.activeSelf}");
+            Debug.Log($"dialoguePanel 在层级中是否激活: {dialoguePanel.activeInHierarchy}");
             
             // 临时调试：打印 DialogueBox 的信息
             RectTransform rect = dialoguePanel.GetComponent<RectTransform>();
@@ -186,6 +197,8 @@ namespace JingHangZhuJi
             {
                 Debug.Log($"CanvasGroup alpha: {cg.alpha}, interactable: {cg.interactable}");
                 cg.alpha = 1f; // 强制不透明
+                cg.interactable = true; // 确保可交互
+                cg.blocksRaycasts = true; // 确保可以接收点击
             }
 
             if (speakerNameText != null)
@@ -199,11 +212,36 @@ namespace JingHangZhuJi
                 Debug.LogWarning("⚠️ dialogueText 为空");
 
             // 根据是否需要输入显示不同的UI
+            // 特别处理：如果inputPanel是dialoguePanel的子对象，使用CanvasGroup控制可见性
             if (inputPanel != null && inputPanel != dialoguePanel)
             {
-                // 如果 inputPanel 是独立的对象，才控制它的显示
-                inputPanel.SetActive(needInput);
-                Debug.Log($"inputPanel 设置为: {needInput}");
+                bool isChild = inputPanel.transform.IsChildOf(dialoguePanel.transform);
+                
+                if (isChild)
+                {
+                    // ⚠️ 重要：子对象必须先SetActive(true)，否则CanvasGroup无效
+                    if (!inputPanel.activeSelf)
+                    {
+                        inputPanel.SetActive(true);
+                        Debug.Log("inputPanel (子对象) 首次激活");
+                    }
+                    
+                    // 使用CanvasGroup控制可见性（避免频繁SetActive导致的布局问题）
+                    CanvasGroup inputCG = inputPanel.GetComponent<CanvasGroup>();
+                    if (inputCG == null)
+                        inputCG = inputPanel.AddComponent<CanvasGroup>();
+                    
+                    inputCG.alpha = needInput ? 1f : 0f;
+                    inputCG.interactable = needInput;
+                    inputCG.blocksRaycasts = needInput;
+                    Debug.Log($"inputPanel (子对象) 使用CanvasGroup控制，alpha={inputCG.alpha}");
+                }
+                else
+                {
+                    // 如果是独立对象，直接控制激活状态
+                    inputPanel.SetActive(needInput);
+                    Debug.Log($"inputPanel (独立对象) 设置为: {needInput}");
+                }
             }
             else if (answerInputField != null)
             {
@@ -219,6 +257,13 @@ namespace JingHangZhuJi
             // 如果需要输入，自动聚焦到输入框并清空内容
             if (needInput && answerInputField != null)
             {
+                // ⚠️ 确保输入框本身也是激活的
+                if (!answerInputField.gameObject.activeSelf)
+                {
+                    answerInputField.gameObject.SetActive(true);
+                    Debug.Log("answerInputField 已激活");
+                }
+                
                 answerInputField.text = ""; // 清空之前的内容
                 answerInputField.ActivateInputField(); // 激活并聚焦
                 Debug.Log("✅ 输入框已激活并聚焦");
@@ -241,7 +286,7 @@ namespace JingHangZhuJi
                 TextMeshProUGUI buttonText = continueButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (buttonText != null)
                 {
-                    buttonText.text = "点击此处继续 ▼";
+                    buttonText.text = "点击此处继续";
                 }
             }
             else
@@ -250,6 +295,19 @@ namespace JingHangZhuJi
             }
                 
             Debug.Log("=== ShowDialogue 完成 ===");
+            
+            // ⚠️ 重要调试：延迟检查对话框是否仍然激活
+            StartCoroutine(CheckDialoguePanelStatusAfterDelay());
+        }
+        
+        private IEnumerator CheckDialoguePanelStatusAfterDelay()
+        {
+            yield return new WaitForSeconds(0.1f); // 等待一帧后检查
+            Debug.Log($"[延迟检查] dialoguePanel 激活状态: {dialoguePanel != null && dialoguePanel.activeSelf}");
+            if (dialoguePanel != null && !dialoguePanel.activeSelf)
+            {
+                Debug.LogError("❌❌❌ 对话框在显示后被关闭了！请检查是否有其他代码调用了 HideDialogue()");
+            }
         }
 
         /// <summary>
@@ -257,11 +315,14 @@ namespace JingHangZhuJi
         /// </summary>
         public void HideDialogue()
         {
-            Debug.Log("=== HideDialogue 被调用 ===");
-            Debug.LogWarning($"调用堆栈: {System.Environment.StackTrace}");
+            Debug.LogError("=== ❌❌❌ HideDialogue 被调用 ===");
+            Debug.LogError($"调用堆栈:\n{System.Environment.StackTrace}");
             
             if (dialoguePanel != null)
+            {
+                Debug.LogError($"即将关闭 dialoguePanel，当前状态: {dialoguePanel.activeSelf}");
                 dialoguePanel.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -311,18 +372,34 @@ namespace JingHangZhuJi
         private void OnContinueDialogue()
         {
             Debug.Log("=== OnContinueDialogue 被调用 ===");
+            Debug.Log($"currentDialogueCallback 是否为空: {currentDialogueCallback == null}");
             
-            // 查找 AIDialogueManager 并继续下一个问题
+            // ⭐ 优先级1: 如果有回调，先执行回调（用于开场对话等特殊对话）
+            if (currentDialogueCallback != null)
+            {
+                Debug.Log("✅ 检测到回调，准备执行回调");
+                Debug.Log("⚠️ 注意：不关闭对话框，让回调内部的 ShowDialogue() 处理");
+                // ⚠️ 重要：不要先调用 HideDialogue()，让回调内部的 ShowDialogue() 自动处理
+                // 因为 ShowDialogue() 会先激活 dialoguePanel，不会导致闪现
+                System.Action callback = currentDialogueCallback;
+                currentDialogueCallback = null; // 清空回调
+                Debug.Log("📞 即将调用回调函数");
+                callback.Invoke();
+                Debug.Log("✅ 回调函数执行完毕");
+                return; // ← 重要：执行完回调后立即返回，不继续执行后面的代码
+            }
+            
+            // ⭐ 优先级2: 如果没有回调，查找 AIDialogueManager 并继续下一个问题
             Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
             if (dialogueManager != null)
             {
+                Debug.Log("✅ 找到 AIDialogueManager，调用 AskNextQuestion");
                 dialogueManager.AskNextQuestion();
             }
             else
             {
-                // 如果没有 AIDialogueManager，执行默认的关闭逻辑
+                Debug.Log("⚠️ 没有回调也没有 AIDialogueManager，关闭对话框");
                 HideDialogue();
-                currentDialogueCallback?.Invoke();
             }
         }
 
