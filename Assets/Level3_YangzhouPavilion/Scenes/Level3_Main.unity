@@ -9790,7 +9790,6 @@ GameObject:
   - component: {fileID: 1933933031}
   - component: {fileID: 1933933033}
   - component: {fileID: 1933933032}
-  - component: {fileID: 1933933034}
   m_Layer: 5
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -9860,24 +9859,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933933030}
   m_CullTransparentMesh: 1
---- !u!114 &1933933034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933933030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0006f31f15f0d084cb34af1580f8e00c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueBox: {fileID: 1933933030}
-  characterAvatar: {fileID: 576430361}
-  speakerNameText: {fileID: 2144421536}
-  dialogueText: {fileID: 64451202}
-  canvasGroup: {fileID: 0}
-  typingSpeed: 0.05
 --- !u!1 &1936262440
 GameObject:
   m_ObjectHideFlags: 0

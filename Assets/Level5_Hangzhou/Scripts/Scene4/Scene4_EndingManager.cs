@@ -381,8 +381,46 @@ public class Scene4_EndingManager : MonoBehaviour
     void OnContinueButtonClicked()
     {
         Level5AudioManager.PlayButtonClick();
+        
+        // ⭐ 保存第5关进度和碎片数
+        SaveLevelProgress();
+        
         // 返回主菜单或进入下一关
         ReturnToMainMenu();
+    }
+    
+    /// <summary>
+    /// 保存关卡进度和碎片数（仿照第一关实现）
+    /// </summary>
+    void SaveLevelProgress()
+    {
+        // 1. 从 lastLogin 取出当前登录的用户名
+        string username = PlayerPrefs.GetString("lastLogin", "");
+
+        // 防呆：如果没有登录用户，直接报错返回
+        if (string.IsNullOrEmpty(username))
+        {
+            Debug.LogError("⚠️ 没有获取到当前登录用户，无法更新关卡和碎片！");
+            return;
+        }
+
+        // 2. 读取并更新关卡数（对应 KEY: level_用户名）
+        int oldLevel = PlayerPrefs.GetInt("level_" + username, 0);
+        int newLevel = Mathf.Max(oldLevel, 5); // 第5关完成，至少是5
+        PlayerPrefs.SetInt("level_" + username, newLevel);
+
+        // 3. 读取并更新碎片数（对应 KEY: fragment_用户名）
+        int oldFragment = PlayerPrefs.GetInt("fragment_" + username, 0);
+        int newFragment = Mathf.Max(oldFragment, 5); // 第5关完成，至少有5个碎片
+        PlayerPrefs.SetInt("fragment_" + username, newFragment);
+
+        // 4. 保存到本地
+        PlayerPrefs.Save();
+
+        // 5. 打印日志，方便验证
+        Debug.Log($"✅ 第5关结束：\n" +
+                  $"关卡数：{oldLevel} → {newLevel}\n" +
+                  $"碎片数：{oldFragment} → {newFragment}");
     }
 
     /// <summary>

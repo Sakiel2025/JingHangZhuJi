@@ -405,12 +405,49 @@ namespace Level4.Suzhou
         {
             Debug.Log("[BuildingScene] 第四关完成，进入MainMap4");
             
+            // ⭐ 保存第4关进度和碎片数
+            SaveLevelProgress();
+            
             // 淡出背景音乐
             if (bgmSource != null)
                 StartCoroutine(FadeOutMusic());
             
             // 加载MainMap4（解锁第5关）
             SceneManager.LoadScene("MainMap4");
+        }
+        
+        /// <summary>
+        /// 保存关卡进度和碎片数（仿照第一关实现）
+        /// </summary>
+        private void SaveLevelProgress()
+        {
+            // 1. 从 lastLogin 取出当前登录的用户名
+            string username = PlayerPrefs.GetString("lastLogin", "");
+
+            // 防呆：如果没有登录用户，直接报错返回
+            if (string.IsNullOrEmpty(username))
+            {
+                Debug.LogError("⚠️ 没有获取到当前登录用户，无法更新关卡和碎片！");
+                return;
+            }
+
+            // 2. 读取并更新关卡数（对应 KEY: level_用户名）
+            int oldLevel = PlayerPrefs.GetInt("level_" + username, 0);
+            int newLevel = Mathf.Max(oldLevel, 4); // 第4关完成，至少是4
+            PlayerPrefs.SetInt("level_" + username, newLevel);
+
+            // 3. 读取并更新碎片数（对应 KEY: fragment_用户名）
+            int oldFragment = PlayerPrefs.GetInt("fragment_" + username, 0);
+            int newFragment = Mathf.Max(oldFragment, 4); // 第4关完成，至少有4个碎片
+            PlayerPrefs.SetInt("fragment_" + username, newFragment);
+
+            // 4. 保存到本地
+            PlayerPrefs.Save();
+
+            // 5. 打印日志，方便验证
+            Debug.Log($"✅ 第4关结束：\n" +
+                      $"关卡数：{oldLevel} → {newLevel}\n" +
+                      $"碎片数：{oldFragment} → {newFragment}");
         }
         
 
