@@ -639,9 +639,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -230.8, y: -150.2}
+  m_AnchoredPosition: {x: -233, y: -137.5}
   m_SizeDelta: {x: 19.5228, y: 25.4993}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.4468155, y: 0.44814345}
 --- !u!114 &595917752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,9 +656,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climbSpeed: 10
   canClimb: 1
-  middleY: -137
-  topY: -125
-  bottomY: -150
+  middleY: -125
+  topY: -110
+  bottomY: -136
   playerUI: {fileID: 595917751}
   dialogPanel: {fileID: 1465778415}
   tipText: {fileID: 1384656074}
@@ -697,8 +697,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 182.45901, y: 49.268005}
-  m_SizeDelta: {x: 393.86, y: 129.3892}
+  m_AnchoredPosition: {x: 189.7, y: 43.631}
+  m_SizeDelta: {x: 407.8693, y: 143.1126}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &666086582
 MonoBehaviour:
@@ -2046,8 +2046,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -36.454437, y: 45.243774}
-  m_SizeDelta: {x: 369.2592, y: 121.34381}
+  m_AnchoredPosition: {x: -23.1, y: 43.019}
+  m_SizeDelta: {x: 395.0645, y: 141.8879}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1999050570
 MonoBehaviour:
