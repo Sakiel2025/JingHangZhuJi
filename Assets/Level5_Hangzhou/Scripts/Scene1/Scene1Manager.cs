@@ -31,6 +31,27 @@ public class Scene1Manager : MonoBehaviour
     public GameObject letterPanel;          // 信件面板
     public TextMeshProUGUI letterContentText; // 信件内容文字（可选）
     public Button closeLetterButton;        // 关闭信件按钮
+    
+    [TextArea(15, 25)]
+    public string letterContent = @"榫儿，
+
+如果你拿到这封信，说明我已经走了。
+也说明，你见到她了。
+
+光绪十二年（1886年），我在断桥修桥时遇到了她。
+她说想要一座廊桥，能遮风雨，能看西湖。
+我答应了，画了图纸，却一直没敢回来。
+
+不是技艺不够，是心里有愧。
+
+榫儿，帮师父完成这座廊桥吧。
+
+廊桥的榫卯和前面学的不一样，
+图纸背面我画了四种，你先学会。
+
+然后按照图纸，一步步建起来。
+
+—— 师父绝笔";  // 信件内容（可在Inspector中编辑）
 
     [Header("音频")]
     public AudioSource bgmSource;           // 背景音乐播放器
@@ -283,31 +304,21 @@ public class Scene1Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// 设置信件内容
+    /// 设置信件内容（从Inspector配置的letterContent字段读取）
     /// </summary>
     void SetLetterContent()
     {
-        string letterContent = @"榫儿，
-
-如果你拿到这封信，说明我已经走了。
-也说明，你见到她了。
-
-光绪十二年（1886年），我在断桥修桥时遇到了她。
-她说想要一座廊桥，能遮风雨，能看西湖。
-我答应了，画了图纸，却一直没敢回来。
-
-不是技艺不够，是心里有愧。
-
-榫儿，帮师父完成这座廊桥吧。
-
-廊桥的榫卯和前面学的不一样，
-图纸背面我画了四种，你先学会。
-
-然后按照图纸，一步步建起来。
-
-—— 师父绝笔";
-
-        letterContentText.text = letterContent;
+        // 从 Inspector 配置的 letterContent 字段读取内容
+        if (string.IsNullOrEmpty(letterContent))
+        {
+            Debug.LogWarning("⚠️ letterContent 为空！请在 Inspector 中填写信件内容");
+            letterContentText.text = "【信件内容未配置】";
+        }
+        else
+        {
+            letterContentText.text = letterContent;
+            Debug.Log($"✅ 信件内容已加载，长度: {letterContent.Length} 字符");
+        }
     }
 
     /// <summary>
