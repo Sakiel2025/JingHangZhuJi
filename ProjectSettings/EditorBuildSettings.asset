@@ -126,6 +126,9 @@ EditorBuildSettings:
     path: Assets/Level1/Scenes/1_6_DougongAssembly.unity
     guid: 61db41c95783ec24cb5920e3e7188861
   - enabled: 1
+    path: Assets/Level2/Scenes/2_1_Taierzhuang.unity
+    guid: d2ddba8ff78589c4a9f1eef42532fc24
+  - enabled: 1
     path: Assets/Level2/Scenes/2_2_Repair.unity
     guid: f2508a0f0d8e80247b8a44f87d3af918
   - enabled: 1
