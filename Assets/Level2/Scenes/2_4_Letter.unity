@@ -301,8 +301,8 @@ GameObject:
   - component: {fileID: 508859501}
   - component: {fileID: 508859500}
   - component: {fileID: 508859499}
-  - component: {fileID: 508859498}
   - component: {fileID: 508859502}
+  - component: {fileID: 508859503}
   m_Layer: 5
   m_Name: NextSceneButton
   m_TagString: Untagged
@@ -330,19 +330,6 @@ RectTransform:
   m_AnchoredPosition: {x: 183, y: -113}
   m_SizeDelta: {x: 50.4769, y: 21.9299}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &508859498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 508859496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b8281cf1fdcb9e419807a89027b2d62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextSceneName: MainMap2
 --- !u!114 &508859499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,8 +374,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 508859498}
-        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
+      - m_Target: {fileID: 508859503}
+        m_TargetAssemblyTypeName: EndEvent, Assembly-CSharp
         m_MethodName: LoadNextScene
         m_Mode: 1
         m_Arguments:
@@ -462,6 +449,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevelNum: 2
+--- !u!114 &508859503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508859496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a8edc7f4c4e874795a708b9500e6be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneName: MainMap2
 --- !u!1 &656929781
 GameObject:
   m_ObjectHideFlags: 0
