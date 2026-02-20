@@ -433,12 +433,12 @@ namespace Level4.Suzhou
 
             // 2. 读取并更新关卡数（对应 KEY: level_用户名）
             int oldLevel = PlayerPrefs.GetInt("level_" + username, 0);
-            int newLevel = Mathf.Max(oldLevel, 4); // 第4关完成，至少是4
+            int newLevel = oldLevel + 1;
             PlayerPrefs.SetInt("level_" + username, newLevel);
 
             // 3. 读取并更新碎片数（对应 KEY: fragment_用户名）
             int oldFragment = PlayerPrefs.GetInt("fragment_" + username, 0);
-            int newFragment = Mathf.Max(oldFragment, 4); // 第4关完成，至少有4个碎片
+            int newFragment = oldFragment + 1;
             PlayerPrefs.SetInt("fragment_" + username, newFragment);
 
             // 4. 保存到本地
