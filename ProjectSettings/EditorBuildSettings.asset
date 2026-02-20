@@ -176,4 +176,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level5_Hangzhou/Scenes/Level5_Scene3_Building.unity
     guid: c3d468d0dccfad446b2fdbf062f5c85d
+  - enabled: 1
+    path: Assets/MapBag.unity
+    guid: 5bdc1bc4481bc3948a74e317f4fb39b4
+  - enabled: 1
+    path: Assets/MapBag1.unity
+    guid: 6f55055e16eb4764fa101626fdddb22f
+  - enabled: 1
+    path: Assets/MapBag2.unity
+    guid: 974bb7cf27fdb6b43ac5ff74f6d48c4a
+  - enabled: 1
+    path: Assets/MapBag3.unity
+    guid: f64faf3b07ab85b49930a6189b41aff7
+  - enabled: 1
+    path: Assets/MapBag4.unity
+    guid: a9992385baaad944392f6f38a0dea4a4
   m_configObjects: {}
