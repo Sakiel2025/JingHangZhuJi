@@ -3416,7 +3416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a8edc7f4c4e874795a708b9500e6be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: 
+  nextSceneName: MainMap1
 --- !u!4 &1897990153
 Transform:
   m_ObjectHideFlags: 0
@@ -3583,6 +3583,7 @@ GameObject:
   - component: {fileID: 2030533938}
   - component: {fileID: 2030533937}
   - component: {fileID: 2030533936}
+  - component: {fileID: 2030533939}
   m_Layer: 5
   m_Name: "\u9000\u51FA\u6309\u94AE"
   m_TagString: Untagged
@@ -3666,6 +3667,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2030533939}
+        m_TargetAssemblyTypeName: LevelEnd_PropRefresh, Assembly-CSharp
+        m_MethodName: OnLevelEndClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2030533937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3704,6 +3717,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2030533934}
   m_CullTransparentMesh: 1
+--- !u!114 &2030533939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030533934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8bdcbc2caf77e47a62b372a9c6e2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevelNum: 1
 --- !u!1 &2037477101
 GameObject:
   m_ObjectHideFlags: 0
