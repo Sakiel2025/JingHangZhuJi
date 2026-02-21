@@ -200,29 +200,16 @@ namespace Level4.Suzhou
             if (placeSound != null)
                 AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position, 0.5f);
 
-            // 启用确认按钮
+            // 启用确认按钮（玩家需要手动点击才能进入下一阶段）
             if (confirmButton != null)
             {
                 confirmButton.interactable = true;
-                Debug.Log("[BuildingScene] 确认按钮已启用");
+                Debug.Log("[BuildingScene] 确认按钮已启用，等待玩家点击");
             }
             else
             {
                 Debug.LogError("[BuildingScene] 确认按钮为空！");
             }
-
-            // 临时方案：自动进入下一阶段（延迟1秒）
-            StartCoroutine(AutoConfirmAfterDelay(1.0f));
-        }
-
-        /// <summary>
-        /// 自动确认（临时方案）
-        /// </summary>
-        private IEnumerator AutoConfirmAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            Debug.Log("[BuildingScene] 自动进入下一阶段");
-            OnConfirmButtonClicked();
         }
 
         /// <summary>
