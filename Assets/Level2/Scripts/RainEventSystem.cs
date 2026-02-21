@@ -134,7 +134,7 @@ public class RainEventSystem : MonoBehaviour
         optionCBtn.interactable = false;
         
         // 可选：2秒后隐藏面板（根据你的需求调整，不想隐藏可删除这行）
-        Invoke("HideChoicePanel", 2f);
+        //Invoke("HideChoicePanel", 2f);
     }
 
     // 隐藏选择题面板（可选）
