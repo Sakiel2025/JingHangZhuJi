@@ -315,14 +315,16 @@ namespace JingHangZhuJi
         /// </summary>
         public void HideDialogue()
         {
-            Debug.LogError("=== ❌❌❌ HideDialogue 被调用 ===");
-            Debug.LogError($"调用堆栈:\n{System.Environment.StackTrace}");
+            Debug.Log("=== HideDialogue 被调用 ===");
             
             if (dialoguePanel != null)
             {
-                Debug.LogError($"即将关闭 dialoguePanel，当前状态: {dialoguePanel.activeSelf}");
+                Debug.Log($"关闭对话框，当前状态: {dialoguePanel.activeSelf}");
                 dialoguePanel.SetActive(false);
             }
+            
+            // 清空回调
+            currentDialogueCallback = null;
         }
 
         /// <summary>
@@ -348,18 +350,32 @@ namespace JingHangZhuJi
                 return;
             }
             
-            Debug.Log($"✅ 答案有效，准备提交给 AIDialogueManager");
+            Debug.Log($"✅ 答案有效，准备提交给对话管理器");
             
-            // 通知对话管理器
-            Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
-            if (dialogueManager != null)
+            // 优先查找新版增强对话管理器
+            Level3_YangzhouPavilion.AIDialogueManager_Enhanced enhancedManager = 
+                FindObjectOfType<Level3_YangzhouPavilion.AIDialogueManager_Enhanced>();
+            
+            if (enhancedManager != null)
             {
-                Debug.Log("找到 AIDialogueManager，调用 SubmitAnswer");
-                dialogueManager.SubmitAnswer(answer);
+                Debug.Log("找到 AIDialogueManager_Enhanced（新版），调用 SubmitAnswer");
+                enhancedManager.SubmitAnswer(answer);
             }
             else
             {
-                Debug.LogError("❌ 找不到 AIDialogueManager！");
+                // 再查找旧版对话管理器
+                JingHangZhuJi.Level3.AIDialogueManager dialogueManager = 
+                    FindObjectOfType<JingHangZhuJi.Level3.AIDialogueManager>();
+                
+                if (dialogueManager != null)
+                {
+                    Debug.Log("找到 AIDialogueManager（旧版），调用 SubmitAnswer");
+                    dialogueManager.SubmitAnswer(answer);
+                }
+                else
+                {
+                    Debug.LogError("❌ 找不到任何对话管理器！");
+                }
             }
 
             // 清空输入
@@ -389,18 +405,10 @@ namespace JingHangZhuJi
                 return; // ← 重要：执行完回调后立即返回，不继续执行后面的代码
             }
             
-            // ⭐ 优先级2: 如果没有回调，查找 AIDialogueManager 并继续下一个问题
-            Level3.AIDialogueManager dialogueManager = FindObjectOfType<Level3.AIDialogueManager>();
-            if (dialogueManager != null)
-            {
-                Debug.Log("✅ 找到 AIDialogueManager，调用 AskNextQuestion");
-                dialogueManager.AskNextQuestion();
-            }
-            else
-            {
-                Debug.Log("⚠️ 没有回调也没有 AIDialogueManager，关闭对话框");
-                HideDialogue();
-            }
+            // ⭐ 优先级2: 如果没有回调，说明是常规对话流程
+            // 新版和旧版系统都已经在 ShowDialogue 的回调中处理了继续逻辑
+            // 这里不需要做任何额外处理，直接返回即可
+            Debug.Log("✅ 无需额外处理，对话流程已由回调处理");
         }
 
         #endregion

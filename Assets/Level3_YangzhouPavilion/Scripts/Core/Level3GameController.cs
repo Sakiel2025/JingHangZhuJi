@@ -30,7 +30,8 @@ namespace JingHangZhuJi.Level3
 
         [Header("系统引用")]
         [SerializeField] private FoundationRepairManager repairManager;
-        [SerializeField] private AIDialogueManager dialogueManager;
+        [SerializeField] private AIDialogueManager dialogueManager; // 兼容旧版
+        [SerializeField] private Level3_YangzhouPavilion.AIDialogueManager_Enhanced dialogueManagerEnhanced; // 新版AI对话系统
         [SerializeField] private LuBanRuler luBanRuler;
         [SerializeField] private CraftsmanEyeSystem craftsmanEye; // 匠人之眼系统
         [SerializeField] private FoundationStateManager foundationStateManager; // 地基状态管理器
@@ -405,14 +406,22 @@ namespace JingHangZhuJi.Level3
                 false,
                 () => {
                     // 玩家点击"继续"后，启动AI对话系统
-                    if (dialogueManager != null)
+                    // 优先使用新版增强对话管理器
+                    if (dialogueManagerEnhanced != null)
                     {
-                        Debug.Log("开始调用 dialogueManager.StartDialogue()");
+                        Debug.Log("✅ 使用增强版AI对话系统");
+                        dialogueManagerEnhanced.StartDialogue();
+                    }
+                    else if (dialogueManager != null)
+                    {
+                        Debug.Log("✅ 使用旧版对话系统");
                         dialogueManager.StartDialogue();
                     }
                     else
                     {
-                        Debug.LogError("❌ dialogueManager 为空！请在 Inspector 中配置 Dialogue Manager 字段！");
+                        Debug.LogError("❌ 对话管理器未配置！请在 Inspector 中配置以下任意一个字段：\n" +
+                                     "- Dialogue Manager Enhanced（推荐，新版AI系统）\n" +
+                                     "- Dialogue Manager（旧版）");
                     }
                 });
         }
