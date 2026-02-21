@@ -56,9 +56,17 @@ public class LevelChecker : MonoBehaviour
                 SceneManager.LoadScene("MainMap4");
                 break;
             default:
-                // 如果通关数大于4，可以跳转到最高关卡
-                Debug.Log("通关数大于4，跳转到MainMap4");
-                SceneManager.LoadScene("MainMap4");
+                // 如果通关数大于4，跳转到MainMap
+                Debug.Log("通关数大于4，跳转到MainMap");
+
+                // 重置遗书碎片个数为0
+                string fragmentKey = "fragment_" + currentUser;
+                PlayerPrefs.SetInt(fragmentKey, 0);
+                PlayerPrefs.Save();
+
+                Debug.Log("已重置用户 " + currentUser + " 的遗书碎片个数为0");
+
+                SceneManager.LoadScene("MainMap");
                 break;
         }
     }
