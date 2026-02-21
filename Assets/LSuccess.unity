@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784932dfe285d8e4e919237de7c12d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: NPC
+  sceneName: NewOrOld
   targetButton: {fileID: 401836169}
 --- !u!4 &228447045
 Transform:
