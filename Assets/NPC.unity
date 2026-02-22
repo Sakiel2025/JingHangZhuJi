@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f46c27767fe73641a990454cc6c26f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "\u4ECE\u8FD9\u4E2A\u573A\u666F\u8DF3\u53BB": NPC1
+  "\u4ECE\u8FD9\u4E2A\u573A\u666F\u8DF3\u53BB": Map
 --- !u!4 &1171885073
 Transform:
   m_ObjectHideFlags: 0
