@@ -447,8 +447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- \u4E00\u5C01\u4FE1 \\n- \u4E00\u5757\u624B\u5E15\uFF08\u7EE3\u7740 \"\u8D75\"
-    \u5B57\uFF09\\n- \u4E00\u9897\u67A3\u6811\u79CD\u5B50"
+  m_text: "- \u4E00\u5C01\u4FE1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
   m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
@@ -1468,7 +1467,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 48a50ede1f42e9b47a40117adb8412a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8aa4aa5b92af0d440a7011f8e8d857d5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
