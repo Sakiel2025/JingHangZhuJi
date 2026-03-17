@@ -248,6 +248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789887224}
   - component: {fileID: 789887228}
+  - component: {fileID: 789887230}
   - component: {fileID: 789887227}
   - component: {fileID: 789887229}
   - component: {fileID: 789887226}
@@ -400,6 +401,19 @@ MonoBehaviour:
   hoverScale: 1.2
   clickScale: 0.9
   animationSpeed: 5
+--- !u!114 &789887230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789887223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744d37ac8f4a66942a3c3b2a85023000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
 --- !u!1 &1074604332
 GameObject:
   m_ObjectHideFlags: 0

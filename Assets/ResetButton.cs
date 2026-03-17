@@ -39,7 +39,7 @@ public class ResetButton : MonoBehaviour
         Debug.Log($"当前用户: {currentUser}, 通关数: {levelCount}, 碎片数: {fragmentCount}");
 
         // 4. 检查是否满足清零条件（碎片=5且通关数=5）
-        if (fragmentCount >= 5 && levelCount >= 5)
+        if (fragmentCount >= 0 && levelCount >= 0)
         {
             // 清零数据
             PlayerPrefs.SetInt(levelKey, 0);
