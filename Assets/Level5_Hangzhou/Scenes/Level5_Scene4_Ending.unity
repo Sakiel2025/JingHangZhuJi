@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: -100}
+  m_AnchoredPosition: {x: 300, y: 50}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &136944974
@@ -362,9 +362,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterImage: {fileID: 700200939}
   shenSunSprite: {fileID: 21300000, guid: 687c5c46cd913de458643f7ee98d10dd, type: 3}
-  shenSunPosition: {x: -300, y: 0}
+  shenSunPosition: {x: -600, y: 0}
   oldWomanNormalSprite: {fileID: 21300000, guid: c1d5b04832156bc44b9b9673566b28ba, type: 3}
-  oldWomanPosition: {x: -300, y: 0}
+  oldWomanPosition: {x: -600, y: 0}
   oldWomanSmileSprite: {fileID: 0}
   dialoguePanel: {fileID: 453971439}
   speakerNameText: {fileID: 784266228}
@@ -380,8 +380,7 @@ MonoBehaviour:
   montageList:
   - montageSprite: {fileID: 21300000, guid: 3698ec9dc59611246a809d76bfa0eed9, type: 3}
     hasSubtitle: 1
-    subtitleText: "\u5149\u7EEA\u4E8C\u5341\u516D\u5E74\uFF081900\u5E74\uFF09\r\n    
-      \r\n     \u897F\u6E56\u5ECA\u6865\u5EFA\u6210"
+    subtitleText: 
     displayDuration: 2
     fadeDuration: 0
   - montageSprite: {fileID: 21300000, guid: 19820dad8feb547418421cffe7d874b3, type: 3}
@@ -391,7 +390,7 @@ MonoBehaviour:
     fadeDuration: 0
   - montageSprite: {fileID: 21300000, guid: 1dd2fc73308654f48a7e6e7d49cf202b, type: 3}
     hasSubtitle: 1
-    subtitleText: "\u5DE5\u5320\uFF1A\u6C88\u69AB\n\u8BBE\u8BA1\uFF1A\u6C88\u5E08\u7236\uFF08\u9057\u4F5C\uFF09"
+    subtitleText: 
     displayDuration: 2
     fadeDuration: 0
   bgmSource: {fileID: 0}
