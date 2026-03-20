@@ -1545,8 +1545,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u62D6\u62FD\u788E\u7247\u4EE5\u5B8C\u6210\u62FC\u56FE\uFF01\n\u5B8C\u6210\u540E\u53EF\u83B7\u5F97\u5E08\u7236\u7559\u4E0B\u7684\u4FE1\u4EF6"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
-  m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 810053114450862419fea2fe84c61fd2, type: 2}
+  m_sharedMaterial: {fileID: -4759577727355390513, guid: 810053114450862419fea2fe84c61fd2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2802,12 +2802,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: eaf88fd681c6d164a9183a3279ce96c0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 56fbbdfa70f9d8a4188bf8f7323829cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 24.825321, y: 13.94}
+  m_Size: {x: 27.320002, y: 15.340821}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
