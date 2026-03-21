@@ -188,17 +188,9 @@ public class Scene4_EndingManager : MonoBehaviour
         {
             dialogueText.text = dialogues[currentDialogueIndex];
 
-            // 特殊处理：动作描述时，字体斜体
-            if (speakers[currentDialogueIndex] == "")
-            {
-                dialogueText.fontStyle = FontStyles.Italic;
-                dialogueText.color = new Color(0.8f, 0.8f, 0.8f);
-            }
-            else
-            {
-                dialogueText.fontStyle = FontStyles.Normal;
-                dialogueText.color = Color.white;
-            }
+            // 所有对话统一使用黑色正常字体
+            dialogueText.fontStyle = FontStyles.Normal;
+            dialogueText.color = Color.black;
         }
     }
 
