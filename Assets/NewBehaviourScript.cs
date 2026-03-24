@@ -1,29 +1,28 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CoverSceneLoader : MonoBehaviour
 {
+    [SerializeField] private Button targetButton; // åœ¨Inspectorä¸­æ‹–æ‹½ç»‘å®šæŒ‰é’®
+
     void Start()
     {
-        // ÕÒµ½³¡¾°ÖĞÎ¨Ò»µÄ°´Å¥
-        Button theOnlyButton = FindObjectOfType<Button>();
-
-        if (theOnlyButton != null)
+        if (targetButton != null)
         {
-            // ¸øÕâ¸öÎ¨Ò»µÄ°´Å¥Ìí¼ÓÌø×ª¹¦ÄÜ
-            theOnlyButton.onClick.AddListener(GoToLoginScene);
-            Debug.Log("? °´Å¥ÒÑ°ó¶¨£¡°´Å¥Ãû×Ö£º" + theOnlyButton.gameObject.name);
+            targetButton.onClick.RemoveAllListeners();
+            targetButton.onClick.AddListener(GoToLoginScene);
+            Debug.Log("âœ… æŒ‰é’®å·²ç»‘å®šï¼æŒ‰é’®åå­—ï¼š" + targetButton.gameObject.name);
         }
         else
         {
-            Debug.LogError("? ³¡¾°ÖĞÃ»ÓĞÕÒµ½ÈÎºÎ°´Å¥£¡");
+            Debug.LogError("âŒ è¯·å…ˆåœ¨Inspectorä¸­ç»‘å®šæŒ‰é’®ï¼");
         }
     }
 
     public void GoToLoginScene()
     {
-        Debug.Log("?? Ìø×ªµ½µÇÂ¼³¡¾°");
+        Debug.Log("ğŸš€ è·³è½¬åˆ°ç™»å½•åœºæ™¯");
         SceneManager.LoadScene("LoginScene");
     }
 }
