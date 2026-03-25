@@ -1,22 +1,11 @@
 using UnityEngine;
-using System.Runtime.InteropServices;
 using UnityEngine.SceneManagement;
 
 public class ClickToDesktop : MonoBehaviour
 {
-    [Header("最后一页设置")]
-    public string lastSceneName = "End2";  // 最后一页的场景名
-
-    // Windows API 声明
-#if UNITY_STANDALONE_WIN
-    [DllImport("user32.dll")]
-    private static extern bool ShowWindow(System.IntPtr hwnd, int nCmdShow);
-
-    [DllImport("user32.dll")]
-    private static extern System.IntPtr GetActiveWindow();
-
-    private const int SW_MINIMIZE = 6;
-#endif
+    [Header("场景设置")]
+    public string targetSceneName = "00_Cover";  // 目标场景名
+    public string lastSceneName = "End2";       // 最后一页的场景名
 
     void Update()
     {
@@ -27,20 +16,14 @@ public class ClickToDesktop : MonoBehaviour
         // 检测鼠标左键点击
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("在End2场景点击，返回桌面");
-            ReturnToDesktop();
+            Debug.Log("在End2场景点击，跳转到 " + targetSceneName);
+            JumpToCoverScene();
         }
     }
 
-    void ReturnToDesktop()
+    void JumpToCoverScene()
     {
-#if UNITY_STANDALONE_WIN
-        // 获取当前窗口句柄并最小化
-        System.IntPtr windowHandle = GetActiveWindow();
-        ShowWindow(windowHandle, SW_MINIMIZE);
-#else
-        // 非Windows平台直接退出
-        Application.Quit();
-#endif
+        // 加载目标场景
+        SceneManager.LoadScene(targetSceneName);
     }
 }
