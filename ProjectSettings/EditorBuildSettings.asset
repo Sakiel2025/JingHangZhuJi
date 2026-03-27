@@ -203,4 +203,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MapBag4.unity
     guid: a9992385baaad944392f6f38a0dea4a4
+  - enabled: 1
+    path: Assets/Tips.unity
+    guid: 0d5459b07bc8f264a8a7765892aeb3fb
   m_configObjects: {}

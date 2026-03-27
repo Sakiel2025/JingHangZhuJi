@@ -28,16 +28,43 @@ public class LevelChecker : MonoBehaviour
             return;
         }
 
-        // 2. 根据用户名拼接level的key
+        // 2. 获取遗书碎片个数
+        string fragmentKey = "fragment_" + currentUser;
+        int fragmentCount = PlayerPrefs.GetInt(fragmentKey, 0);
+
+        // 打印碎片信息（方便调试）
+        Debug.Log("当前用户: " + currentUser + " 遗书碎片个数: " + fragmentCount);
+
+        // 3. 检测碎片个数为0时跳转到Tips界面
+        if (fragmentCount == 0)
+        {
+            Debug.Log("遗书碎片个数为0，跳转到Tips界面");
+            SceneManager.LoadScene("Tips");
+            return;
+        }
+
+        // 4. 检测碎片个数大于等于五时，把碎片清零后跳转到Tips界面
+        if (fragmentCount >= 5)
+        {
+            // 清零碎片
+            PlayerPrefs.SetInt(fragmentKey, 0);
+            PlayerPrefs.Save();
+
+            Debug.Log("遗书碎片个数大于等于5，已清零，跳转到Tips界面");
+            SceneManager.LoadScene("Tips");
+            return;
+        }
+
+        // 5. 根据用户名拼接level的key
         string levelKey = "level_" + currentUser;
 
-        // 3. 读取通关个数（如果没有数据，默认返回0）
+        // 6. 读取通关个数（如果没有数据，默认返回0）
         int levelCount = PlayerPrefs.GetInt(levelKey, 0);
 
         // 打印信息（方便调试）
         Debug.Log("当前用户: " + currentUser + " 已通关: " + levelCount + " 关");
 
-        // 4. 根据通关个数跳转到不同场景
+        // 7. 根据通关个数跳转到不同场景
         switch (levelCount)
         {
             case 0:
@@ -60,7 +87,6 @@ public class LevelChecker : MonoBehaviour
                 Debug.Log("通关数大于4，跳转到MainMap");
 
                 // 重置遗书碎片个数为0
-                string fragmentKey = "fragment_" + currentUser;
                 PlayerPrefs.SetInt(fragmentKey, 0);
                 PlayerPrefs.Save();
 
