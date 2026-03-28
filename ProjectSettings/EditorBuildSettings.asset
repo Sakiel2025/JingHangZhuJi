@@ -123,6 +123,9 @@ EditorBuildSettings:
     path: Assets/Level1/Scenes/1_6_DougongAssembly.unity
     guid: 61db41c95783ec24cb5920e3e7188861
   - enabled: 1
+    path: Assets/Level1/Scenes/1_7_Ending.unity
+    guid: 4a6bba1a0c5043e4fa3700ebde331372
+  - enabled: 1
     path: Assets/Level2/Scenes/2_1_Taierzhuang.unity
     guid: d2ddba8ff78589c4a9f1eef42532fc24
   - enabled: 1
@@ -134,6 +137,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level2/Scenes/2_4_Letter.unity
     guid: 94a437b2d35f16a4fa2efcd878671be9
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_5_Ending.unity
+    guid: d5f77a8c655aa13449f0a687954d7f14
   - enabled: 1
     path: Assets/End.unity
     guid: 117d236dcdf261a478c14d436ccccf2a

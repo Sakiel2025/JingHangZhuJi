@@ -59,7 +59,7 @@ public class KnowledgeQA : MonoBehaviour
         {
             new QuestionData
             {
-                question = "故宫太和殿的主要大梁使用的是哪种珍贵木材？",
+                question = "故宫太和殿的主要大梁使用的是哪种珍贵木材？（单选）",
                 options = new string[] { "松木", "金丝楠木", "红木", "榆木" },
                 correctAnswers = new int[] { 1 },
                 isMultiple = false,
@@ -68,7 +68,7 @@ public class KnowledgeQA : MonoBehaviour
             },
             new QuestionData
             {
-                question = "以下哪些属于古建筑中斗拱的作用？",
+                question = "以下哪些属于古建筑中斗拱的作用？（三选）",
                 options = new string[] { "承重受力", "装饰美观", "抗震缓冲", "防火防水" },
                 correctAnswers = new int[] { 0, 1, 2 },
                 isMultiple = true,
@@ -77,7 +77,7 @@ public class KnowledgeQA : MonoBehaviour
             },
             new QuestionData
             {
-                question = "在太和殿斗拱中，你找到师父刻字的构件是？",
+                question = "在太和殿斗拱中，你找到师父刻字的构件是？（单选）",
                 options = new string[] { "斗", "拱", "昂", "枋" },
                 correctAnswers = new int[] { 2 },
                 isMultiple = false,

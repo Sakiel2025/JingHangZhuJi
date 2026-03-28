@@ -3388,10 +3388,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8FD4\u56DE\u4E3B\u5730\u56FE"
+  m_text: "\u7EE7\u7EED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
-  m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
+  m_sharedMaterial: {fileID: -271345692913486005, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5732,6 +5732,7 @@ MonoBehaviour:
   timeText: {fileID: 406314977}
   winLoseText: {fileID: 527697278}
   startButton: {fileID: 1145758665}
+  backToMainButton: {fileID: 2030533936}
   playerPuzzle: {fileID: 2042331379}
   aiPuzzles:
   - {fileID: 377054827}
@@ -5918,7 +5919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a8edc7f4c4e874795a708b9500e6be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: MainMap1
+  nextSceneName: 1_7_Ending
 --- !u!4 &1897990153
 Transform:
   m_ObjectHideFlags: 0

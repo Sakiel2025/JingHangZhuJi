@@ -11,6 +11,9 @@ public class CompeteManager : MonoBehaviour
     public TextMeshProUGUI winLoseText;
     public Button startButton;
 
+    [Header("返回主界面按钮")]
+    public Button backToMainButton;
+
     [Header("两套拼图")]
     public PuzzleMG_ai_version playerPuzzle;
     public List<PuzzlePiece_dougong> aiPuzzles;
@@ -31,6 +34,13 @@ public class CompeteManager : MonoBehaviour
         winLoseText.enabled = false;
         UpdateTimeText();
         startButton.onClick.AddListener(StartCompete);
+
+        // 初始隐藏返回按钮
+        if (backToMainButton != null)
+            backToMainButton.gameObject.SetActive(false);
+
+        // 【关键】开始前禁止玩家操作
+        SetPlayerDragEnabled(false);
     }
 
     void Update()
@@ -53,6 +63,22 @@ public class CompeteManager : MonoBehaviour
     {
         isCompeting = true;
         startButton.gameObject.SetActive(false);
+
+        // 【关键】点了开始 → 允许拖拽拼图
+        SetPlayerDragEnabled(true);
+    }
+
+    // 【核心功能】开启/关闭玩家拼图拖拽
+    void SetPlayerDragEnabled(bool enabled)
+    {
+        if (playerPuzzle == null) return;
+
+        // 找到所有拼图碎片，禁止/允许拖拽
+        PuzzlePiece_dougong[] allPieces = playerPuzzle.GetComponentsInChildren<PuzzlePiece_dougong>();
+        foreach (var piece in allPieces)
+        {
+            piece.enabled = enabled;
+        }
     }
 
     void UpdateTimeText()
@@ -94,6 +120,8 @@ public class CompeteManager : MonoBehaviour
 
     public void CheckWinner()
     {
+        if (!isCompeting) return;
+
         if (playerPuzzle.isPlayerFinish && !isGameOver)
         {
             GameOver(true);
@@ -104,6 +132,9 @@ public class CompeteManager : MonoBehaviour
     {
         isGameOver = true;
         isCompeting = false;
+
+        // 游戏结束 → 禁止拖拽
+        SetPlayerDragEnabled(false);
 
         if (win)
         {
@@ -118,5 +149,9 @@ public class CompeteManager : MonoBehaviour
 
         winLoseText.enabled = true;
         playerPuzzle.gameOverPanel.SetActive(true);
+
+        // 显示返回按钮
+        if (backToMainButton != null)
+            backToMainButton.gameObject.SetActive(true);
     }
 }
