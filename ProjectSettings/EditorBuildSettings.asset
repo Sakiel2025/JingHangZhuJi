@@ -105,6 +105,9 @@ EditorBuildSettings:
     path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Letter.unity
     guid: 725c8302f9058d242aff466d0de2b042
   - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_End.unity
+    guid: 8c3d69c6a56440746984cda3cd809bce
+  - enabled: 1
     path: Assets/Level1/Scenes/1_1_Climb.unity
     guid: 5b7efca2f0047484fa9882742134e642
   - enabled: 1
@@ -173,6 +176,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level4_Suzhou/Scenes/Level4_Building.unity
     guid: 179d304c4bb23c44bb5bcfc15acbbcc2
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_End.unity
+    guid: 55f7516664c64a54c8e81b42338d811e
   - enabled: 1
     path: Assets/Level5_Hangzhou/Scenes/Level5_Scene1_Opening.unity
     guid: c284005d6a5c8de4b824ea4e88322974
