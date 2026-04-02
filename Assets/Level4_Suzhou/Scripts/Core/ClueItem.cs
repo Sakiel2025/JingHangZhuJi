@@ -10,7 +10,7 @@ using TMPro;  // 支持TextMeshPro
 /// 支持Unity UI Text 和 TextMeshPro两种文本组件
 /// 新增：支持初始隐藏，点击后显现
 /// </summary>
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(PolygonCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class ClueItem : MonoBehaviour
 {
@@ -38,6 +38,13 @@ public class ClueItem : MonoBehaviour
     [Tooltip("发现线索时的文字（TextMeshPro）")]
     public TMP_Text foundTextTMP;
     
+    [Header("文字框引用")]
+    [Tooltip("提示文字框背景（TiShiKuang），场景开始即显示并一直保持")]
+    public GameObject tiShiKuang;
+
+    [Tooltip("黑底文字框背景（HeiDiWenZiKuang），点击物品后与发现文字一起显示")]
+    public GameObject heiDiWenZiKuang;
+
     [Header("按钮引用")]
     [Tooltip("继续按钮")]
     public Button nextButton;
@@ -83,6 +90,18 @@ public class ClueItem : MonoBehaviour
             Debug.Log($"线索物品初始化（可见状态）：{clueName}");
         }
         
+        // TiShiKuang：场景开始就显示，一直保持
+        if (tiShiKuang != null)
+        {
+            tiShiKuang.SetActive(true);
+        }
+
+        // HeiDiWenZiKuang：初始隐藏，点击后才显示
+        if (heiDiWenZiKuang != null)
+        {
+            heiDiWenZiKuang.SetActive(false);
+        }
+
         // 初始化UI状态（支持两种文本类型）
         if (foundText != null)
         {
@@ -190,15 +209,7 @@ public class ClueItem : MonoBehaviour
             AudioSource.PlayClipAtPoint(collectSound, transform.position);
         }
         
-        // 隐藏提示文字（支持两种文本类型）
-        if (hintText != null)
-        {
-            hintText.gameObject.SetActive(false);
-        }
-        if (hintTextTMP != null)
-        {
-            hintTextTMP.gameObject.SetActive(false);
-        }
+        // 提示文字与TiShiKuang保持显示，不隐藏
         
         // 移动并放大到屏幕中央
         float elapsed = 0f;
@@ -234,6 +245,12 @@ public class ClueItem : MonoBehaviour
         // 保存线索数据
         SaveClueData();
         
+        // 显示黑底文字框 + 发现文字（同时出现）
+        if (heiDiWenZiKuang != null)
+        {
+            heiDiWenZiKuang.SetActive(true);
+        }
+
         // 显示发现文字（支持两种文本类型）
         string displayText = $"获得'{clueName}'字！\n{clueDescription}";
         if (foundText != null)
@@ -256,7 +273,7 @@ public class ClueItem : MonoBehaviour
         }
         
         // 禁用交互
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
     }
     
     /// <summary>
