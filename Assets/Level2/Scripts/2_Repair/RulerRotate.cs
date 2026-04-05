@@ -1,10 +1,9 @@
 // 保存路径：Assets/Level1/Scripts/2_Taierzhuang/RulerRotate.cs
 using UnityEngine;
-using UnityEngine.EventSystems;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
-public class RulerRotate : MonoBehaviour, IDragHandler
+public class RulerRotate : MonoBehaviour
 {
     [Header("核心赋值")]
     public Image newRafterImage;
@@ -16,7 +15,6 @@ public class RulerRotate : MonoBehaviour, IDragHandler
     [Header("角度设置")]
     public float targetAngle = 30f;
     public float angleTolerance = 5f;
-    public float rotateSpeed = 2f;
 
     void Start()
     {
@@ -38,13 +36,11 @@ public class RulerRotate : MonoBehaviour, IDragHandler
         float currentAngle = NormalizeAngle(rawAngle);
         currentAngle = Mathf.Round(currentAngle);
 
-        // 【修复】最稳定的文本显示，绝对能看见 ° 符号
         if (angleTip != null)
         {
-            angleTip.text = "当前角度：" + currentAngle + "°目标角度：" + targetAngle + "°";
+            angleTip.text = "当前角度：" + currentAngle + "°  目标角度：" + targetAngle + "°";
         }
 
-        // 角度判断
         if (Mathf.Abs(currentAngle - targetAngle) < angleTolerance)
             confirmBtn.interactable = true;
         else
@@ -53,22 +49,10 @@ public class RulerRotate : MonoBehaviour, IDragHandler
 
     void UpdateWoodAngle(float sliderValue)
     {
+        // 滑块 0~1 → 角度 -90 ~ +90
         float finalAngle = (sliderValue - 0.5f) * 180f;
         finalAngle = Mathf.Clamp(finalAngle, -90, 90);
         newRafterImage.rectTransform.localEulerAngles = new Vector3(0, 0, finalAngle);
-    }
-
-    public void OnDrag(PointerEventData data)
-    {
-        newRafterImage.rectTransform.Rotate(0, 0, -data.delta.x * rotateSpeed);
-
-        if (angleSlider != null)
-        {
-            float angle = NormalizeAngle(newRafterImage.rectTransform.localEulerAngles.z);
-            float val = (angle + 90) / 180f;
-            val = Mathf.Clamp01(val);
-            angleSlider.SetValueWithoutNotify(val);
-        }
     }
 
     float NormalizeAngle(float angle)
