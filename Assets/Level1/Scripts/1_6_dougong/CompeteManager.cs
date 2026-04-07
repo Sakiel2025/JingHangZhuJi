@@ -33,13 +33,20 @@ public class CompeteManager : MonoBehaviour
         remainingTime = totalTime;
         winLoseText.enabled = false;
         UpdateTimeText();
-        startButton.onClick.AddListener(StartCompete);
+
+        // 强制激活按钮，100%可点
+        if (startButton != null)
+        {
+            startButton.interactable = true;
+            startButton.onClick.RemoveAllListeners(); // 先清掉旧监听
+            startButton.onClick.AddListener(StartCompete);
+        }
 
         // 初始隐藏返回按钮
         if (backToMainButton != null)
             backToMainButton.gameObject.SetActive(false);
 
-        // 【关键】开始前禁止玩家操作
+        // 开始前禁止玩家操作
         SetPlayerDragEnabled(false);
     }
 
@@ -59,21 +66,19 @@ public class CompeteManager : MonoBehaviour
         UpdateAI();
     }
 
-    void StartCompete()
+    public void StartCompete() // 改成 public
     {
+        if (isCompeting || isGameOver) return;
+
         isCompeting = true;
         startButton.gameObject.SetActive(false);
-
-        // 【关键】点了开始 → 允许拖拽拼图
         SetPlayerDragEnabled(true);
     }
 
-    // 【核心功能】开启/关闭玩家拼图拖拽
     void SetPlayerDragEnabled(bool enabled)
     {
         if (playerPuzzle == null) return;
 
-        // 找到所有拼图碎片，禁止/允许拖拽
         PuzzlePiece_dougong[] allPieces = playerPuzzle.GetComponentsInChildren<PuzzlePiece_dougong>();
         foreach (var piece in allPieces)
         {
@@ -133,7 +138,6 @@ public class CompeteManager : MonoBehaviour
         isGameOver = true;
         isCompeting = false;
 
-        // 游戏结束 → 禁止拖拽
         SetPlayerDragEnabled(false);
 
         if (win)
@@ -150,7 +154,6 @@ public class CompeteManager : MonoBehaviour
         winLoseText.enabled = true;
         playerPuzzle.gameOverPanel.SetActive(true);
 
-        // 显示返回按钮
         if (backToMainButton != null)
             backToMainButton.gameObject.SetActive(true);
     }
