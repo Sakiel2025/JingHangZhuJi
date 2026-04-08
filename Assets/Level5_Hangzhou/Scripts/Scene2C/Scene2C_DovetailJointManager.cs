@@ -51,7 +51,8 @@ public class Scene2C_DovetailJointManager : MonoBehaviour
     public Button continueButton;
 
     [Header("成功提示内容")]
-    [Tooltip("拼接成功时显示的文字")]
+    [Tooltip("拼接成功时显示的文字（支持多行，用\\n换行）")]
+    [TextArea(3, 6)]
     public string successMessage = "小墨：燕尾榫拼好了！拉都拉不开！";
 
     [Header("音频")]

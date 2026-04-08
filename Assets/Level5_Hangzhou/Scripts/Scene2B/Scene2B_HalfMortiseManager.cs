@@ -59,7 +59,8 @@ public class Scene2B_HalfMortiseManager : MonoBehaviour
     public Button continueButton;
 
     [Header("成功提示内容")]
-    [Tooltip("拼接成功时显示的文字")]
+    [Tooltip("拼接成功时显示的文字（支持多行，用\\n换行）")]
+    [TextArea(3, 6)]
     public string successMessage = "小墨：半榫拼好了！插入了一半的深度！";
 
     [Header("音频")]

@@ -51,7 +51,8 @@ public class Scene2D_RoundTenonManager : MonoBehaviour
     public Button continueButton;
 
     [Header("成功提示内容")]
-    [Tooltip("拼接成功时显示的文字")]
+    [Tooltip("拼接成功时显示的文字（支持多行，用\\n换行）")]
+    [TextArea(3, 6)]
     public string successMessage = "小墨：馒头榫拼好了！四种榫卯都学会了！";
 
     [Header("音频")]
