@@ -159,6 +159,13 @@ namespace JingHangZhuJi.Level3
         {
             UIManager.Instance?.ShowMessage("发现问题：地基积水严重，6根木桩腐朽，地基倾斜2.5°");
             phaseCompleted[1] = true;
+
+            // 扫描完成后锁定工匠之眼按钮
+            ToolbarUI toolbarUI = FindObjectOfType<ToolbarUI>();
+            if (toolbarUI != null)
+            {
+                toolbarUI.SetToolUnlocked("craftsmaneye", false);
+            }
             
             // 完成任务0：使用匠人之眼扫描亭子
             global::Level3.UI.TaskListUI taskList = FindObjectOfType<global::Level3.UI.TaskListUI>();
@@ -230,7 +237,14 @@ namespace JingHangZhuJi.Level3
         private void OnJackPlaced()
         {
             UIManager.Instance?.ShowMessage("千斤顶已就位！正在掀开台基...");
-            
+
+            // 千斤顶使用完毕，锁定按钮
+            ToolbarUI toolbarUI = FindObjectOfType<ToolbarUI>();
+            if (toolbarUI != null)
+            {
+                toolbarUI.SetToolUnlocked("jack", false);
+            }
+
             // 完成任务1：安装千斤顶并掀开台基
             global::Level3.UI.TaskListUI taskList = FindObjectOfType<global::Level3.UI.TaskListUI>();
             if (taskList != null)
@@ -326,7 +340,14 @@ namespace JingHangZhuJi.Level3
             yield return new WaitForSeconds(2f);
 
             UIManager.Instance?.ShowMessage("测量完成！木桩已更换并调整合格");
-            
+
+            // 鲁班尺使用完毕，锁定按钮
+            ToolbarUI toolbarUI = FindObjectOfType<ToolbarUI>();
+            if (toolbarUI != null)
+            {
+                toolbarUI.SetToolUnlocked("ruler", false);
+            }
+
             // 切换木桩状态为合格
             if (woodPilesManager != null)
             {
@@ -367,7 +388,14 @@ namespace JingHangZhuJi.Level3
         {
             Debug.Log("=== StartNightTalk 被调用 ===");
             Debug.Log($"dialogueManager 是否为空: {dialogueManager == null}");
-            
+
+            // 对话出现前，先完成任务四（索引3）
+            global::Level3.UI.TaskListUI taskList = FindObjectOfType<global::Level3.UI.TaskListUI>();
+            if (taskList != null)
+            {
+                taskList.CompleteTask(3);
+            }
+
             UIManager.Instance?.ShowMessage("夜幕降临，黄老爷邀请你深夜长谈...");
             
             // 先显示开场对话，等待玩家点击"继续"后再启动AI对话系统
