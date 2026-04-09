@@ -625,8 +625,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u70B9\u51FB\u6B64\u5904\u7EE7\u7EED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
-  m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
+  m_sharedMaterial: {fileID: -271345692913486005, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -734,7 +734,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 400}
+  m_AnchoredPosition: {x: 260, y: 400}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160111257
@@ -1218,8 +1218,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u83B7\u5F97'\u501F'\u5B57\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
-  m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
+  m_sharedMaterial: {fileID: -271345692913486005, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1514,7 +1514,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: 420}
+  m_AnchoredPosition: {x: 350, y: 420}
   m_SizeDelta: {x: 1000, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2131394347
@@ -1537,10 +1537,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u63D0\u793A:\u723D\u501F\u6E05\u98CE\u660E__\u6708\uFF0C\u52A8\u89C2\u6D41\u6C34\u9759\u89C2\u5C71\u3002"
+  m_text: "\u63D0\u793A:\u723D\u501F\u6E05\u98CE\u660E _ \u6708\uFF0C\u52A8\u89C2\u6D41\u6C34\u9759\u89C2\u5C71\u3002"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
-  m_sharedMaterial: {fileID: 3624961363858923186, guid: ed6b544e260669b46bb5caae21a0a49b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
+  m_sharedMaterial: {fileID: -271345692913486005, guid: 8b5f3b73155fc8e4ab3056f344afb6d5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
