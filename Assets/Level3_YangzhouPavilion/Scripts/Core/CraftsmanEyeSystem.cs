@@ -41,6 +41,13 @@ namespace JingHangZhuJi.Level3
             scanProgress = 0f;
             problemsFound = 0;
 
+            // 点击工匠之眼后，才切换台基为倾斜损坏状态
+            FoundationStateManager foundationStateManager = FindObjectOfType<FoundationStateManager>();
+            if (foundationStateManager != null)
+            {
+                foundationStateManager.SetState(FoundationState.Tilted);
+            }
+
             if (scanEffect != null)
                 scanEffect.Play();
 
