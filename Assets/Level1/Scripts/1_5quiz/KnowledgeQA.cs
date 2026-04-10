@@ -77,8 +77,8 @@ public class KnowledgeQA : MonoBehaviour
             },
             new QuestionData
             {
-                question = "在太和殿斗拱中，你找到师父刻字的构件是？（单选）",
-                options = new string[] { "斗", "拱", "昂", "枋" },
+                question = "中国古建筑中，斗拱主要使用的连接方式是？（单选）",
+                options = new string[] { "铁钉固定", "胶水粘贴", "榫卯咬合", "焊接加固" },
                 correctAnswers = new int[] { 2 },
                 isMultiple = false,
                 correctDelay = 2f,
