@@ -105,7 +105,7 @@ public class RainEventSystem : MonoBehaviour
     private void OnOptionAClick()
     {
         isDecisionMade = true;
-        rainTipTMP.text = "方案A：油布遮挡工地，木料/半成品未受损！工期延长";
+        rainTipTMP.text = "方案A：木料未受损，不过工期延长！";
         EndRainChoice(); // 结束选择题
     }
 
@@ -113,7 +113,7 @@ public class RainEventSystem : MonoBehaviour
     private void OnOptionBClick()
     {
         isDecisionMade = true;
-        rainTipTMP.text = "方案B：冒雨加速安装，赶在大雨前完成！解锁成就“疾风快手”";
+        rainTipTMP.text = "方案B：冒雨加速安装，赶在大雨前完成了！";
         EndRainChoice(); // 结束选择题
     }
 
