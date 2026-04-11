@@ -34,7 +34,7 @@ namespace JingHangZhuJi.Level3
         public DialogueLine[] dialogueLines;
         
         [Tooltip("是否启用打字机效果")]
-        public bool useTypewriterEffect = true;
+        public bool useTypewriterEffect = false;
         
         [Tooltip("打字机速度（每个字的间隔秒数）")]
         public float typewriterSpeed = 0.05f;
@@ -47,6 +47,7 @@ namespace JingHangZhuJi.Level3
         private void Start()
         {
             Debug.Log("[Level3Intro] 前置剧情场景开始");
+            useTypewriterEffect = false; // 强制关闭打字机效果
             
             // 隐藏继续按钮
             if (continueButton != null)

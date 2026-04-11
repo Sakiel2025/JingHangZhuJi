@@ -54,10 +54,11 @@ namespace Level3.UI
             if (typingCoroutine != null)
             {
                 StopCoroutine(typingCoroutine);
+                typingCoroutine = null;
             }
 
-            // 启动打字机效果
-            typingCoroutine = StartCoroutine(TypeText(dialogue));
+            // 直接显示完整文本，不使用打字机效果
+            dialogueText.text = dialogue;
 
             // 淡入动画
             if (fadeCoroutine != null)

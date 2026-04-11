@@ -1237,14 +1237,14 @@ RectTransform:
   m_GameObject: {fileID: 1668249453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 675349432}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: 100}
+  m_AnchoredPosition: {x: 60, y: 100}
   m_SizeDelta: {x: 3000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668249455
@@ -1407,7 +1407,7 @@ MonoBehaviour:
     dialogueText: "\u9EC4\u8001\u7237\u653E\u5FC3\uFF0C\u6211\u5148\u53BB\u67E5\u770B\u4E00\u4E0B\u635F\u574F\u60C5\u51B5\uFF0C\u518D\u5236\u5B9A\u4FEE\u590D\u65B9\u6848\u3002"
     characterSprite: {fileID: 21300000, guid: 687c5c46cd913de458643f7ee98d10dd, type: 3}
     showCharacter: 1
-  useTypewriterEffect: 1
+  useTypewriterEffect: 0
   typewriterSpeed: 0.05
 --- !u!4 &1722221505
 Transform:
