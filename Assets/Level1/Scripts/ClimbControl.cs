@@ -48,6 +48,22 @@ public class ClimbControl : MonoBehaviour
 
     private bool isDialogShowed = false; // 剧情是否触发（避免重复）
 
+    // ===================== 新增：按钮长按控制 =====================
+    private bool isHoldingButton = false;
+
+    // 按钮【按下时】调用
+    public void OnClimbButtonDown()
+    {
+        isHoldingButton = true;
+    }
+
+    // 按钮【抬起时】调用
+    public void OnClimbButtonUp()
+    {
+        isHoldingButton = false;
+    }
+    // ==============================================================
+
     void Start()
     {
         // 自动补全小人的RectTransform（防止漏拖）
@@ -63,11 +79,13 @@ public class ClimbControl : MonoBehaviour
 
     void Update()
     {
-        // 2D UI攀爬核心逻辑：只响应上箭头，用anchoredPosition移动
-        if (canClimb && Input.GetKey(KeyCode.UpArrow))
+        // ===================== 这里修改了 =====================
+        // 键盘 上键  OR  按钮长按 → 都能爬
+        if (canClimb && (Input.GetKey(KeyCode.UpArrow) || isHoldingButton))
         {
             playerUI.anchoredPosition += new Vector2(0, climbSpeed * Time.deltaTime);
         }
+        // ======================================================
 
         // 爬到中点触发剧情（只触发一次）
         if (playerUI.anchoredPosition.y >= middleY && !isDialogShowed)
