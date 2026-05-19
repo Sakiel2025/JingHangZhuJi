@@ -36,64 +36,82 @@ public class ClimbControl : MonoBehaviour
     [Header("【是否允许攀爬】（初始勾选）")]
     public bool canClimb = true;  
 
-    [Header("【UI坐标设置】（直接填下面的值）")]
-    public float middleY = 0f;    // UI垂直中点（固定0）
-    public float topY = 450f;     // UI顶部（固定450）
-    public float bottomY = -450f; // UI底部（固定-450）
+    [Header("【UI坐标设置】")]
+    public float middleY = 0f;
+    public float topY = 450f;
+    public float bottomY = -450f;
 
-    [Header("【拖拽赋值区】（必拖！）")]
-    public RectTransform playerUI; // 小人的RectTransform（拖小人自身）
-    public GameObject dialogPanel; // 对话+选择框总面板
-    public TextMeshProUGUI tipText; // 提示文本
+    [Header("【攀爬翻转设置】")]
+    public float flipDistance = 30f; // 爬多少距离翻转一次
+    private float moveRecord;        // 记录移动距离
+    private bool isFlip = false;     // 翻转状态
 
-    private bool isDialogShowed = false; // 剧情是否触发（避免重复）
+    [Header("【拖拽赋值区】")]
+    public RectTransform playerUI;
+    public GameObject dialogPanel;
+    public TextMeshProUGUI tipText;
 
-    // ===================== 新增：按钮长按控制 =====================
+    private bool isDialogShowed = false;
     private bool isHoldingButton = false;
+    private Vector2 originSize;      // 记录原始尺寸
 
-    // 按钮【按下时】调用
+    // 长按攀爬按钮事件
     public void OnClimbButtonDown()
     {
         isHoldingButton = true;
     }
-
-    // 按钮【抬起时】调用
     public void OnClimbButtonUp()
     {
         isHoldingButton = false;
     }
-    // ==============================================================
 
     void Start()
     {
-        // 自动补全小人的RectTransform（防止漏拖）
         if (playerUI == null)
         {
             playerUI = GetComponent<RectTransform>();
         }
+        // 开局牢牢记住原始大小，全程不改动
+        originSize = playerUI.sizeDelta;
 
-        // 初始隐藏UI
         if (dialogPanel != null) dialogPanel.SetActive(false);
         if (tipText != null) tipText.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        // ===================== 这里修改了 =====================
-        // 键盘 上键  OR  按钮长按 → 都能爬
+        // 强制锁定原始尺寸，防止变小
+        playerUI.sizeDelta = originSize;
+
+        // 键盘上键 + 长按按钮 双攀爬
         if (canClimb && (Input.GetKey(KeyCode.UpArrow) || isHoldingButton))
         {
-            playerUI.anchoredPosition += new Vector2(0, climbSpeed * Time.deltaTime);
-        }
-        // ======================================================
+            float moveY = climbSpeed * Time.deltaTime;
+            playerUI.anchoredPosition += new Vector2(0, moveY);
 
-        // 爬到中点触发剧情（只触发一次）
+            // 累加移动距离，达到阈值就翻转
+            moveRecord += moveY;
+            if (moveRecord >= flipDistance)
+            {
+                FlipPlayer();
+                moveRecord = 0; // 重置计数
+            }
+        }
+
+        // 停止攀爬恢复正向
+        if(!Input.GetKey(KeyCode.UpArrow) && !isHoldingButton)
+        {
+            isFlip = false;
+            playerUI.localRotation = Quaternion.Euler(0,0,0);
+        }
+
+        // 剧情触发
         if (playerUI.anchoredPosition.y >= middleY && !isDialogShowed)
         {
             ShowDialog();
         }
 
-        // 爬到顶部提示（后续可加场景切换）
+        // 到达顶部切换场景
         if (playerUI.anchoredPosition.y >= topY)
         {
             Debug.Log("✅ 小人爬到顶部，可切场景！");
@@ -101,57 +119,52 @@ public class ClimbControl : MonoBehaviour
         }
     }
 
-    // ========== 以下3个方法是按钮要绑定的核心！ ==========
-    #region 按钮绑定方法（公开、无参，下拉框必显示）
-    /// <summary>
-    /// 说明来意按钮绑定这个方法
-    /// </summary>
+    // 纯左右镜面翻转，不改变任何大小
+    void FlipPlayer()
+    {
+        isFlip = !isFlip;
+        if (isFlip)
+        {
+            // Y轴旋转180度实现左右镜像，尺寸完全不变
+            playerUI.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            playerUI.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
+    // 三个选择按钮
     public void Btn_Explain()
     {
-        // 显示好感提示
         if (tipText != null)
         {
             tipText.text = "工匠好感+10";
-            tipText.color = new Color(0, 1, 0); // 绿色
+            tipText.color = new Color(0, 1, 0);
             tipText.gameObject.SetActive(true);
         }
-        // 关闭对话框，恢复攀爬
         CloseDialog();
-        // 2秒后隐藏提示
         Invoke("HideTip", 2f);
     }
 
-    /// <summary>
-    /// 沉默攀爬按钮绑定这个方法
-    /// </summary>
     public void Btn_Silent()
     {
-        // 直接关闭对话框，恢复攀爬
         CloseDialog();
     }
 
-    /// <summary>
-    /// 撒谎按钮绑定这个方法
-    /// </summary>
     public void Btn_Lie()
     {
-        // 显示难度提示
         if (tipText != null)
         {
             tipText.text = "工匠警觉，增加难度";
-            tipText.color = new Color(1, 0, 0); // 红色
+            tipText.color = new Color(1, 0, 0);
             tipText.gameObject.SetActive(true);
         }
-        // 小人掉回UI底部
         playerUI.anchoredPosition = new Vector2(playerUI.anchoredPosition.x, bottomY);
-        // 关闭对话框，恢复攀爬
         CloseDialog();
-        // 2秒后隐藏提示
         Invoke("HideTip", 2f);
     }
-    #endregion
 
-    // 显示对话框：暂停攀爬
     void ShowDialog()
     {
         isDialogShowed = true;
@@ -159,14 +172,12 @@ public class ClimbControl : MonoBehaviour
         if (dialogPanel != null) dialogPanel.SetActive(true);
     }
 
-    // 关闭对话框：恢复攀爬
     void CloseDialog()
     {
         if (dialogPanel != null) dialogPanel.SetActive(false);
         canClimb = true;
     }
 
-    // 隐藏提示文本
     void HideTip()
     {
         if (tipText != null) tipText.gameObject.SetActive(false);
