@@ -1338,6 +1338,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextButton: {fileID: 187964006}
   dialogueContent: "\u5C0F\u58A8\uFF1A\"\u5E08\u7236\u7684\u7B2C\u56DB\u5C01\u4FE1\u5728\u82CF\u5DDE\u62D9\u653F\u56ED\u3002\"\n\u6C88\u69AB\uFF1A\"\u542C\u8BF4\u90A3\u91CC\u85CF\u7740'\u501F\u5C71\u6C34\u610F'\u7684\u79D8\u5BC6\u3002\"\n\u5C0F\u58A8\uFF1A\"\u6211\u4EEC\u4E00\u8D77\u53BB\u63A2\u7D22\u5427\uFF01\""
+  voice1: {fileID: 8300000, guid: 3e22afb562f3d844e987d478a03ebf46, type: 3}
+  voice2: {fileID: 8300000, guid: 45574346b4058fd46b12d7389b0264ba, type: 3}
+  voice3: {fileID: 8300000, guid: 03928d9f1d30f6c41965432a51bef041, type: 3}
+  voice4: {fileID: 8300000, guid: 0e982908aaee8764bbc317f19d0a92cf, type: 3}
   nextSceneName: Level4_LotusPool
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
