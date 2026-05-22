@@ -927,6 +927,7 @@ MonoBehaviour:
   middleY: -125
   topY: -110
   bottomY: -136
+  flipDistance: 30
   playerUI: {fileID: 595917751}
   dialogPanel: {fileID: 1465778415}
   tipText: {fileID: 1384656074}
@@ -1875,6 +1876,7 @@ MonoBehaviour:
   middleY: 500
   topY: 845
   bottomY: 250
+  flipDistance: 45
   playerUI: {fileID: 1237062364}
   dialogPanel: {fileID: 1465778415}
   tipText: {fileID: 1384656074}

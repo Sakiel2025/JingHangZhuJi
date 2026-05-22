@@ -1666,6 +1666,10 @@ MonoBehaviour:
   momFirstLine: "\u5927\u67F1\uFF0C\u522B\u80E1\u95F9\uFF01"
   momThanksLine1: "\u5148\u751F\uFF0C\u6211\u4ECE\u5C4B\u91CC\u62FF\u4E2A\u4E1C\u897F\u7ED9\u60A8\u3002"
   momThanksLine2: "\u8FD9\u662F\u60A8\u5E08\u7236\u5F53\u5E74\u7559\u4E0B\u7684\u3002\u4ED6\u8BF4\uFF0C\u5982\u679C\u6709\u4EBA\u6765\u4FEE\u623F\u5B50\uFF0C\u5C31\u4EA4\u7ED9\u4ED6"
+  voice_sonFirst: {fileID: 8300000, guid: ba46078ae7e5590429f82625ed572a4c, type: 3}
+  voice_momFirst: {fileID: 8300000, guid: bfdaae0902e92964ca77b3e3fca846d6, type: 3}
+  voice_momThanks1: {fileID: 8300000, guid: 0a64829e3b3c03a42ba423ba9b7de858, type: 3}
+  voice_momThanks2: {fileID: 8300000, guid: bb43f5b6dac9dfd4bb5841cbda9645c4, type: 3}
 --- !u!4 &981034452
 Transform:
   m_ObjectHideFlags: 0

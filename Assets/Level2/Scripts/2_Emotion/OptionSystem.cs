@@ -1,4 +1,3 @@
-// 保存路径：Assets/Level1/Scripts/2_Taierzhuang/OptionSystem.cs
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,7 +11,7 @@ public class OptionSystem : MonoBehaviour
     public Image speakerImage;
 
     [Header("角色名字（新增）")]
-    public TextMeshProUGUI nameText;       // 名字框
+    public TextMeshProUGUI nameText;
     public string sonName = "大柱";
     public string momName = "赵家寡妇";
 
@@ -39,8 +38,22 @@ public class OptionSystem : MonoBehaviour
     public string momThanksLine1 = "多谢先生仗义相助！";
     public string momThanksLine2 = "这份恩情，赵家永世不忘！";
 
+    // ====================== 【配音 自动添加】 ======================
+    [Header("🔊 配音音频（直接拖进来）")]
+    public AudioClip voice_sonFirst;    // 大柱第一句
+    public AudioClip voice_momFirst;    // 妈妈第一句
+    public AudioClip voice_momThanks1;  // 妈妈感谢1
+    public AudioClip voice_momThanks2;  // 妈妈感谢2
+
+    private AudioSource audioPlayer;
+    // ===============================================================
+
     void Start()
     {
+        // 自动生成声音播放器（不用你管）
+        audioPlayer = gameObject.AddComponent<AudioSource>();
+        audioPlayer.volume = 1f;
+
         optionPanel.SetActive(false);
         rewardPanel.SetActive(false);
 
@@ -60,7 +73,8 @@ public class OptionSystem : MonoBehaviour
         nameText.text = sonName;
         nameText.gameObject.SetActive(true);
         dialogText.text = sonFirstLine;
-        yield return new WaitForSeconds(1f);
+        PlayVoice(voice_sonFirst); // 自动播配音
+        yield return new WaitForSeconds(2f);
 
         // 农妇说话
         speakerImage.sprite = momSprite;
@@ -68,7 +82,8 @@ public class OptionSystem : MonoBehaviour
         nameText.text = momName;
         nameText.gameObject.SetActive(true);
         dialogText.text = momFirstLine;
-        yield return new WaitForSeconds(1f);
+        PlayVoice(voice_momFirst); // 自动播配音
+        yield return new WaitForSeconds(2f);
 
         optionPanel.SetActive(true);
     }
@@ -86,14 +101,25 @@ public class OptionSystem : MonoBehaviour
         speakerImage.sprite = momSprite;
         nameText.text = momName;
         dialogText.text = momThanksLine1;
-        yield return new WaitForSeconds(1f);
+        PlayVoice(voice_momThanks1); // 自动播配音
+        yield return new WaitForSeconds(4f);
 
         // 农妇感谢2
         dialogText.text = momThanksLine2;
-        yield return new WaitForSeconds(2f);
+        PlayVoice(voice_momThanks2); // 自动播配音
+        yield return new WaitForSeconds(3f);
 
         ShowRewardPanel();
     }
+
+    // ====================== 【播放声音】 ======================
+    void PlayVoice(AudioClip clip)
+    {
+        if (clip == null) return;
+        audioPlayer.Stop();    // 切换句子自动停上一句
+        audioPlayer.PlayOneShot(clip); // 播放当前配音
+    }
+    // ===========================================================
 
     private void ShowRewardPanel()
     {
