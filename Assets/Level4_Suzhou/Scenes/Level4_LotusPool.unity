@@ -1406,6 +1406,7 @@ MonoBehaviour:
   scaleMultiplier: 1.5
   animationDuration: 0.5
   collectSound: {fileID: 0}
+  voiceClip: {fileID: 8300000, guid: 95e2301f337f95e46ab45ea03ddf106a, type: 3}
 --- !u!60 &2006535594
 PolygonCollider2D:
   m_ObjectHideFlags: 0

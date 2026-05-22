@@ -65,6 +65,10 @@ public class ClueItem : MonoBehaviour
     
     [Header("音效（可选）")]
     public AudioClip collectSound;
+
+    [Header("配音（可选）")]
+    [Tooltip("弹出黑底文字框时播放的配音")]
+    public AudioClip voiceClip;
     
     private SpriteRenderer sr;
     private Color originalColor;
@@ -249,6 +253,12 @@ public class ClueItem : MonoBehaviour
         if (heiDiWenZiKuang != null)
         {
             heiDiWenZiKuang.SetActive(true);
+        }
+
+        // 播放配音
+        if (voiceClip != null)
+        {
+            AudioSource.PlayClipAtPoint(voiceClip, Camera.main.transform.position);
         }
 
         // 显示发现文字（支持两种文本类型）

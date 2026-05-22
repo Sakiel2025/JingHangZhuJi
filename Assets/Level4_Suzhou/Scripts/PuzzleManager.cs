@@ -34,6 +34,10 @@ namespace Level4.Suzhou
     public AudioClip successSound;
     public AudioClip wrongSound;
     private AudioSource audioSource;
+
+    [Header("配音（可选）")]
+    [Tooltip("成功面板弹出时播放的配音")]
+    public AudioClip successVoiceClip;
     
     [Header("设置")]
     [Tooltip("显示成功面板前的延迟时间（秒）")]
@@ -176,6 +180,12 @@ namespace Level4.Suzhou
         
         // 显示成功对话面板
         successPanel.SetActive(true);
+
+        // 播放配音
+        if (successVoiceClip != null)
+        {
+            AudioSource.PlayClipAtPoint(successVoiceClip, Camera.main.transform.position);
+        }
         
         Debug.Log("显示成功面板");
     }
