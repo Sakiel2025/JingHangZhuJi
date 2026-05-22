@@ -27,6 +27,9 @@ namespace JingHangZhuJi
         [SerializeField] private Button submitButton;
         [SerializeField] private Button continueButton;
 
+        [Header("配音")]
+        [SerializeField] private AudioSource dialogueAudioSource; // 对话配音播放器
+
 
 
 
@@ -77,6 +80,9 @@ namespace JingHangZhuJi
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject); // 设置为全局单例，切换场景时不销毁
+                // 自动补充配音 AudioSource
+                if (dialogueAudioSource == null)
+                    dialogueAudioSource = gameObject.AddComponent<AudioSource>();
             }
             else
             {
@@ -156,7 +162,7 @@ namespace JingHangZhuJi
         /// <summary>
         /// 显示对话
         /// </summary>
-        public void ShowDialogue(string speakerName, string dialogue, bool needInput, System.Action onContinue = null)
+        public void ShowDialogue(string speakerName, string dialogue, bool needInput, System.Action onContinue = null, AudioClip voiceClip = null)
         {
             currentDialogueCallback = onContinue;
 
@@ -169,6 +175,9 @@ namespace JingHangZhuJi
 
             if (speakerNameText != null) speakerNameText.text = speakerName;
             if (dialogueText != null) dialogueText.text = dialogue;
+
+            // 播放配音
+            PlayDialogueVoice(voiceClip);
 
             // 控制 inputPanel 显示
             if (inputPanel != null && inputPanel != dialoguePanel)
@@ -219,6 +228,30 @@ namespace JingHangZhuJi
         {
             if (dialoguePanel != null) dialoguePanel.SetActive(false);
             currentDialogueCallback = null;
+            StopDialogueVoice();
+        }
+
+        /// <summary>
+        /// 播放对话配音，传 null 则停止当前播放
+        /// </summary>
+        public void PlayDialogueVoice(AudioClip clip)
+        {
+            if (dialogueAudioSource == null) return;
+            dialogueAudioSource.Stop();
+            if (clip != null)
+            {
+                dialogueAudioSource.clip = clip;
+                dialogueAudioSource.Play();
+            }
+        }
+
+        /// <summary>
+        /// 停止对话配音
+        /// </summary>
+        public void StopDialogueVoice()
+        {
+            if (dialogueAudioSource != null)
+                dialogueAudioSource.Stop();
         }
 
         /// <summary>

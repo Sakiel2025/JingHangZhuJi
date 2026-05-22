@@ -1377,36 +1377,44 @@ MonoBehaviour:
   speakerNameText: {fileID: 105501585}
   dialogueText: {fileID: 1668249455}
   continueButton: {fileID: 1487768032}
+  voiceAudioSource: {fileID: 0}
   mainSceneName: Level3_Main
   dialogueLines:
   - speakerName: "\u65C1\u767D"
     dialogueText: "\u626C\u5DDE\u57CE\uFF0C\u76D0\u5546\u4E91\u96C6\u4E4B\u5730\u3002\u4F60\u53D7\u9080\u6765\u5230\u5BCC\u5546\u9EC4\u6C0F\u7684\u5E9C\u90B8\u3002"
     characterSprite: {fileID: 0}
     showCharacter: 0
+    voiceClip: {fileID: 0}
   - speakerName: "\u9EC4\u8001\u7237"
     dialogueText: "\u54CE\u5440\uFF01\u8FD9\u4F4D\u5C31\u662F\u8FDC\u8FD1\u95FB\u540D\u7684\u6C88\u5320\u4EBA\u5427\uFF1F\u4E45\u4EF0\u4E45\u4EF0\uFF01"
     characterSprite: {fileID: 21300000, guid: 2601c647ff8478a4db6ee13b9e34a026, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: adbc37bd092cbf64cab05e5c2ecabf10, type: 3}
   - speakerName: "\u6C88\u69AB\uFF08\u4F60\uFF09"
     dialogueText: "\u9EC4\u8001\u7237\u5BA2\u6C14\u4E86\u3002\u542C\u95FB\u5E9C\u4E0A\u6709\u5EFA\u7B51\u9700\u8981\u4FEE\u590D\uFF1F"
     characterSprite: {fileID: 21300000, guid: 687c5c46cd913de458643f7ee98d10dd, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: 501fe6aa03ee3664995fb764ca196e24, type: 3}
   - speakerName: "\u9EC4\u8001\u7237"
     dialogueText: "\u5509...\u6B63\u662F\uFF0C\u6211\u540E\u9662\u4E2D\u6709\u4E00\u5EA7\u516D\u89D2\u4EAD\uFF0C\u662F\u6211\u5341\u5E74\u524D\u82B1\u91CD\u91D1\u8BF7\u82CF\u5DDE\u540D\u5320\u5EFA\u9020\u7684\u3002\u7528\u7684\u90FD\u662F\u4E0A\u597D\u7684\u6960\u6728\uFF0C\u96D5\u6881\u753B\u680B\uFF0C\u7CBE\u7F8E\u65E0\u6BD4\u3002\u90A3\u53EF\u662F\u6211\u6700\u5FC3\u7231\u7684\u56ED\u6797\u73CD\u54C1\uFF01"
     characterSprite: {fileID: 21300000, guid: 2601c647ff8478a4db6ee13b9e34a026, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: acbd21e6cabc9094c8e99b296a2667f0, type: 3}
   - speakerName: "\u9EC4\u8001\u7237"
     dialogueText: "\u53EF\u8C01\u77E5\u524D\u4E9B\u65E5\u5B50\u8FDE\u964D\u66B4\u96E8\uFF0C\u6211\u53D1\u73B0\u4EAD\u5B50\u5F00\u59CB\u503E\u659C...\u8D70\u8FD1\u4E00\u770B\uFF0C\u5730\u57FA\u79EF\u6C34\u4E25\u91CD\uFF0C\u51E0\u6839\u67F1\u5B50\u90FD\u88C2\u4E86\u7F1D\uFF01\u518D\u4E0D\u4FEE\uFF0C\u6050\u6015\u8981\u584C\u4E86\uFF01"
     characterSprite: {fileID: 21300000, guid: 2601c647ff8478a4db6ee13b9e34a026, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: 854283498740d134990a513d39ed7b53, type: 3}
   - speakerName: "\u9EC4\u8001\u7237"
     dialogueText: "\u90A3\u5EA7\u4EAD\u5B50\u5BF9\u6211\u610F\u4E49\u91CD\u5927\uFF0C\u627F\u8F7D\u4E86\u592A\u591A\u56DE\u5FC6...\u4E07\u4E07\u4E0D\u80FD\u8BA9\u5B83\u5012\u584C\uFF01\u542C\u95FB\u6C88\u5320\u4EBA\u7CBE\u901A\u53E4\u5EFA\u4FEE\u590D\u4E4B\u672F\uFF0C\u8FD8\u671B\u65BD\u4EE5\u63F4\u624B\uFF0C\u6551\u6551\u6211\u7684\u516D\u89D2\u4EAD\uFF01"
     characterSprite: {fileID: 21300000, guid: 2601c647ff8478a4db6ee13b9e34a026, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: 74d6fec2eb289334191c9dfa7a00551a, type: 3}
   - speakerName: "\u6C88\u69AB\uFF08\u4F60\uFF09"
     dialogueText: "\u9EC4\u8001\u7237\u653E\u5FC3\uFF0C\u6211\u5148\u53BB\u67E5\u770B\u4E00\u4E0B\u635F\u574F\u60C5\u51B5\uFF0C\u518D\u5236\u5B9A\u4FEE\u590D\u65B9\u6848\u3002"
     characterSprite: {fileID: 21300000, guid: 687c5c46cd913de458643f7ee98d10dd, type: 3}
     showCharacter: 1
+    voiceClip: {fileID: 8300000, guid: c80ba70970b7d1e49a4f9108bbf53f8e, type: 3}
   useTypewriterEffect: 0
   typewriterSpeed: 0.05
 --- !u!4 &1722221505

@@ -25,6 +25,10 @@ namespace JingHangZhuJi.Level3
         [Tooltip("继续按钮")]
         public Button continueButton;
 
+        [Header("配音")]
+        [Tooltip("对话配音播放器（不填则自动添加）")]
+        public AudioSource voiceAudioSource;
+
         [Header("场景切换设置")]
         [Tooltip("主游戏场景名称")]
         public string mainSceneName = "Level3_Main";
@@ -48,6 +52,10 @@ namespace JingHangZhuJi.Level3
         {
             Debug.Log("[Level3Intro] 前置剧情场景开始");
             useTypewriterEffect = false; // 强制关闭打字机效果
+            
+            // 自动补充 AudioSource
+            if (voiceAudioSource == null)
+                voiceAudioSource = gameObject.AddComponent<AudioSource>();
             
             // 隐藏继续按钮
             if (continueButton != null)
@@ -121,6 +129,17 @@ namespace JingHangZhuJi.Level3
                 else
                 {
                     characterImage.gameObject.SetActive(false);
+                }
+            }
+
+            // 播放配音（旁白不播放）
+            if (voiceAudioSource != null && line.speakerName != "旁白")
+            {
+                voiceAudioSource.Stop();
+                if (line.voiceClip != null)
+                {
+                    voiceAudioSource.clip = line.voiceClip;
+                    voiceAudioSource.Play();
                 }
             }
             
@@ -221,5 +240,8 @@ namespace JingHangZhuJi.Level3
         
         [Tooltip("是否显示角色立绘")]
         public bool showCharacter = true;
+
+        [Tooltip("配音音频（旁白留空）")]
+        public AudioClip voiceClip;
     }
 }

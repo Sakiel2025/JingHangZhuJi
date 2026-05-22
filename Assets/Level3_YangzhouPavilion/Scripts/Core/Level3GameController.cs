@@ -43,6 +43,9 @@ namespace JingHangZhuJi.Level3
 
         [Header("NPC")]
         [SerializeField] private GameObject huangLaoye; // 黄老爷
+
+        [Header("配音")]
+        [SerializeField] private AudioClip nightTalkOpeningVoice; // 深夜长谈开场白配音
         
         // 常量
         private const float DAY_LIGHT_INTENSITY = 1f;
@@ -421,7 +424,8 @@ namespace JingHangZhuJi.Level3
                                      "- Dialogue Manager Enhanced（推荐，新版AI系统）\n" +
                                      "- Dialogue Manager（旧版）");
                     }
-                });
+                },
+                nightTalkOpeningVoice);
         }
 
         public void OnDialoguePhaseComplete()

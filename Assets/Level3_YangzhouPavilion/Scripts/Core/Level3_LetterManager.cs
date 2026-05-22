@@ -31,6 +31,9 @@ public class Level3_LetterManager : MonoBehaviour
     
     [Header("场景切换")]
     public string nextSceneName = "Level3_end"; // 下一个场景名称
+
+    [Header("配音")]
+    public AudioSource voiceAudioSource; // 对话配音播放器（不填自动添加）
     
     private int currentDialogueIndex = 0;
     
@@ -45,6 +48,10 @@ public class Level3_LetterManager : MonoBehaviour
         if (letterText == null) Debug.LogError("❌ letterText 未赋值！");
         if (letterImage == null) Debug.LogWarning("⚠️ letterImage 未赋值（可选）");
         if (string.IsNullOrEmpty(letterContent)) Debug.LogWarning("⚠️ letterContent 为空！");
+
+        // 自动补充 AudioSource
+        if (voiceAudioSource == null)
+            voiceAudioSource = gameObject.AddComponent<AudioSource>();
         
         // 初始化：显示对话面板，隐藏信件面板
         dialoguePanel.SetActive(true);
@@ -84,6 +91,17 @@ public class Level3_LetterManager : MonoBehaviour
         
         speakerName.text = line.speaker;
         dialogueText.text = line.content;
+
+        // 播放配音
+        if (voiceAudioSource != null)
+        {
+            voiceAudioSource.Stop();
+            if (line.voiceClip != null)
+            {
+                voiceAudioSource.clip = line.voiceClip;
+                voiceAudioSource.Play();
+            }
+        }
         
         Debug.Log($"显示对话 {index + 1}/{dialogueLines.Length}: {line.speaker}");
     }
@@ -154,4 +172,7 @@ public class DialogueLine
     
     [Header("可选：人物立绘")]
     public Sprite characterSprite;  // 人物立绘（可选，不同表情/姿态）
+
+    [Header("可选：配音")]
+    public AudioClip voiceClip;     // 配音音频（留空则不播放）
 }
