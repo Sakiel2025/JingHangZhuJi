@@ -63,6 +63,10 @@ public class Scene4_EndingManager : MonoBehaviour
     [Tooltip("背景音乐Clip")]
     public AudioClip bgmClip;
 
+    [Header("对话配音（可选，与对话内容一一对应）")]
+    [Tooltip("7句对话的配音，顺序与对话内容对应，留空则不播放")]
+    public AudioClip[] dialogueVoiceClips;
+
     [Header("场景切换")]
     [Tooltip("下一场景名称")]
     public string nextSceneName = "Success";
@@ -191,6 +195,13 @@ public class Scene4_EndingManager : MonoBehaviour
             // 所有对话统一使用黑色正常字体
             dialogueText.fontStyle = FontStyles.Normal;
             dialogueText.color = Color.black;
+        }
+
+        // 播放配音
+        if (dialogueVoiceClips != null && currentDialogueIndex < dialogueVoiceClips.Length
+            && dialogueVoiceClips[currentDialogueIndex] != null)
+        {
+            AudioSource.PlayClipAtPoint(dialogueVoiceClips[currentDialogueIndex], Camera.main.transform.position);
         }
     }
 

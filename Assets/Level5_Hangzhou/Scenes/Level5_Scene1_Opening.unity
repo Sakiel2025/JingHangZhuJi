@@ -2113,6 +2113,15 @@ MonoBehaviour:
   bgmClip: {fileID: 0}
   paperSoundClip: {fileID: 0}
   buttonClickClip: {fileID: 0}
+  dialogueVoiceClips:
+  - {fileID: 8300000, guid: cb2afde5f18a5a640af7e3f06e81cfef, type: 3}
+  - {fileID: 8300000, guid: e75b12f9f800633418a9128604ed6555, type: 3}
+  - {fileID: 8300000, guid: 6073acd7ba189ce4ab45b3181495b2d1, type: 3}
+  - {fileID: 8300000, guid: d35494a4e3331f24e8e706092cd04d2c, type: 3}
+  - {fileID: 8300000, guid: bbfca0f1040c74945a2daaf2f8906c75, type: 3}
+  - {fileID: 8300000, guid: 83fac0e1ba8bc144d9ca62bc3a4f9963, type: 3}
+  finalShenSunVoice: {fileID: 8300000, guid: fc108b0a3b15a324d8ff258f01fc3bea, type: 3}
+  finalOldWomanVoice: {fileID: 8300000, guid: b1ea5a2f1111ffc42b553448c220be62, type: 3}
   nextSceneName: Level5_Scene2A_ThroughMortise
   sceneTransitionDelay: 1.5
 --- !u!4 &2023495683

@@ -59,6 +59,14 @@ public class Scene1Manager : MonoBehaviour
     public AudioClip paperSoundClip;        // 翻纸音效
     public AudioClip buttonClickClip;       // 按钮点击音效
 
+    [Header("对话配音（可选，与dialogues数组一一对应）")]
+    [Tooltip("7句对话的配音，顺序与对话内容对应，留空则不播放")]
+    public AudioClip[] dialogueVoiceClips;  // 索引0-6对应7句对话
+    [Tooltip("沈榫最终台词配音：我会帮师父完成这座廊桥的。")]
+    public AudioClip finalShenSunVoice;
+    [Tooltip("老妇人最终台词配音：谢谢你，孩子...")]
+    public AudioClip finalOldWomanVoice;
+
     [Header("场景切换")]
     public string nextSceneName = "Level5_Scene2A_ThroughMortise"; // 下一个场景名称
     public float sceneTransitionDelay = 1.5f; // 场景切换延迟
@@ -199,6 +207,12 @@ public class Scene1Manager : MonoBehaviour
             dialogueText.text = dialogues[currentDialogueIndex];
         }
 
+        // 播放配音
+        if (dialogueVoiceClips != null && currentDialogueIndex < dialogueVoiceClips.Length
+            && dialogueVoiceClips[currentDialogueIndex] != null)
+        {
+            AudioSource.PlayClipAtPoint(dialogueVoiceClips[currentDialogueIndex], Camera.main.transform.position);
+        }
     }
 
     /// <summary>
@@ -354,6 +368,10 @@ public class Scene1Manager : MonoBehaviour
         // 第一句：沈榫（左侧）
         if (speakerNameText != null) speakerNameText.text = "沈榫";
         if (dialogueText != null) dialogueText.text = "我会帮师父完成这座廊桥的。";
+
+        // 播放配音
+        if (finalShenSunVoice != null)
+            AudioSource.PlayClipAtPoint(finalShenSunVoice, Camera.main.transform.position);
         
         // 显示沈榫立绘
         if (characterImage != null && shenSunSprite != null)
@@ -380,6 +398,10 @@ public class Scene1Manager : MonoBehaviour
 
         if (speakerNameText != null) speakerNameText.text = "老妇人";
         if (dialogueText != null) dialogueText.text = "谢谢你，孩子...";
+
+        // 播放配音
+        if (finalOldWomanVoice != null)
+            AudioSource.PlayClipAtPoint(finalOldWomanVoice, Camera.main.transform.position);
 
         // 显示老妇人立绘（右侧，正常表情）
         if (characterImage != null && oldWomanNormal != null)
