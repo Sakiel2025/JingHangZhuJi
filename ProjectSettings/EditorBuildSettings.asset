@@ -78,6 +78,9 @@ EditorBuildSettings:
     path: Assets/MainMap4.unity
     guid: 2573e8dc900364d469977673428d5161
   - enabled: 1
+    path: Assets/NPC5.unity
+    guid: cca68eac6e0686c498fa92bacc09c43f
+  - enabled: 1
     path: Assets/Success.unity
     guid: fc5fdcd307c3f784a9ad3703e3800e8b
   - enabled: 1
@@ -86,9 +89,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level1/Scenes/1_Beijing.unity
     guid: cf8a52d83c029dc4a9c2dd890c3ec498
-  - enabled: 1
-    path: Assets/NPC5.unity
-    guid: cca68eac6e0686c498fa92bacc09c43f
   - enabled: 1
     path: Assets/NPC6.unity
     guid: a8277f6ae27bdab45b27c467ab838073
