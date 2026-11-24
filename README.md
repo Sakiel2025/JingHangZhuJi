@@ -4,7 +4,7 @@
 
 《京杭筑迹》是一款以京杭大运河和中国传统营造技艺为主题的 **Unity 2D 剧情解谜游戏**。从北京一路南下到杭州，沿途参与斗拱组装、建筑修缮、园林探索和榫卯练习，最后动手搭一座西湖廊桥。
 
-[五关路线](#五关路线) · [启动游戏](#启动游戏) · [工程结构](#工程结构)
+[五关路线](#五关路线) · [启动游戏](#启动游戏) · [工程结构](#工程结构) · [项目成员](#项目成员)
 
 ## 五关路线
 
@@ -32,3 +32,9 @@
 | [`Assets/`](Assets) | 游戏场景、C# 脚本和美术、音频等资源。五关位于 `Level1`、`Level2`、`Level3_YangzhouPavilion`、`Level4_Suzhou`、`Level5_Hangzhou`。 |
 | [`Packages/manifest.json`](Packages/manifest.json) | Unity 项目依赖。 |
 | [`ProjectSettings/EditorBuildSettings.asset`](ProjectSettings/EditorBuildSettings.asset) | 构建场景列表，包含封面、地图、各关和结局。 |
+
+## 项目成员
+
+- [Sakiel2025](https://github.com/Sakiel2025)
+- [karen17tkL](https://github.com/karen17tkL)
+- [Dominic-060123](https://github.com/Dominic-060123)
