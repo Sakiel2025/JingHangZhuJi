@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/00_Cover.unity
+    guid: 0664c790d7c027243b4d760a320a74e9
+  - enabled: 1
+    path: Assets/LoginScene.unity
+    guid: 0f890fb3db63b854aaab4e3fb6507443
+  - enabled: 1
+    path: Assets/Login.unity
+    guid: 95072ced7c5551f41af95c0285001c9f
+  - enabled: 1
+    path: Assets/Register.unity
+    guid: 0747e3cdec8202d44a26e84430cbb773
+  - enabled: 1
+    path: Assets/LSuccess.unity
+    guid: e984b1deeeab2be44a37df9d1a92711f
+  - enabled: 1
+    path: Assets/RSuccess.unity
+    guid: 79016145ac96d4c429768699745b983c
+  - enabled: 1
+    path: Assets/Wrong.unity
+    guid: a8bda84e6d79eb742b21daf970ccfc06
+  - enabled: 1
+    path: Assets/None.unity
+    guid: b7b966b7792cafd4e9087897e9a4d9eb
+  - enabled: 1
+    path: Assets/Move.unity
+    guid: b36d348c17a88374e990b2feb24fb8f7
+  - enabled: 1
+    path: Assets/Map.unity
+    guid: 758cff283409cd44abd09a5997c2247c
+  - enabled: 1
+    path: Assets/NPC1.unity
+    guid: 00014f19fb397d14e8547ec574d98af9
+  - enabled: 1
+    path: Assets/NPC2.unity
+    guid: d76a043384354314f9d6e71946dfcd26
+  - enabled: 1
+    path: Assets/NPC3.unity
+    guid: 21ec016c9f214be4eae92c8700973442
+  - enabled: 1
+    path: Assets/Letter.unity
+    guid: a62ac51d3458e1948afbc4f54469851d
+  - enabled: 1
+    path: Assets/Bag.unity
+    guid: c5536420f6f885c4a813c72e4fee55f1
+  - enabled: 1
+    path: Assets/OpenBag0.unity
+    guid: 5e701ad22012b574d877106826460afd
+  - enabled: 1
+    path: Assets/NPC4.unity
+    guid: cfc8afe4bb0aeaf4bbefa24ec39cdcdc
+  - enabled: 1
+    path: Assets/NewOrOld.unity
+    guid: c1afb794172efbd49b7bd1d7faa588ac
+  - enabled: 1
+    path: Assets/NPC.unity
+    guid: d9b7ba60a0009294cbe1dd3b6812534d
+  - enabled: 1
+    path: Assets/MainMap.unity
+    guid: f279638afbabfc54fa7b0968d113513e
+  - enabled: 1
+    path: Assets/MainMap1.unity
+    guid: db0e75847c447ea488891be01b6f71db
+  - enabled: 1
+    path: Assets/MainMap2.unity
+    guid: 3e04232e833aab34c9e5d80dba679c6a
+  - enabled: 1
+    path: Assets/MainMap3.unity
+    guid: 86ec8b3332f94764f9ea613c3fc71fc7
+  - enabled: 1
+    path: Assets/MainMap4.unity
+    guid: 2573e8dc900364d469977673428d5161
+  - enabled: 1
+    path: Assets/Success.unity
+    guid: fc5fdcd307c3f784a9ad3703e3800e8b
+  - enabled: 1
+    path: Assets/Success1.unity
+    guid: 0741f0fc431b1b54494f673db0da30d5
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_Beijing.unity
+    guid: cf8a52d83c029dc4a9c2dd890c3ec498
+  - enabled: 1
+    path: Assets/NPC5.unity
+    guid: cca68eac6e0686c498fa92bacc09c43f
+  - enabled: 1
+    path: Assets/NPC6.unity
+    guid: a8277f6ae27bdab45b27c467ab838073
+  - enabled: 1
+    path: Assets/OpenBag.unity
+    guid: 217101c2b605c314289fbb99b52f3754
+  - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Intro.unity
+    guid: a65c93113b6768c47865a1223ffd54d8
+  - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Main.unity
+    guid: b064bd32bf49f3446a1433edb520b5d8
+  - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_Letter.unity
+    guid: 725c8302f9058d242aff466d0de2b042
+  - enabled: 1
+    path: Assets/Level3_YangzhouPavilion/Scenes/Level3_End.unity
+    guid: 8c3d69c6a56440746984cda3cd809bce
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_1_Climb.unity
+    guid: 5b7efca2f0047484fa9882742134e642
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_2_Arch.unity
+    guid: daedf351e7b25bd47990be4c0422fef7
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_3_Puzzle.unity
+    guid: eaffb9fd48e5f0f42a667b7a68a07aba
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_4_Letter.unity
+    guid: 4c38fc68538605a4bb67ee2dd466bf54
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_5_quiz.unity
+    guid: b51aed9c3c9c4084c8d451266d1d3c2c
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_6_DougongAssembly.unity
+    guid: 61db41c95783ec24cb5920e3e7188861
+  - enabled: 1
+    path: Assets/Level1/Scenes/1_7_Ending.unity
+    guid: 4a6bba1a0c5043e4fa3700ebde331372
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_1_Taierzhuang.unity
+    guid: d2ddba8ff78589c4a9f1eef42532fc24
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_2_Repair.unity
+    guid: f2508a0f0d8e80247b8a44f87d3af918
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_3_Emotion.unity
+    guid: f2658fa3e634a924c9dc5ad3a651c228
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_4_Letter.unity
+    guid: 94a437b2d35f16a4fa2efcd878671be9
+  - enabled: 1
+    path: Assets/Level2/Scenes/2_5_Ending.unity
+    guid: d5f77a8c655aa13449f0a687954d7f14
+  - enabled: 1
+    path: Assets/End.unity
+    guid: 117d236dcdf261a478c14d436ccccf2a
+  - enabled: 1
+    path: Assets/End1.unity
+    guid: 2033c2a1b2aff994db66caa61e45197e
+  - enabled: 1
+    path: Assets/End2.unity
+    guid: 0f26e41abf0a97c4c8f411d30fdef672
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_Intro.unity
+    guid: b5705bbcb75fa4c4089f9195c8bb1327
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_LotusPool.unity
+    guid: 1804abb8a2219134ca85daabace0baec
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_MountainTower.unity
+    guid: 6fa301a3a3467df459303d7a119285bf
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_Corridor.unity
+    guid: ad90933c2e421f04eb4d618243930ade
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_RainPavilion.unity
+    guid: 92e85627bc493fe46981750991b155d9
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_Puzzle.unity
+    guid: 0e9ce8e6966b17c4e87108e0a1a8ba2b
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_Letter.unity
+    guid: 69965f76649ebdd4194170628d32212b
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_Building.unity
+    guid: 179d304c4bb23c44bb5bcfc15acbbcc2
+  - enabled: 1
+    path: Assets/Level4_Suzhou/Scenes/Level4_End.unity
+    guid: 55f7516664c64a54c8e81b42338d811e
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene1_Opening.unity
+    guid: c284005d6a5c8de4b824ea4e88322974
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2A_ThroughMortise.unity
+    guid: fe32cb5d2e7aa6f46a2ff8d9e1001d0a
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2B_HalfMortise.unity
+    guid: 73446dd4960ae23448bfe69a5024e7a0
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2C_DovetailJoint.unity
+    guid: 705102b9964fcb64db47026b4f6e7fb5
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene2D_RoundTenon.unity
+    guid: af51a1ec1b1cf984fbf2649b87e409ec
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene3_Building.unity
+    guid: c3d468d0dccfad446b2fdbf062f5c85d
+  - enabled: 1
+    path: Assets/Level5_Hangzhou/Scenes/Level5_Scene4_Ending.unity
+    guid: f991a58f3a46ab942bd87c7c8d9a9422
+  - enabled: 1
+    path: Assets/MapBag.unity
+    guid: 5bdc1bc4481bc3948a74e317f4fb39b4
+  - enabled: 1
+    path: Assets/MapBag1.unity
+    guid: 6f55055e16eb4764fa101626fdddb22f
+  - enabled: 1
+    path: Assets/MapBag2.unity
+    guid: 974bb7cf27fdb6b43ac5ff74f6d48c4a
+  - enabled: 1
+    path: Assets/MapBag3.unity
+    guid: f64faf3b07ab85b49930a6189b41aff7
+  - enabled: 1
+    path: Assets/MapBag4.unity
+    guid: a9992385baaad944392f6f38a0dea4a4
+  - enabled: 1
+    path: Assets/Tips.unity
+    guid: 0d5459b07bc8f264a8a7765892aeb3fb
+  m_configObjects: {}
