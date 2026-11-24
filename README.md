@@ -16,12 +16,6 @@
 | 苏州 | 探索荷池、山楼、长廊和雨亭，收集线索、完成拼图与搭建。 | [苏州开场](Assets/Level4_Suzhou/Scenes/Level4_Intro.unity) |
 | 杭州 | 练习透榫、半榫、燕尾榫和馒头榫，再分阶段搭建西湖廊桥。 | [杭州开场](Assets/Level5_Hangzhou/Scenes/Level5_Scene1_Opening.unity) |
 
-<p align="center">
-  <img src="Assets/Level5_Hangzhou/Arts/BuildingPieces/Puzzle/langqiaowanzhengtu.png" alt="杭州关卡的西湖廊桥完整美术素材" width="680">
-  <br>
-  <sub>杭州关卡的西湖廊桥美术素材</sub>
-</p>
-
 ## 启动游戏
 
 1. 克隆仓库，或在 GitHub 选择 **Code → Download ZIP**，下载后解压。
